@@ -1,0 +1,8 @@
+# goal definition
+trajectory_msgs/JointTrajectory trajectory
+---
+# result definition
+hubo_msgs/JointTrajectoryState end_state
+---
+# feedback definition
+hubo_msgs/JointTrajectoryState state
