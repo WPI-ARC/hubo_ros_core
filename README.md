@@ -7,7 +7,7 @@ This includes message/action definitions, the basic interface to hubo-ach, and a
 
 Repository structure
 --------------------
-This repository contains a Catkin worksace for ROS Groovy+, and is incompatible with ROS Fuerte and earlier. Versions of this software for earlier versions of ROS will not be actively developed or maintained!
+This repository contains a Catkin workspace for ROS Groovy+, and is incompatible with ROS Fuerte and earlier. Versions of this software for earlier versions of ROS will not be actively developed or maintained!
 
 This repository is structured around 3 core packages:
 
