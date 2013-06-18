@@ -27,7 +27,7 @@ This package will be updated in the comming weeks to provide compatibility with 
 
 `hubo_trajectory_interface` is under active development and will continue to be for the forseable future. As we use this package extensively for our own development, we will attempt to maintain functionality with both simulated and real Hubo platforms. Note that all external interfaces to this package should be considered stable, and further development should not effect the outwardly-visible behavior of this package.
 
-Build and running instructions
+Build and usage instructions
 ------------------------------
 To build all packages in this repository:
 
