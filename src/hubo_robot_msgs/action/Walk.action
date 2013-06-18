@@ -1,5 +1,5 @@
 # goal definition
-hubo_msgs/WalkCommand command
+hubo_robot_msgs/WalkCommand command
 ---
 # result definition
 ---

@@ -1,8 +1,8 @@
 # goal definition
-hubo_msgs/JointCommand command
+hubo_robot_msgs/JointCommand command
 ---
 # result definition
-hubo_msgs/JointCommandState end_state
+hubo_robot_msgs/JointCommandState end_state
 ---
 # feedback definition
-hubo_msgs/JointCommandState state
+hubo_robot_msgs/JointCommandState state
