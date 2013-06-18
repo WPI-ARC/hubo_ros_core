@@ -9,13 +9,13 @@ Repository structure
 --------------------
 This repository contains a Catkin worksace for ROS Groovy+, and is incompatible with ROS Fuerte and earlier. Versions of this software for earlier versions of ROS will not be actively developed or maintained!
 
-This repository is strutured around 3 core packages:
+This repository is structured around 3 core packages:
 
 1.  hubo_robot_msgs - Message and action definitions that cover the Hubo robot. Everything from joint states to actions for walking and trajectory execution. Note that several of these message and action definitions are based directly off/duplicate equivalent functionality for the PR2. This is to avoid any dependency on the PR2 software stack.
 
-2.  hubo_ach_ros_bridge
+2.  hubo_ach_ros_bridge - Very basic joint-level control and state publishing. In addition, this package provides ROS clocking and robot model support for RVIZ.
 
-3.  hubo_trajectory_interface
+3.  hubo_trajectory_interface - JointTrajectoryAction controller and interface to the Hubo. Contains all the code for the interface and the configuration parameters to load a full-body trajectory controller.
 
 Stability and development status
 --------------------------------
