@@ -39,7 +39,7 @@ To build a particular package in the repository:
 
 ```
 (in the hubo_ros_core directory)
-$ catkin_make <package name>
+$ catkin_make --pkg <package name>
 ```
 To use, you must source the workspace:
 
