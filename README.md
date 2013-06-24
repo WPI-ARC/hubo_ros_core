@@ -59,14 +59,14 @@ For `hubo_ach_components`:
 
 ```
 $ roscd hubo_ach_components/include
-$ ln -s ../../relative/path/to/hubo/ach ./hubo_ach_components
+$ ln -s ../../relative/path/to/hubo/ach/include/ ./hubo_ach_components
 ```
 
 For `hubo_motion_components`:
 
 ```
 $ roscd hubo_motion_components/include
-$ ln -s ../../relative/path/to/hubo/motion ./hubo_motion_components
+$ ln -s ../../relative/path/to/hubo/motion/include/ ./hubo_motion_components
 ```
 
 
