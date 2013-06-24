@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>hubo_ach_components</name>
+  <name>hubo_motion_components</name>
   <version>0.0.1</version>
-  <description>The hubo_ach_components package</description>
+  <description>The hubo_motion_components package</description>
 
   <maintainer email="calder.pg@gmail.com">Calder Phillips-Grafflin</maintainer>
 
