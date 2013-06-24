@@ -7,19 +7,29 @@ This includes message/action definitions, the basic interface to hubo-ach, and a
 
 Repository structure
 --------------------
-This repository contains a Catkin workspace for ROS Groovy+, and is incompatible with ROS Fuerte and earlier. Versions of this software for earlier versions of ROS will not be actively developed or maintained!
+Unlike earlier Catkinized software we have provided, this repository does not contain a Catkin workspace. As we expect that other teams will be well on their way to migrating to ROS Groovy, the difficulties of managing multiple workspaces do not justify the convenience of distributing these packages in their own workspace. As such, you will need to clone this repository inside the `src/` directory of an existing Catkin workspace.
 
-This repository is structured around 3 core packages:
+Please note that this software is structured for ROS Groovy+, and is incompatible with ROS Fuerte and earlier. Versions of this software for earlier versions of ROS will not be actively developed or maintained, but historical versions may be available upon request.
+
+This repository is structured around 5 core packages:
 
 1.  `hubo_robot_msgs` - Message and action definitions that cover the Hubo robot. Everything from joint states to actions for walking and trajectory execution. Note that several of these message and action definitions are based directly off/duplicate equivalent functionality for the PR2. This is to avoid any dependency on the PR2 software stack.
 
-2.  `hubo_ach_ros_bridge` - Very basic joint-level control and state publishing. In addition, this package provides ROS clocking and robot model support for RVIZ.
+2.  `hubo_sensor_msgs` - Message and service definitions for sensors on the Hubo robot. This is currently empty, as the basic sensors are already provided in `geometry_msgs/WrenchStamped` and `sensor_msgs/Imu`.
 
-3.  `hubo_trajectory_interface` - JointTrajectoryAction controller and interface to the Hubo. Contains all the code for the interface and the configuration parameters to load a full-body trajectory controller.
+3.  `hubo_system_msgs` - Message and service definitions for the system software and configuration of the Hubo robot. This is currently empty and awaiting proposed message/service types.
+
+3.  `hubo_ach_ros_bridge` - Very basic joint-level control and state publishing. In addition, this package provides ROS clocking and robot model support for RVIZ.
+
+4.  `hubo_trajectory_interface` - JointTrajectoryAction controller and interface to the Hubo. Contains all the code for the interface and the configuration parameters to load a full-body trajectory controller.
 
 Stability and development status
 --------------------------------
 `hubo_robot_msgs` has been stable for several months. It should be considered stable for all uses. We do not intend to change any message/action interfaces provided unless required to do so by a critical bug, and if/when we do add additional functionality, compatibility with all original functionality will be maintained.
+
+`hubo_sensor_msgs` is currently empty and awaiting Hubo-specific sensor message definitions. If there is a sensor aboard the Hubo for which no existing ROS message type matches, please propose an addition to this package, and it will be added. Please note that the IMU/tilt sensors are already supported by `sensor_msgs/Imu` (enter NAN if a particular value *inside* a field [i.e. Az or Wx] is not available from the sensor), and the force sensors are supported by `geometry_msgs/WrenchStamped` (once again, use NAN for elements *inside* a field not provided by the sensor [i.e. Fz or Tx]).
+
+`hubo_system_msgs` is currently empty and awaiting Hubo-specific system control messages/actions/services. In particular, this package is intended to provide messages for system (computers,software, etc) status and conficuration and services for their reconfiguration. If there is a system control or status you want represented in an ROS message, propose it and it will be added to this package.
 
 `hubo_ach_ros_bridge` is under semi-active development. The core functionality has been tested several times, both in simulation and the real robot. This package is updated as necessary to maintain compatibility with hubo-ach.
 
@@ -32,19 +42,19 @@ Build and usage instructions
 To build all packages in this repository:
 
 ```
-(in the hubo_ros_core directory)
+(in the surrounding Catkin workspace directory)
 $ catkin_make
 ```
 To build a particular package in the repository:
 
 ```
-(in the hubo_ros_core directory)
+(in the surrounding Catkin workspace directory)
 $ catkin_make --pkg <package name>
 ```
 To use, you must source the workspace:
 
 ```
-(in the hubo_ros_core directory)
+(in the surrounding Catkin workspace directory)
 $ source devel/setup.bash
 ```
 
