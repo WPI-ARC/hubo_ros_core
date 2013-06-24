@@ -25,9 +25,7 @@ This repository is structured around 5 core packages:
 
 In addition, it contains two "helper" packages that serve to simplfy the inclusion of hubo-ach and hubo-motion headers. Since not everyone will want (or be able) to install hubo-ach and hubo-motion to their system, these packages provide an alternate means of finding the headers needed from these projects.
 
-1.  `hubo_ach_components` - Wrapper around `hubo-ach/include`. This is done by making `hubo_ach_components/include/hubo_ach_components` a symlink that points to `hubo-ach/include`.
-  
-2.  `hubo_motion_components` - Wrapper around `hubo-motion-rt/include`. This is done by making `hubo_motion_components/include/hubo_motion_components` a symlink that points to `hubo-motion-rt/include`.
+1.  `hubo_components` - Wrapper around `hubo-ach/include` and `hubo-motion-rt/include`. This is done by making `hubo_components/include/hubo_components` contain all files in `hubo-ach/include` and `hubo-motion-rt/include` via symlink.
 
 Stability and development status
 --------------------------------
@@ -47,29 +45,20 @@ Depencies
 ---------
 1.  Full ROS Groovy installation - on Ubuntu systems: `$ sudo apt-get install ros-groovy-desktop-full`
 
-2.  A copy of [hubo-ach](https://github.com/hubo/hubo-ach). It does not necessarily need to be *installed* to build these packages, but it is a runtime dependency.
+2.  The ACH IPC library must be installed to your system - see instructions for Ubuntu/Debian install [here](http://www.golems.org/projects/ach.html).
 
-3.  A copy of [hubo-motion-rt](https://github.com/hubo/hubo-motion-rt). Once again, it does not need to be installed to build, but it is a runtime dependency.
+3.  A copy of [hubo-ach](https://github.com/hubo/hubo-ach). It does not necessarily need to be *installed* to build these packages, but it is a runtime dependency.
+
+4.  A copy of [hubo-motion-rt](https://github.com/hubo/hubo-motion-rt). Once again, it does not need to be installed to build, but it is a runtime dependency.
 
 Build and usage instructions
 ----------------------------
-First, you must update the symlinks in `hubo_ach_components` and `hubo_motion_components` to point to your copies.
-
-For `hubo_ach_components`:
-
+First, you must update the symlinks in `hubo_components` to point to your copies.
 ```
-$ roscd hubo_ach_components/include
-$ ln -s ../../relative/path/to/hubo/ach/include/ ./hubo_ach_components
+$ roscd hubo_components/include/hubo_components
+$ ln -s ../../relative/path/to/hubo/motion/include/* ./
+$ ln -s ../../relative/path/to/hubo/ach/include/* ./
 ```
-
-For `hubo_motion_components`:
-
-```
-$ roscd hubo_motion_components/include
-$ ln -s ../../relative/path/to/hubo/motion/include/ ./hubo_motion_components
-```
-
-
 To build all packages in this repository:
 
 ```
