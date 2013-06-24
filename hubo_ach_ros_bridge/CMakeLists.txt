@@ -4,7 +4,7 @@ project(hubo_ach_ros_bridge)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_ach_components roscpp rospy std_msgs)
+find_package(catkin REQUIRED COMPONENTS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_components roscpp rospy std_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -53,7 +53,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES hubo_ach_ros_bridge
-  CATKIN_DEPENDS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_ach_components roscpp rospy std_msgs
+  CATKIN_DEPENDS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_components roscpp rospy std_msgs
   DEPENDS system_lib
 )
 
@@ -67,12 +67,7 @@ include_directories(include
   ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a cpp library
-# add_library(hubo_ach_ros_bridge
-#   src/${PROJECT_NAME}/hubo_ach_ros_bridge.cpp
-# )
-
-## Declare a cpp executable
+# Add executables
 add_executable(feedback src/hubo_ros_feedback.cpp)
 target_link_libraries(feedback ${catkin_LIBRARIES} ach)
 add_dependencies(feedback hubo_robot_msgs_generate_message_cpp)

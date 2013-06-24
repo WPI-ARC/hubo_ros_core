@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(hubo_motion_components)
+project(hubo_components)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -49,7 +49,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
    INCLUDE_DIRS include
-#  LIBRARIES hubo_motion_components
+#  LIBRARIES hubo_components
 #  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
@@ -65,19 +65,19 @@ include_directories(include
 )
 
 ## Declare a cpp library
-# add_library(hubo_motion_components
-#   src/${PROJECT_NAME}/hubo_motion_components.cpp
+# add_library(hubo_components
+#   src/${PROJECT_NAME}/hubo_components.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(hubo_motion_components_node src/hubo_motion_components_node.cpp)
+# add_executable(hubo_components_node src/hubo_components_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(hubo_motion_components_node hubo_motion_components_generate_messages_cpp)
+# add_dependencies(hubo_components_node hubo_components_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(hubo_motion_components_node
+# target_link_libraries(hubo_components_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -96,7 +96,7 @@ include_directories(include
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS hubo_motion_components hubo_motion_components_node
+# install(TARGETS hubo_components hubo_components_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -121,7 +121,7 @@ install(DIRECTORY include/${PROJECT_NAME}/
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hubo_motion_components.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_hubo_components.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

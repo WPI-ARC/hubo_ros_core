@@ -36,7 +36,7 @@ Copyright (c) 2012, Daniel M. Lofaro
 
 // HUBO-ACH includes
 #include "ach.h"
-#include "hubo_ach_components/hubo.h"
+#include "hubo_components/hubo.h"
 
 #define FT_LW 1
 #define FT_RW 2
