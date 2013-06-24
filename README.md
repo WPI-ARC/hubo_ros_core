@@ -23,6 +23,12 @@ This repository is structured around 5 core packages:
 
 4.  `hubo_trajectory_interface` - JointTrajectoryAction controller and interface to the Hubo. Contains all the code for the interface and the configuration parameters to load a full-body trajectory controller.
 
+In addition, it contains two "helper" packages that serve to simplfy the inclusion of hubo-ach and hubo-motion headers. Since not everyone will want (or be able) to install hubo-ach and hubo-motion to their system, these packages provide an alternate means of finding the headers needed from these projects.
+
+1.  `hubo_ach_components` - Wrapper around `hubo-ach/include`. This is done by making `hubo_ach_components/include/hubo_ach_components` a symlink that points to `hubo-ach/include`.
+  
+2.  `hubo_motion_components` - Wrapper around `hubo-motion-rt/include`. This is done by making `hubo_motion_components/include/hubo_motion_components` a symlink that points to `hubo-motion-rt/include`.
+
 Stability and development status
 --------------------------------
 `hubo_robot_msgs` has been stable for several months. It should be considered stable for all uses. We do not intend to change any message/action interfaces provided unless required to do so by a critical bug, and if/when we do add additional functionality, compatibility with all original functionality will be maintained.
@@ -37,8 +43,33 @@ This package will be updated in the comming weeks to provide compatibility with 
 
 `hubo_trajectory_interface` is under active development and will continue to be for the forseable future. As we use this package extensively for our own development, we will attempt to maintain functionality with both simulated and real Hubo platforms. Note that all external interfaces to this package should be considered stable, and further development should not effect the outwardly-visible behavior of this package.
 
+Depencies
+---------
+1.  Full ROS Groovy installation - on Ubuntu systems: `$ sudo apt-get install ros-groovy-desktop-full`
+
+2.  A copy of [hubo-ach](https://github.com/hubo/hubo-ach). It does not necessarily need to be *installed* to build these packages, but it is a runtime dependency.
+
+3.  A copy of [hubo-motion-rt](https://github.com/hubo/hubo-motion-rt). Once again, it does not need to be installed to build, but it is a runtime dependency.
+
 Build and usage instructions
-------------------------------
+----------------------------
+First, you must update the symlinks in `hubo_ach_components` and `hubo_motion_components` to point to your copies.
+
+For `hubo_ach_components`:
+
+```
+$ roscd hubo_ach_components/include
+$ ln -s ../../relative/path/to/hubo/ach ./hubo_ach_components
+```
+
+For `hubo_motion_components`:
+
+```
+$ roscd hubo_motion_components/include
+$ ln -s ../../relative/path/to/hubo/motion ./hubo_motion_components
+```
+
+
 To build all packages in this repository:
 
 ```
