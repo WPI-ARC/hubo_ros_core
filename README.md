@@ -7,7 +7,7 @@ This includes message/action definitions, the basic interface to hubo-ach, and a
 
 Repository structure
 --------------------
-Unlike earlier Catkinized software we have provided, this repository does not contain a Catkin workspace. As we expect that other teams will be well on their way to migrating to ROS Groovy, the difficulties of managing multiple workspaces do not justify the simplicity of distributing these packages in their own workspace. As such, you will need to clone this repository inside the `src/` directory of an existing Catkin workspace.
+Unlike earlier Catkinized software we have provided, this repository does not contain a Catkin workspace. As we expect that other teams will be well on their way to migrating to ROS Groovy, the difficulties of managing multiple workspaces do not justify the convenience of distributing these packages in their own workspace. As such, you will need to clone this repository inside the `src/` directory of an existing Catkin workspace.
 
 Please note that this software is structured for ROS Groovy+, and is incompatible with ROS Fuerte and earlier. Versions of this software for earlier versions of ROS will not be actively developed or maintained, but historical versions may be available upon request.
 
@@ -15,7 +15,7 @@ This repository is structured around 5 core packages:
 
 1.  `hubo_robot_msgs` - Message and action definitions that cover the Hubo robot. Everything from joint states to actions for walking and trajectory execution. Note that several of these message and action definitions are based directly off/duplicate equivalent functionality for the PR2. This is to avoid any dependency on the PR2 software stack.
 
-2.  `hubo_sensor_msgs` - Message and service definitions for sensors on the Hubo robot. This is currently empty, as the basic sensors are alredy provided in `geometry_msgs/WrenchStamped` and `sensor_msgs/Imu`.
+2.  `hubo_sensor_msgs` - Message and service definitions for sensors on the Hubo robot. This is currently empty, as the basic sensors are already provided in `geometry_msgs/WrenchStamped` and `sensor_msgs/Imu`.
 
 3.  `hubo_system_msgs` - Message and service definitions for the system software and configuration of the Hubo robot. This is currently empty and awaiting proposed message/service types.
 
