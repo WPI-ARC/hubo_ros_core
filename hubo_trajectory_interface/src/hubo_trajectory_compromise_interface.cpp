@@ -369,7 +369,7 @@ void trajectoryCB( const trajectory_msgs::JointTrajectory& traj )
         ROS_WARN("Execution cancelled, NOT ABORTING DUE TO DEBUG MODE");
         return;
     }
-    ROS_INFO("Reprocessing trajectory with %d elements into chunks", traj.points.size());
+    ROS_INFO("Reprocessing trajectory with %ld elements into chunks", traj.points.size());
 
     // First, chunk the trajectory into parts that can be sent over ACH channels to hubo-motion-rt
     std::vector< std::vector<trajectory_msgs::JointTrajectoryPoint> > new_chunks;
@@ -401,7 +401,7 @@ void trajectoryCB( const trajectory_msgs::JointTrajectory& traj )
             i++;
         }
 
-        ROS_INFO("Assembled a new trajectory chunk with %d elements", new_chunk.size());
+        ROS_INFO("Assembled a new trajectory chunk with %ld elements", new_chunk.size());
 
         if( !new_chunk.empty() )
         {
@@ -413,7 +413,7 @@ void trajectoryCB( const trajectory_msgs::JointTrajectory& traj )
         }
     }
 
-    ROS_INFO("Trajectory reprocessed into %d chunks", new_chunks.size());
+    ROS_INFO("Trajectory reprocessed into %ld chunks", new_chunks.size());
 
     // Second, store those chunks - first, we flush the stored trajectory
     g_trajectory_chunks.clear();
