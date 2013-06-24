@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(hubo_ach_ros_bridge)
+project(hubo_ach_components)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_ach_components roscpp rospy std_msgs)
+find_package(catkin REQUIRED COMPONENTS roscpp)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS hubo_robot_msgs hubo_sensor_msgs hubo_sy
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/groovy/api/catkin/html/user_guide/setup_dot_py.html
-catkin_python_setup()
+# catkin_python_setup()
 
 #######################################
 ## Declare ROS messages and services ##
@@ -34,13 +34,10 @@ catkin_python_setup()
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  hubo_robot_msgs
-  hubo_sensor_msgs
-  hubo_system_msgs
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -51,10 +48,10 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-#  LIBRARIES hubo_ach_ros_bridge
-  CATKIN_DEPENDS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_ach_components roscpp rospy std_msgs
-  DEPENDS system_lib
+   INCLUDE_DIRS include
+#  LIBRARIES hubo_ach_components
+#  CATKIN_DEPENDS roscpp
+#  DEPENDS system_lib
 )
 
 ###########
@@ -68,22 +65,21 @@ include_directories(include
 )
 
 ## Declare a cpp library
-# add_library(hubo_ach_ros_bridge
-#   src/${PROJECT_NAME}/hubo_ach_ros_bridge.cpp
+# add_library(hubo_ach_components
+#   src/${PROJECT_NAME}/hubo_ach_components.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(feedback src/hubo_ros_feedback.cpp)
-target_link_libraries(feedback ${catkin_LIBRARIES} ach)
-add_dependencies(feedback hubo_robot_msgs_generate_message_cpp)
-add_dependencies(feedback hubo_sensor_msgs_generate_message_cpp)
-add_dependencies(feedback hubo_system_msgs_generate_message_cpp)
+# add_executable(hubo_ach_components_node src/hubo_ach_components_node.cpp)
 
-add_executable(feedforward src/hubo_ros_feedforward_control.cpp)
-target_link_libraries(feedforward ${catkin_LIBRARIES} ach)
-add_dependencies(feedforward hubo_robot_msgs_generate_message_cpp)
-add_dependencies(feedforward hubo_sensor_msgs_generate_message_cpp)
-add_dependencies(feedforward hubo_system_msgs_generate_message_cpp)
+## Add cmake target dependencies of the executable/library
+## as an example, message headers may need to be generated before nodes
+# add_dependencies(hubo_ach_components_node hubo_ach_components_generate_messages_cpp)
+
+## Specify libraries to link a library or executable target against
+# target_link_libraries(hubo_ach_components_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -94,39 +90,38 @@ add_dependencies(feedforward hubo_system_msgs_generate_message_cpp)
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-install(PROGRAMS
-  src/hubo_ach_ros_bridge/hubo_joint_state_publisher.py
-  DESTINATION
-  ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# install(PROGRAMS
+#   scripts/my_python_script
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS hubo_ach_ros_bridge hubo_ach_ros_bridge_node
+# install(TARGETS hubo_ach_components hubo_ach_components_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  FILES_MATCHING PATTERN "*.h"
+  PATTERN ".svn" EXCLUDE
+)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-install(FILES
-  launch/display_hubo_state.launch
-  DESTINATION
-  ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+# install(FILES
+#   # myfile1
+#   # myfile2
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
 
 #############
 ## Testing ##
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hubo_ach_ros_bridge.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_hubo_ach_components.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
