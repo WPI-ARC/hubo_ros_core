@@ -55,10 +55,16 @@ Depencies
 
 Build and usage instructions
 ----------------------------
-First, clone and setup hubo-ach and hubo-motion:
+First, clone this repository:
 ```
-$ git clone https://github.com/hubo/hubo-ach
-$ git clone https://github.com/hubo/hubo-motion-rt
+$ cd /your/catkin/workspace/src
+$ git clone https://github.com/WPI-ARC/hubo_ros_core.git
+$ rospack profile
+```
+Then, clone and setup hubo-ach and hubo-motion:
+```
+$ git clone https://github.com/hubo/hubo-ach.git
+$ git clone https://github.com/hubo/hubo-motion-rt.git
 $ cd hubo-motion-rt
 $ git checkout trajectory
 ```
