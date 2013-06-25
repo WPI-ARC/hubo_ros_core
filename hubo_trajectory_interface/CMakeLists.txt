@@ -50,7 +50,7 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
+#  INCLUDE_DIRS include
 #  LIBRARIES hubo_trajectory_interface
   CATKIN_DEPENDS actionlib actionlib_msgs hubo_robot_msgs roscpp rospy trajectory_msgs hubo_components hubo_components
   DEPENDS system_lib
