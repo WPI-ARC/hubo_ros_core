@@ -9,7 +9,7 @@ echo "...done!"
 
 for CANDIDATE in `find $HOME/ -name "hubo.h"`
 do
-    if [[ ! -L $CANDIDATE && "$CANDIDATE" != *openHubo* ]]
+    if [[ ! -L $CANDIDATE && "$CANDIDATE" != *openHubo* && "$CANDIDATE" != *Trash* ]]
     then
         HUBOACHPATH=$(dirname $CANDIDATE)
         echo "Found hubo-ach at: " $HUBOACHPATH
@@ -21,7 +21,7 @@ done
 
 for CANDIDATE in `find $HOME/ -name "motion-trajectory.h"`
 do
-    if [[ ! -L $CANDIDATE && "$CANDIDATE" != *openHubo* ]]
+    if [[ ! -L $CANDIDATE && "$CANDIDATE" != *openHubo* && "$CANDIDATE" != *Trash* ]]
     then
         HUBOMOTIONPATH=$(dirname $CANDIDATE)
         echo "Found hubo-motion-rt at: " $HUBOMOTIONPATH
