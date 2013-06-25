@@ -94,7 +94,7 @@ $ catkin_make
 
 2.  It will complain that headers required for `hubo_trajectory_action` executable can't be found
 
-In these cases, simply run `$ catkin_make` again and it should build completely. Both appear to be problems with Catkin not always building dependcy packages first (even when directed to).
+In these cases, simply run `$ catkin_make` again and it should build completely. Both appear to be problems with Catkin not always building dependentcy packages first (even when directed to).
 
 To build a particular package in the repository:
 
