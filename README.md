@@ -81,6 +81,9 @@ To build all packages in this repository:
 (in the surrounding Catkin workspace directory)
 $ catkin_make
 ```
+**WARNING** On particular systems, this may fail the first time with "The bug is not reproducible, so it is likely a hardware or OS problem"
+In these cases, simply run `$ catkin_make` again and it should build completely.
+
 To build a particular package in the repository:
 
 ```
