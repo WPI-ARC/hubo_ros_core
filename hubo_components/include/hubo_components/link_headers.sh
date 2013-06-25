@@ -1,14 +1,15 @@
 #!/bin/bash
 
 echo "Making symlinks to hubo-ach and hubo-motion-rt headers..."
-echo "First, removing any existing headers..."
+echo "First, removing any existing headers here..."
 rm *.h
-rm -r hubo
+rm *.hpp
+rm hubo
 echo "...done!"
 
 for CANDIDATE in `find $HOME/ -name "hubo.h"`
 do
-    if [[ ! -L $CANDIDATE ]]
+    if [[ ! -L $CANDIDATE && "$CANDIDATE" != *openHubo* ]]
     then
         HUBOACHPATH=$(dirname $CANDIDATE)
         echo "Found hubo-ach at: " $HUBOACHPATH
@@ -20,7 +21,7 @@ done
 
 for CANDIDATE in `find $HOME/ -name "motion-trajectory.h"`
 do
-    if [[ ! -L $CANDIDATE ]]
+    if [[ ! -L $CANDIDATE && "$CANDIDATE" != *openHubo* ]]
     then
         HUBOMOTIONPATH=$(dirname $CANDIDATE)
         echo "Found hubo-motion-rt at: " $HUBOMOTIONPATH
