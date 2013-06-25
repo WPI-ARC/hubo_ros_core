@@ -55,9 +55,17 @@ Depencies
 
 Build and usage instructions
 ----------------------------
-First, you must update the symlinks in `hubo_components` to point to your copies.
+First, clone and setup hubo-ach and hubo-motion:
+```
+$ git clone https://github.com/hubo/hubo-ach
+$ git clone https://github.com/hubo/hubo-motion-rt
+$ cd hubo-motion-rt
+$ git checkout trajectory
+```
+Then, you must update the symlinks in `hubo_components` to point to your copies.
 ```
 $ roscd hubo_components/include/hubo_components
+$ rm *
 $ ln -s ../../relative/path/to/hubo/motion/include/* ./
 $ ln -s ../../relative/path/to/hubo/ach/include/* ./
 ```
