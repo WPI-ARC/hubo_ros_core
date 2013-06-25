@@ -1,5 +1,5 @@
-build/
-devel/
+hubo_components/include/hubo_components/*
+!hubo_components/include/hubo_components/link_headers.sh
 
 *~
 *.pyc
