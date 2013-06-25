@@ -69,6 +69,13 @@ $ cd hubo-motion-rt
 $ git checkout trajectory
 ```
 Then, you must update the symlinks in `hubo_components` to point to your copies.
+
+We have provided a shell script that should do this automatically for you:
+```
+$ roscd hubo_components/include/hubo_components
+$ ./link_headers.sh
+```
+**However**, if hubo-ach and hubo-motion are not in your home directory or you have multiple versions of them, you must make these links manually instead:
 ```
 $ roscd hubo_components/include/hubo_components
 $ rm *
