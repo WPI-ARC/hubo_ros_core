@@ -88,8 +88,13 @@ To build all packages in this repository:
 (in the surrounding Catkin workspace directory)
 $ catkin_make
 ```
-**WARNING** On particular systems, this may fail the first time with "The bug is not reproducible, so it is likely a hardware or OS problem"
-In these cases, simply run `$ catkin_make` again and it should build completely.
+**WARNING** On particular systems, this may fail the first time for two reasons:
+
+1.  With a "The bug is not reproducible, so it is likely a hardware or OS problem" error
+
+2.  It will complain that headers required for `hubo_trajectory_action` executable can't be found
+
+In these cases, simply run `$ catkin_make` again and it should build completely. Both appear to be problems with Catkin not always building dependcy packages first (even when directed to).
 
 To build a particular package in the repository:
 
