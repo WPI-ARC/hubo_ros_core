@@ -5,6 +5,8 @@ Core ROS support for the Hubo humanoid.
 
 This includes message/action definitions, the basic interface to hubo-ach, and a trajectory action interface built atop hubo-motion.
 
+*While this code is freely licensed (2-clause BSD), we do ask that you send [us](mailto:calder.pg@gmail.com) an email so we can see who is using this software.*
+
 Repository structure
 --------------------
 Unlike earlier Catkinized software we have provided, this repository does not contain a Catkin workspace. As we expect that other teams will be well on their way to migrating to ROS Groovy, the difficulties of managing multiple workspaces do not justify the convenience of distributing these packages in their own workspace. As such, you will need to clone this repository inside the `src/` directory of an existing Catkin workspace.
