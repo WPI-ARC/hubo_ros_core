@@ -2,9 +2,10 @@ drchubo_fullbody_controller:
 
   drchubo_fullbody_action_node:
     joints:
-      - HPY
-      - HNR
-      - HNP
+      - TSY
+      - NKY
+      - NK1
+      - NK2
       - LSP
       - LSR
       - LSY
@@ -33,11 +34,13 @@ drchubo_fullbody_controller:
       - RAR
     constraints:
       goal_time: 0.6
-      HPY:
+      TSY:
         goal: 0.50
-      HNR:
+      NKY:
         goal: 0.02
-      HNP:
+      NK1:
+        goal: 0.02
+      NK2:
         goal: 0.02
       LSP:
         goal: 0.02
@@ -94,9 +97,10 @@ drchubo_fullbody_controller:
 
   drchubo_fullbody_controller_node:
     joints:
-      - HPY
-      - HNR
-      - HNP
+      - TSY
+      - NKY
+      - NK1
+      - NK2
       - LSP
       - LSR
       - LSY

@@ -98,10 +98,7 @@ class JointStatePublisher:
             r.sleep()
 
 if __name__ == '__main__':
-    base_path = subprocess.check_output("rospack find hubo_description", shell=True)
-    base_path = base_path.rstrip("\n")
-    default_file = open(base_path + "/huboplus/huboplus.xml").read()
-    description_file = rospy.get_param("hubo_joint_state_publisher/model_file", default_file)
+    description_file = rospy.get_param("robot_description")
     rospy.init_node('hubo_joint_state_publisher')
     #rospy.loginfo("Loading description file: " + description_file)
     jsp = JointStatePublisher(description_file)
