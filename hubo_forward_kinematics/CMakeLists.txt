@@ -4,19 +4,18 @@ project(hubo_forward_kinematics)
 
 find_package(Eigen REQUIRED)
 
-find_package(catkin REQUIRED COMPONENTS kdl_parser message_generation roscpp rospy moveit_msgs std_msgs tf)
+find_package(catkin REQUIRED COMPONENTS kdl_parser message_generation roscpp rospy std_msgs tf tf_conversions)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
   std_msgs
-  moveit_msgs
 )
 
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES ${PROJECT_NAME}_solver
-  CATKIN_DEPENDS kdl_parser message_runtime roscpp rospy std_msgs moveit_msgs tf
+  CATKIN_DEPENDS kdl_parser message_runtime roscpp rospy std_msgs tf tf_conversions
   DEPENDS system_lib
 )
 
