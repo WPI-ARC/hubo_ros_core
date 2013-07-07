@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="model" default="$(find drchubo-v2)/robots/drchubo-v2.urdf" />
+
+  <param name="robot_description" textfile="$(arg model)" />
+  <node name="hubo_joint_state_publisher" pkg="hubo_ach_ros_bridge" type="hubo_joint_state_publisher.py" >
+
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" >
+
+  </node>
+
+</launch>
