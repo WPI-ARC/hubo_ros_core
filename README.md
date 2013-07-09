@@ -73,7 +73,9 @@ $ ./link_headers.sh
 **However**, if hubo-ach and hubo-motion are not in your home directory or you have multiple versions of them, you must make these links manually instead:
 ```
 $ roscd hubo_components/include/hubo_components
-$ rm *
+$ rm *.h
+$ rm *.hpp
+$ rm hubo
 $ ln -s ../../relative/path/to/hubo/motion/include/* ./
 $ ln -s ../../relative/path/to/hubo/ach/include/* ./
 ```
