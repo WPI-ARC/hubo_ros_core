@@ -68,11 +68,11 @@ bool debug_interface = true;
 #define MAX_TRAJ_LENGTH 10 //Number of points in each trajectory chunk
 double SPIN_RATE = 40.0; //Rate in hertz at which to send trajectory chunks
 
-// Index->Joint name mapping (the index in this array matches the numerical index of the joint name in Hubo-Ach as defined in hubo.h
-const char* joint_names[] = {"HPY", "not in urdf1", "HNR", "HNP", "LSP", "LSR", "LSY", "LEP", "LWY", "not in urdf2", "LWP", "RSP", "RSR", "RSY", "REP", "RWY", "not in urdf3", "RWP", "not in ach1", "LHY", "LHR", "LHP", "LKP", "LAP", "LAR_dummy", "not in ach2", "RHY", "RHR", "RHP", "RKP", "RAP", "RAR_dummy", "not in urdf4", "not in urdf5", "not in urdf6", "not in urdf7", "not in urdf8", "not in urdf9", "not in urdf10", "not in urdf11", "not in urdf12", "not in urdf13", "unknown1", "unknown2", "unknown3", "unknown4", "unknown5", "unknown6", "unknown7", "unknown8"};
+// Joint name and mapping storage
+std::vector<std::string> g_joint_names;
+std::map<std::string,int> g_joint_mapping;
 
 // Trajectory storage
-std::vector<std::string> g_joint_names;
 std::vector< std::vector<trajectory_msgs::JointTrajectoryPoint> > g_trajectory_chunks;
 int g_tid = 0;
 
@@ -120,31 +120,17 @@ void shutdown(int signum)
  * to determine the joint index used in hubo ach for that joint. If the name
  * can't be found, it returns -1.
 */
-int IndexLookup(const std::string& joint_name)
+// From the name of the joint, find the corresponding joint index for the Hubo-ACH struct
+int IndexLookup(std::string joint_name)
 {
-    // Find the Hubo joint name [used in hubo.h, with some additions for joints that don't map directly]
-    // and the relevant index to map from the ROS trajectories message to the hubo-motion struct
-    bool match = false;
-    int best_match = -1;
-    //See if we've got a matching joint name, and if so, return the
-    //relevant index so we can map it into the hubo struct
-    for (int i = 0; i < HUBO_JOINT_COUNT; i++)
+    for (unsigned int i = 0; i < g_joint_names.size(); i++)
     {
-        if (strcmp(joint_name.c_str(), joint_names[i]) == 0)
+        if(g_joint_names[i].compare(joint_name) == 0)
         {
-            match = true;
-            best_match = i;
-            break;
+            return g_joint_mapping[g_joint_names[i]];
         }
     }
-    if (match)
-    {
-        return best_match;
-    }
-    else
-    {
-        return -1;
-    }
+    return -1;
 }
 
 /*
@@ -417,10 +403,7 @@ void trajectoryCB( const trajectory_msgs::JointTrajectory& traj )
 
     // Second, store those chunks - first, we flush the stored trajectory
     g_trajectory_chunks.clear();
-    g_joint_names.clear();
     g_trajectory_chunks = new_chunks;
-    g_joint_names = traj.joint_names;
-//    cout << "leave trajectory callback" << endl;
 }
 
 /*
@@ -497,18 +480,20 @@ void publishLoop()
             // Fill in the setpoint and actual data
             // Values that we don't have data for are set to NAN
             int hubo_index = IndexLookup(cur_state.joint_names[i]);
+            if (hubo_index >= 0)
+            {
+                cur_setpoint.positions[i]       = H_ctrl_state.requested_pos[hubo_index];
+                cur_setpoint.velocities[i]      = H_ctrl_state.requested_vel[hubo_index];
+                cur_setpoint.accelerations[i]   = H_ctrl_state.requested_acc[hubo_index];
 
-            cur_setpoint.positions[i]       = H_ctrl_state.requested_pos[hubo_index];
-            cur_setpoint.velocities[i]      = H_ctrl_state.requested_vel[hubo_index];
-            cur_setpoint.accelerations[i]   = H_ctrl_state.requested_acc[hubo_index];
-
-            cur_actual.positions[i]         = H_ctrl_state.actual_pos[hubo_index];
-            cur_actual.velocities[i]        = H_ctrl_state.actual_vel[hubo_index];
-            cur_actual.accelerations[i]     = H_ctrl_state.actual_acc[hubo_index];
-            // Calc the error
-            cur_error.positions[i] = cur_setpoint.positions[i] - cur_actual.positions[i];
-            cur_error.velocities[i] = cur_setpoint.velocities[i] - cur_actual.velocities[i];
-            cur_error.accelerations[i] =  cur_setpoint.accelerations[i] - cur_actual.accelerations[i];
+                cur_actual.positions[i]         = H_ctrl_state.actual_pos[hubo_index];
+                cur_actual.velocities[i]        = H_ctrl_state.actual_vel[hubo_index];
+                cur_actual.accelerations[i]     = H_ctrl_state.actual_acc[hubo_index];
+                // Calc the error
+                cur_error.positions[i] = cur_setpoint.positions[i] - cur_actual.positions[i];
+                cur_error.velocities[i] = cur_setpoint.velocities[i] - cur_actual.velocities[i];
+                cur_error.accelerations[i] =  cur_setpoint.accelerations[i] - cur_actual.accelerations[i];
+            }
         }
         // Pack them together
         cur_state.desired = cur_setpoint;
@@ -582,11 +567,9 @@ int main(int argc, char** argv)
     ros::NodeHandle nh;
     ros::NodeHandle nhp("~");
     ROS_INFO("Attempting to start JointTrajectoryAction controller interface...");
-
     // Get all the active joint names
     XmlRpc::XmlRpcValue joint_names;
-
-    if (!nhp.getParam("/hubo_fullbody_controller/hubo_fullbody_controller_node/joints", joint_names))
+    if (!nhp.getParam("joints", joint_names))
     {
         ROS_FATAL("No joints given. (namespace: %s)", nhp.getNamespace().c_str());
         exit(1);
@@ -596,7 +579,7 @@ int main(int argc, char** argv)
         ROS_FATAL("Malformed joint specification.  (namespace: %s)", nhp.getNamespace().c_str());
         exit(1);
     }
-    for (int i = 0; i < joint_names.size(); ++i)
+    for (unsigned int i = 0; i < joint_names.size(); ++i)
     {
         XmlRpc::XmlRpcValue &name_value = joint_names[i];
         if (name_value.getType() != XmlRpc::XmlRpcValue::TypeString)
@@ -605,6 +588,14 @@ int main(int argc, char** argv)
             exit(1);
         }
         g_joint_names.push_back((std::string)name_value);
+    }
+    // Gets the hubo ach index for each joint
+    for (unsigned int i = 0; i < g_joint_names.size(); ++i)
+    {
+        std::string ns = std::string("mapping/") + g_joint_names[i];
+        int h;
+        nhp.param(ns + "/huboachid", h, -1);
+        g_joint_mapping[g_joint_names[i]] = h;
     }
     // Register a signal handler to safely shutdown the node
     signal(SIGINT, shutdown);

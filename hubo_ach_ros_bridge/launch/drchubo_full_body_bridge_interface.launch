@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find hubo_ach_ros_bridge)/launch/drchubo_full_body_feedback_node.launch" />
+
+  <include file="$(find hubo_ach_ros_bridge)/launch/drchubo_full_body_feedforward_node.launch" />
+
+</launch>
+

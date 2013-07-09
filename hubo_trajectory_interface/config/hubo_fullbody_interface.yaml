@@ -115,3 +115,58 @@ hubo_fullbody_controller:
       - RKP
       - RAP
       - RAR
+    mapping:
+      HPY:
+        huboachid: 0
+      HNR:
+        huboachid: 2
+      HNP:
+        huboachid: 3
+      LSP:
+        huboachid: 4
+      LSR:
+        huboachid: 5
+      LSY:
+        huboachid: 6
+      LEP:
+        huboachid: 7
+      LWY:
+        huboachid: 8
+      LWP:
+        huboachid: 10
+      RSP:
+        huboachid: 11
+      RSR:
+        huboachid: 12
+      RSY:
+        huboachid: 13
+      REP:
+        huboachid: 14
+      RWY:
+        huboachid: 15
+      RWP:
+        huboachid: 17
+      LHY:
+        huboachid: 18
+      LHR:
+        huboachid: 19
+      LHP:
+        huboachid: 20
+      LKP:
+        huboachid: 21
+      LAP:
+        huboachid: 22
+      LAR:
+        huboachid: 23
+      RHY:
+        huboachid: 24
+      RHR:
+        huboachid: 25
+      RHP:
+        huboachid: 26
+      RKP:
+        huboachid: 27
+      RAP:
+        huboachid: 28
+      RAR:
+        huboachid: 29

@@ -53,38 +53,24 @@ Copyright (c) 2012, Daniel M. Lofaro
 // Global variables
 ach_channel_t chan_hubo_ref_filter;
 
+// Joint name and mapping storage
+std::vector<std::string> g_joint_names;
+std::map<std::string,int> g_joint_mapping;
+
 // Debug mode switch
 int hubo_debug = 0;
-
-// Index->Joint name mapping
-
-char *joint_names[] = {"HPY", "not in urdf NKY/HNY", "HNR", "HNP", "LSP", "LSR", "LSY", "LEP", "LWY", "not in urdf LWR", "LWP", "RSP", "RSR", "RSY", "REP", "RWY", "not in urdf RWR", "RWP", "not in ach1", "LHY", "LHR", "LHP", "LKP", "LAP", "LAR", "not in ach2", "RHY", "RHR", "RHP", "RKP", "RAP", "RAR", "RF1", "RF2", "RF3", "RF4", "RF5", "LF1", "LF2", "LF3", "LF4", "LF5", "unknown1", "unknown2", "unknown3", "unknown4", "unknown5", "unknown6", "unknown7", "unknown8"};
 
 // From the name of the joint, find the corresponding joint index for the Hubo-ACH struct
 int IndexLookup(std::string joint_name)
 {
-    //Find the Hubo joint name [from hubo.h!] and the relevant index
-    //to map from the ROS HuboCommand message to the hubo-ach struct
-    bool match = false;
-    int best_match = -1;
-    //See if we've got a matching joint name, and if so, return the
-    //relevant index so we can map it into the hubo struct
-    for (int i = 0; i < HUBO_JOINT_COUNT; i++)
+    for (unsigned int i = 0; i < g_joint_names.size(); i++)
     {
-        if (strcmp(joint_name.c_str(), joint_names[i]) == 0)
+        if(g_joint_names[i].compare(joint_name) == 0)
         {
-            match = true;
-            best_match = i;
+            return g_joint_mapping[g_joint_names[i]];
         }
     }
-    if (match)
-    {
-        return best_match;
-    }
-    else
-    {
-        return -1;
-    }
+    return -1;
 }
 
 // Callback to convert the ROS joint commands into Hubo-ACH commands
@@ -130,7 +116,38 @@ int main(int argc, char **argv)
     //initialize ROS node
     ros::init(argc, argv, "hubo_ros_feedforward");
     ros::NodeHandle nh;
-    ROS_INFO("Initializing ROS-to-ACH bridge");
+    ros::NodeHandle nhp("~");
+    ROS_INFO("Initializing ROS-to-ACH bridge [feedforward]");
+    // Load joint names and mappings
+    XmlRpc::XmlRpcValue joint_names;
+    if (!nhp.getParam("joints", joint_names))
+    {
+        ROS_FATAL("No joints given. (namespace: %s)", nhp.getNamespace().c_str());
+        exit(1);
+    }
+    if (joint_names.getType() != XmlRpc::XmlRpcValue::TypeArray)
+    {
+        ROS_FATAL("Malformed joint specification.  (namespace: %s)", nhp.getNamespace().c_str());
+        exit(1);
+    }
+    for (unsigned int i = 0; i < joint_names.size(); ++i)
+    {
+        XmlRpc::XmlRpcValue &name_value = joint_names[i];
+        if (name_value.getType() != XmlRpc::XmlRpcValue::TypeString)
+        {
+            ROS_FATAL("Array of joint names should contain all strings.  (namespace: %s)", nhp.getNamespace().c_str());
+            exit(1);
+        }
+        g_joint_names.push_back((std::string)name_value);
+    }
+    // Gets the hubo ach index for each joint
+    for (size_t i = 0; i < g_joint_names.size(); ++i)
+    {
+        std::string ns = std::string("mapping/") + g_joint_names[i];
+        int h;
+        nhp.param(ns + "/huboachid", h, -1);
+        g_joint_mapping[g_joint_names[i]] = h;
+    }
     //initialize ACH channel
     int r = ach_open(&chan_hubo_ref_filter, HUBO_CHAN_REF_NAME , NULL);
     assert(ACH_OK == r);

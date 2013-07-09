@@ -338,7 +338,7 @@ public:
         ///////////////////////////////////////////////////
         // Get joint names, constraints, and information
         // Gets all of the joint names
-        XmlRpc::XmlRpcValue joint_names;
+                XmlRpc::XmlRpcValue joint_names;
         if (!pn.getParam("joints", joint_names))
         {
             ROS_FATAL("No joints given. (namespace: %s)", pn.getNamespace().c_str());
@@ -349,7 +349,7 @@ public:
             ROS_FATAL("Malformed joint specification.  (namespace: %s)", pn.getNamespace().c_str());
             exit(1);
         }
-        for (int i = 0; i < joint_names.size(); ++i)
+        for (unsigned int i = 0; i < joint_names.size(); ++i)
         {
             XmlRpc::XmlRpcValue &name_value = joint_names[i];
             if (name_value.getType() != XmlRpc::XmlRpcValue::TypeString)
@@ -366,7 +366,7 @@ public:
         {
             strm << "\n" << joint_names_[i];
         }
-        ROS_INFO("%s", strm.str().c_str());
+        ROS_INFO("Loaded with joints:%s", strm.str().c_str());
         // Get the goal time constraint (i.e. how long after the desired end time we let the goal run before aborting)
         pn.param("constraints/goal_time", goal_time_constraint_, 0.0);
         // Gets the constraints for each joint.

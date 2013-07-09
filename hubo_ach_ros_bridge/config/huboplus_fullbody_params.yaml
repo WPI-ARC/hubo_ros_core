@@ -1,6 +1,6 @@
-hubo_fullbody_controller:
+huboplus_fullbody_interface:
 
-  hubo_fullbody_action_node:
+  huboplus_fullbody_feedback_node:
     joints:
       - HPY
       - HNR
@@ -11,12 +11,14 @@ hubo_fullbody_controller:
       - LEP
       - LWY
       - LWP
+      - LWR
       - RSP
       - RSR
       - RSY
       - REP
       - RWY
       - RWP
+      - RWR
       - LHY
       - LHR
       - LHP
@@ -29,94 +31,63 @@ hubo_fullbody_controller:
       - RKP
       - RAP
       - RAR
-      - LF1
-      - LF2
-      - LF3
-      - LF4
-      - LF5
-      - RF1
-      - RF2
-      - RF3
-      - RF4
-      - RF5
-    constraints:
-      goal_time: 0.6
+    mapping:
       HPY:
-        goal: 0.02
+        huboachid: 0
       HNR:
-        goal: 0.02
+        huboachid: 2
       HNP:
-        goal: 0.02
+        huboachid: 3
       LSP:
-        goal: 0.02
+        huboachid: 4
       LSR:
-        goal: 0.02
+        huboachid: 5
       LSY:
-        goal: 0.02
+        huboachid: 6
       LEP:
-        goal: 0.02
+        huboachid: 7
       LWY:
-        goal: 0.02
+        huboachid: 8
       LWP:
-        goal: 0.02
+        huboachid: 10
       RSP:
-        goal: 0.02
+        huboachid: 11
       RSR:
-        goal: 0.02
+        huboachid: 12
       RSY:
-        goal: 0.02
+        huboachid: 13
       REP:
-        goal: 0.02
+        huboachid: 14
       RWY:
-        goal: 0.02
+        huboachid: 15
       RWP:
-        goal: 0.02
+        huboachid: 17
       LHY:
-        goal: 0.02
+        huboachid: 18
       LHR:
-        goal: 0.02
+        huboachid: 19
       LHP:
-        goal: 0.02
+        huboachid: 20
       LKP:
-        goal: 0.02
+        huboachid: 21
       LAP:
-        goal: 0.02
+        huboachid: 22
       LAR:
-        goal: 0.02
+        huboachid: 23
       RHY:
-        goal: 0.02
+        huboachid: 24
       RHR:
-        goal: 0.02
+        huboachid: 25
       RHP:
-        goal: 0.02
+        huboachid: 26
       RKP:
-        goal: 0.02
+        huboachid: 27
       RAP:
-        goal: 0.02
+        huboachid: 28
       RAR:
-        goal: 0.02
-      LF1:
-        goal: 0.02
-      LF2:
-        goal: 0.02
-      LF3:
-        goal: 0.02
-      LF4:
-        goal: 0.02
-      LF5:
-        goal: 0.02
-      RF1:
-        goal: 0.02
-      RF2:
-        goal: 0.02
-      RF3:
-        goal: 0.02
-      RF4:
-        goal: 0.02
-      RF5:
-        goal: 0.02
+        huboachid: 29
 
-  hubo_fullbody_controller_node:
+  huboplus_fullbody_feedforward_node:
     joints:
       - HPY
       - HNR
@@ -127,12 +98,14 @@ hubo_fullbody_controller:
       - LEP
       - LWY
       - LWP
+      - LWR
       - RSP
       - RSR
       - RSY
       - REP
       - RWY
       - RWP
+      - RWR
       - LHY
       - LHR
       - LHP
@@ -145,16 +118,6 @@ hubo_fullbody_controller:
       - RKP
       - RAP
       - RAR
-      - LF1
-      - LF2
-      - LF3
-      - LF4
-      - LF5
-      - RF1
-      - RF2
-      - RF3
-      - RF4
-      - RF5
     mapping:
       HPY:
         huboachid: 0
