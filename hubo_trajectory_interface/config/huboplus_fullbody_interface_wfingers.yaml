@@ -1,6 +1,6 @@
-hubo_fullbody_controller:
+huboplus_fullbody_controller:
 
-  hubo_fullbody_action_node:
+  huboplus_fullbody_action_node:
     joints:
       - HPY
       - HNR
@@ -116,7 +116,7 @@ hubo_fullbody_controller:
       RF5:
         goal: 0.02
 
-  hubo_fullbody_controller_node:
+  huboplus_fullbody_controller_node:
     joints:
       - HPY
       - HNR

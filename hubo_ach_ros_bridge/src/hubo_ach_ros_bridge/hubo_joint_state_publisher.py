@@ -40,9 +40,9 @@ class JointStatePublisher:
                 joint = {'min':minval, 'max':maxval, 'zero':zeroval, 'value':zeroval }
                 self.free_joints[name] = joint
         #Setup the HuboState subscriber
-        self.hubo_sub = rospy.Subscriber("hubo/HuboState", JointCommandState, self.hubo_cb)
+        self.hubo_sub = rospy.Subscriber(rospy.get_namespace() + "hubo_state", JointCommandState, self.hubo_cb)
         #Setup the joint state publisher
-        self.hubo_pub = rospy.Publisher("/joint_states", JointState)
+        self.hubo_pub = rospy.Publisher(rospy.get_namespace() + "joint_states", JointState)
 
     def hubo_cb(self, msg):
         new_state = {}
@@ -64,7 +64,7 @@ class JointStatePublisher:
             time_difference = rospy.get_time() - self.last_time
             threshold = 0.05
             if (time_difference > threshold):
-                rospy.logwarn("Hubo messages are old")
+                rospy.logdebug("Hubo messages are old")
             #Convert the latest state of the robot if it is available
             if (self.latest_state != None):
                 msg = JointState()
@@ -87,7 +87,7 @@ class JointStatePublisher:
                         msg.position.append(self.free_joints[joint_name]['zero'])
                 self.hubo_pub.publish(msg)
             else:
-                rospy.logerr("No valid message received from the Hubo yet")
+                rospy.logdebug("No valid message received from the Hubo yet")
                 msg = JointState()
                 msg.header.stamp = rospy.Time.now()
                 for joint_name in self.free_joints:
@@ -98,8 +98,8 @@ class JointStatePublisher:
             r.sleep()
 
 if __name__ == '__main__':
-    description_file = rospy.get_param("robot_description")
     rospy.init_node('hubo_joint_state_publisher')
+    description_file = rospy.get_param("robot_description")
     #rospy.loginfo("Loading description file: " + description_file)
     jsp = JointStatePublisher(description_file)
     jsp.loop()

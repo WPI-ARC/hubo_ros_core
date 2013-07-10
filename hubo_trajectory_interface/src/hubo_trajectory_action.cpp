@@ -364,9 +364,9 @@ public:
         strm << "Loaded joint names from the parameter server:";
         for (unsigned int i = 0; i < joint_names_.size(); i++)
         {
-            strm << "\n" << joint_names_[i];
+            strm << " " << joint_names_[i];
         }
-        ROS_INFO("Loaded with joints:%s", strm.str().c_str());
+        ROS_INFO("%s", strm.str().c_str());
         // Get the goal time constraint (i.e. how long after the desired end time we let the goal run before aborting)
         pn.param("constraints/goal_time", goal_time_constraint_, 0.0);
         // Gets the constraints for each joint.
@@ -383,8 +383,8 @@ public:
         pn.param("constraints/stopped_velocity_tolerance", stopped_velocity_tolerance_, 0.01);
         ///////////////////////////////////////////////////
         // Set up the publisher & subscriber link to the trajectory controller interface
-        pub_interface_command_ = node_.advertise<trajectory_msgs::JointTrajectory>("command", 1);
-        sub_interface_state_ = node_.subscribe("state", 1, &HuboJointTrajectoryServer::controllerStateCB, this);
+        pub_interface_command_ = node_.advertise<trajectory_msgs::JointTrajectory>(node_.getNamespace() + "/command", 1);
+        sub_interface_state_ = node_.subscribe(node_.getNamespace() + "/state", 1, &HuboJointTrajectoryServer::controllerStateCB, this);
         // Set up a watchdog timer to handle drops in the communication between this server and the trajectory controller
         watchdog_timer_ = node_.createTimer(ros::Duration(1.0), &HuboJointTrajectoryServer::watchdog, this);
 
@@ -399,7 +399,7 @@ public:
             if (started_waiting_for_controller != ros::Time(0) && ros::Time::now() > started_waiting_for_controller + ros::Duration(30.0))
             {
                 ROS_WARN("Waited for the controller for 30 seconds, but it never showed up.");
-                started_waiting_for_controller = ros::Time(0);
+                started_waiting_for_controller = ros::Time::now();
             }
             ros::Duration(0.1).sleep();
         }

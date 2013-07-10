@@ -153,7 +153,7 @@ int main(int argc, char **argv)
     assert(ACH_OK == r);
     ROS_INFO("Hubo-ACH channel loaded");
     //construct ROS Subscriber
-    ros::Subscriber hubo_command_sub = nh.subscribe("Hubo/HuboCommand", 1, hubo_cb);
+    ros::Subscriber hubo_command_sub = nh.subscribe(nh.getNamespace() + "/hubo_command", 1, hubo_cb);
     ROS_INFO("HuboCommand subscriber up");
     //spin
     ros::spin();

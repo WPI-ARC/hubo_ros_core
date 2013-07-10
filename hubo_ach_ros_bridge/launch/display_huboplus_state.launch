@@ -2,9 +2,9 @@
 
   <arg name="output" default="screen" />
   <arg name="remapped_tf" default="new_tf" />
-  <arg name="model" default="$(find drchubo-v2)/robots/drchubo-v2.urdf" />
+  <arg name="model" default="$(find hubo_description)/huboplus/huboplus.xml" />
 
-  <group ns="drchubo_fullbody_interface">
+  <group ns="huboplus_fullbody_interface">
 
     <param name="robot_description" textfile="$(arg model)" />
 

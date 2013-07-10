@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="robot" default="drchubo" />
+
+  <!-- Load the parameters for the JointTrajectoryAction server interface and hubo-motion interface -->
+  <rosparam command="load" file="$(find hubo_trajectory_interface)/config/$(arg robot)_fullbody_interface.yaml" />
+
+  <group ns="$(arg robot)_fullbody_controller">
+
+    <node name="$(arg robot)_fullbody_controller_node" pkg="hubo_trajectory_interface" type="hubo_trajectory_compromise_interface" output="$(arg output)" />
+
+  </group>
+
+</launch>
+

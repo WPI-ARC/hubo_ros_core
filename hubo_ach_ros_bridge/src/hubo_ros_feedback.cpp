@@ -203,7 +203,7 @@ int main(int argc, char **argv)
     size_t fs;
     ROS_INFO("HUBO-ACH channels loaded");
     // Construct ROS publisher
-    g_hubo_state_pub = nh.advertise<hubo_robot_msgs::JointCommandState>("hubo/HuboState", 1);
+    g_hubo_state_pub = nh.advertise<hubo_robot_msgs::JointCommandState>(nh.getNamespace() + "/hubo_state", 1);
     g_hubo_clock_pub = nh.advertise<rosgraph_msgs::Clock>("clock", 1);
     ROS_INFO("ROS publishers loaded");
     // Loop
