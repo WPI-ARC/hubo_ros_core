@@ -26,8 +26,8 @@ uint8 encoder_error
 uint8 driver_fault
 uint8 motor_fail_0
 uint8 motor_fail_1
-uint8 min_position_error
-uint8 max_position_error
-uint8 velocity_error
-uint8 acceleration_error
-uint8 temperature_error
+uint8 under_min_position
+uint8 over_max_position
+uint8 over_velocity
+uint8 over_acceleration
+uint8 over_temperature

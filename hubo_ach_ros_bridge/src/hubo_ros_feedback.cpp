@@ -128,11 +128,11 @@ bool ACHtoHuboState(struct hubo_state * robot_state)
                 joint_state.driver_fault = robot_state->status[i].driverFault;
                 joint_state.motor_fail_0 = robot_state->status[i].motorFail0;
                 joint_state.motor_fail_1 = robot_state->status[i].motorFail1;
-                joint_state.min_position_error = robot_state->status[i].posMinError;
-                joint_state.max_position_error = robot_state->status[i].posMaxError;
-                joint_state.velocity_error = robot_state->status[i].velError;
-                joint_state.acceleration_error = robot_state->status[i].accError;
-                joint_state.temperature_error = robot_state->status[i].tempError;
+                joint_state.under_min_position = robot_state->status[i].posMinError;
+                joint_state.over_max_position = robot_state->status[i].posMaxError;
+                joint_state.over_velocity = robot_state->status[i].velError;
+                joint_state.over_acceleration = robot_state->status[i].accError;
+                joint_state.over_temperature = robot_state->status[i].tempError;
                 // Store it
                 joint_msg.joint_names.push_back(joint_state.joint_name);
                 joint_msg.state.push_back(joint_state);
