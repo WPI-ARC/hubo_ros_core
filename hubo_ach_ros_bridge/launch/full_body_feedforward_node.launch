@@ -3,12 +3,11 @@
   <arg name="output" default="screen" />
   <arg name="robot" default="drchubo" />
 
-  <!-- Load the parameters for the hubo-ach to ROS bridge -->
-  <rosparam command="load" file="$(find hubo_ach_ros_bridge)/config/$(arg robot)_fullbody_params.yaml" />
-
   <group ns="$(arg robot)_fullbody_interface">
 
-    <node name="$(arg robot)_fullbody_feedforward_node" pkg="hubo_ach_ros_bridge" type="feedforward" output="$(arg output)" />
+    <node name="$(arg robot)_fullbody_feedforward_node" pkg="hubo_ach_ros_bridge" type="feedforward" output="$(arg output)" >
+      <rosparam command="load" file="$(find hubo_components)/config/$(arg robot)_fullbody_params.yaml" />
+    </node>
 
   </group>
 

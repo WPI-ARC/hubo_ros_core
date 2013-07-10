@@ -25,9 +25,9 @@ This repository is structured around 5 core packages:
 
 5.  `hubo_trajectory_interface` - JointTrajectoryAction controller and interface to the Hubo. Contains all the code for the interface and the configuration parameters to load a full-body trajectory controller.
 
-In addition, it contains two "helper" packages that serve to simplfy the inclusion of hubo-ach and hubo-motion headers. Since not everyone will want (or be able) to install hubo-ach and hubo-motion to their system, these packages provide an alternate means of finding the headers needed from these projects.
+In addition, it contains two "helper" packages that store descriptions, parameter configs, and serve to simplfy the inclusion of hubo-ach and hubo-motion headers. Since not everyone will want (or be able) to install hubo-ach and hubo-motion to their system, these packages provide an alternate means of finding the headers needed from these projects.
 
-1.  `hubo_components` - Wrapper around `hubo-ach/include` and `hubo-motion-rt/include`. This is done by making `hubo_components/include/hubo_components` contain all files in `hubo-ach/include` and `hubo-motion-rt/include` via symlink.
+1.  `hubo_components` - Stores paramter configs for both DRC-Hubo and HuboPlus, and includes a wrapper around `hubo-ach/include` and `hubo-motion-rt/include`. This is done by making `hubo_components/include/hubo_components` contain all files in `hubo-ach/include` and `hubo-motion-rt/include` via symlink.
 
 2.  `hubo_description` - Wrapper around Xacro and URDF model files for the HuboPlus robot and the dae meshes for the URDF model.
 

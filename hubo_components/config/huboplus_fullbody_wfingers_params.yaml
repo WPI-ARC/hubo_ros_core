@@ -1,0 +1,189 @@
+joints:
+  - HPY
+  - HNR
+  - HNP
+  - LSP
+  - LSR
+  - LSY
+  - LEP
+  - LWY
+  - LWP
+  - RSP
+  - RSR
+  - RSY
+  - REP
+  - RWY
+  - RWP
+  - LHY
+  - LHR
+  - LHP
+  - LKP
+  - LAP
+  - LAR
+  - RHY
+  - RHR
+  - RHP
+  - RKP
+  - RAP
+  - RAR
+  - LF1
+  - LF2
+  - LF3
+  - LF4
+  - LF5
+  - RF1
+  - RF2
+  - RF3
+  - RF4
+  - RF5
+constraints:
+  goal_time: 0.6
+  HPY:
+    goal: 0.02
+  HNR:
+    goal: 0.02
+  HNP:
+    goal: 0.02
+  LSP:
+    goal: 0.02
+  LSR:
+    goal: 0.02
+  LSY:
+    goal: 0.02
+  LEP:
+    goal: 0.02
+  LWY:
+    goal: 0.02
+  LWP:
+    goal: 0.02
+  RSP:
+    goal: 0.02
+  RSR:
+    goal: 0.02
+  RSY:
+    goal: 0.02
+  REP:
+    goal: 0.02
+  RWY:
+    goal: 0.02
+  RWP:
+    goal: 0.02
+  LHY:
+    goal: 0.02
+  LHR:
+    goal: 0.02
+  LHP:
+    goal: 0.02
+  LKP:
+    goal: 0.02
+  LAP:
+    goal: 0.02
+  LAR:
+    goal: 0.02
+  RHY:
+    goal: 0.02
+  RHR:
+    goal: 0.02
+  RHP:
+    goal: 0.02
+  RKP:
+    goal: 0.02
+  RAP:
+    goal: 0.02
+  RAR:
+    goal: 0.02
+  LF1:
+    goal: 0.02
+  LF2:
+    goal: 0.02
+  LF3:
+    goal: 0.02
+  LF4:
+    goal: 0.02
+  LF5:
+    goal: 0.02
+  RF1:
+    goal: 0.02
+  RF2:
+    goal: 0.02
+  RF3:
+    goal: 0.02
+  RF4:
+    goal: 0.02
+  RF5:
+    goal: 0.02
+mapping:
+  HPY:
+    huboachid: 0
+  HNR:
+    huboachid: 2
+  HNP:
+    huboachid: 3
+  LSP:
+    huboachid: 4
+  LSR:
+    huboachid: 5
+  LSY:
+    huboachid: 6
+  LEP:
+    huboachid: 7
+  LWY:
+    huboachid: 8
+  LWP:
+    huboachid: 10
+  RSP:
+    huboachid: 11
+  RSR:
+    huboachid: 12
+  RSY:
+    huboachid: 13
+  REP:
+    huboachid: 14
+  RWY:
+    huboachid: 15
+  RWP:
+    huboachid: 17
+  LHY:
+    huboachid: 19
+  LHR:
+    huboachid: 20
+  LHP:
+    huboachid: 21
+  LKP:
+    huboachid: 22
+  LAP:
+    huboachid: 23
+  LAR:
+    huboachid: 24
+  RHY:
+    huboachid: 26
+  RHR:
+    huboachid: 27
+  RHP:
+    huboachid: 28
+  RKP:
+    huboachid: 29
+  RAP:
+    huboachid: 30
+  RAR:
+    huboachid: 31
+  RF1:
+    huboachid: 32
+  RF2:
+    huboachid: 33
+  RF3:
+    huboachid: 34
+  RF4:
+    huboachid: 35
+  RF5:
+    huboachid: 36
+  LF1:
+    huboachid: 37
+  LF2:
+    huboachid: 38
+  LF3:
+    huboachid: 39
+  LF4:
+    huboachid: 40
+  LF5:
+    huboachid: 41

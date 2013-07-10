@@ -1,0 +1,154 @@
+joints:
+  - TSY
+  - NKY
+  - NK1
+  - NK2
+  - LSP
+  - LSR
+  - LSY
+  - LEP
+  - LWY
+  - LWP
+  - LWR
+  - RSP
+  - RSR
+  - RSY
+  - REP
+  - RWY
+  - RWP
+  - RWR
+  - LHY
+  - LHR
+  - LHP
+  - LKP
+  - LAP
+  - LAR
+  - RHY
+  - RHR
+  - RHP
+  - RKP
+  - RAP
+  - RAR
+constraints:
+  goal_time: 0.6
+  TSY:
+    goal: 0.50
+  NKY:
+    goal: 0.02
+  NK1:
+    goal: 0.02
+  NK2:
+    goal: 0.02
+  LSP:
+    goal: 0.02
+  LSR:
+    goal: 0.02
+  LSY:
+    goal: 0.02
+  LEP:
+    goal: 0.02
+  LWY:
+    goal: 0.02
+  LWP:
+    goal: 0.02
+  LWR:
+    goal: 0.02
+  RSP:
+    goal: 0.02
+  RSR:
+    goal: 0.02
+  RSY:
+    goal: 0.02
+  REP:
+    goal: 0.02
+  RWY:
+    goal: 0.02
+  RWP:
+    goal: 0.02
+  RWR:
+    goal: 0.02
+  LHY:
+    goal: 0.02
+  LHR:
+    goal: 0.02
+  LHP:
+    goal: 0.02
+  LKP:
+    goal: 0.02
+  LAP:
+    goal: 0.02
+  LAR:
+    goal: 0.02
+  RHY:
+    goal: 0.02
+  RHR:
+    goal: 0.02
+  RHP:
+    goal: 0.02
+  RKP:
+    goal: 0.02
+  RAP:
+    goal: 0.02
+  RAR:
+    goal: 0.02
+mapping:
+  TSY:
+    huboachid: 0
+  NKY:
+    huboachid: 1
+  NK1:
+    huboachid: 2
+  NK2:
+    huboachid: 3
+  LSP:
+    huboachid: 4
+  LSR:
+    huboachid: 5
+  LSY:
+    huboachid: 6
+  LEP:
+    huboachid: 7
+  LWY:
+    huboachid: 8
+  LWP:
+    huboachid: 10
+  LWR:
+    huboachid: 9
+  RSP:
+    huboachid: 11
+  RSR:
+    huboachid: 12
+  RSY:
+    huboachid: 13
+  REP:
+    huboachid: 14
+  RWY:
+    huboachid: 15
+  RWP:
+    huboachid: 17
+  RWR:
+    huboachid: 16
+  LHY:
+    huboachid: 19
+  LHR:
+    huboachid: 20
+  LHP:
+    huboachid: 21
+  LKP:
+    huboachid: 22
+  LAP:
+    huboachid: 23
+  LAR:
+    huboachid: 24
+  RHY:
+    huboachid: 26
+  RHR:
+    huboachid: 27
+  RHP:
+    huboachid: 28
+  RKP:
+    huboachid: 29
+  RAP:
+    huboachid: 30
+  RAR:
+    huboachid: 31
