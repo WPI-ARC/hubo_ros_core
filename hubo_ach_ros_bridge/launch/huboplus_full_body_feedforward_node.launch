@@ -1,6 +1,6 @@
 <launch>
 
-  <!-- Load the parameters for the JointTrajectoryAction server interface and hubo-motion interface -->
+  <!-- Load the parameters for the hubo-ach to ROS bridge -->
   <rosparam command="load" file="$(find hubo_ach_ros_bridge)/config/huboplus_fullbody_params.yaml" />
 
   <group ns="huboplus_fullbody_interface">

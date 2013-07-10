@@ -63,29 +63,29 @@ huboplus_fullbody_interface:
       RWP:
         huboachid: 17
       LHY:
-        huboachid: 18
-      LHR:
         huboachid: 19
-      LHP:
+      LHR:
         huboachid: 20
-      LKP:
+      LHP:
         huboachid: 21
-      LAP:
+      LKP:
         huboachid: 22
-      LAR:
+      LAP:
         huboachid: 23
-      RHY:
+      LAR:
         huboachid: 24
-      RHR:
-        huboachid: 25
-      RHP:
+      RHY:
         huboachid: 26
-      RKP:
+      RHR:
         huboachid: 27
-      RAP:
+      RHP:
         huboachid: 28
-      RAR:
+      RKP:
         huboachid: 29
+      RAP:
+        huboachid: 30
+      RAR:
+        huboachid: 31
 
   huboplus_fullbody_feedforward_node:
     joints:
@@ -150,26 +150,26 @@ huboplus_fullbody_interface:
       RWP:
         huboachid: 17
       LHY:
-        huboachid: 18
-      LHR:
         huboachid: 19
-      LHP:
+      LHR:
         huboachid: 20
-      LKP:
+      LHP:
         huboachid: 21
-      LAP:
+      LKP:
         huboachid: 22
-      LAR:
+      LAP:
         huboachid: 23
-      RHY:
+      LAR:
         huboachid: 24
-      RHR:
-        huboachid: 25
-      RHP:
+      RHY:
         huboachid: 26
-      RKP:
+      RHR:
         huboachid: 27
-      RAP:
+      RHP:
         huboachid: 28
-      RAR:
+      RKP:
         huboachid: 29
+      RAP:
+        huboachid: 30
+      RAR:
+        huboachid: 31
