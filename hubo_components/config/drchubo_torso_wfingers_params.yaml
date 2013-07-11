@@ -1,0 +1,104 @@
+joints:
+  - NKY
+  - NK1
+  - NK2
+  - LSP
+  - LSR
+  - LSY
+  - LEP
+  - LWY
+  - LWP
+  - LWR
+  - RSP
+  - RSR
+  - RSY
+  - REP
+  - RWY
+  - RWP
+  - RWR
+  - LF1
+  - RF1
+  - RF2
+constraints:
+  goal_time: 0.6
+  NKY:
+    goal: 0.02
+  NK1:
+    goal: 0.02
+  NK2:
+    goal: 0.02
+  LSP:
+    goal: 0.02
+  LSR:
+    goal: 0.02
+  LSY:
+    goal: 0.02
+  LEP:
+    goal: 0.02
+  LWY:
+    goal: 0.02
+  LWP:
+    goal: 0.02
+  LWR:
+    goal: 0.02
+  RSP:
+    goal: 0.02
+  RSR:
+    goal: 0.02
+  RSY:
+    goal: 0.02
+  REP:
+    goal: 0.02
+  RWY:
+    goal: 0.02
+  RWP:
+    goal: 0.02
+  RWR:
+    goal: 0.02
+  LF1:
+    goal: 0.50
+  RF1:
+    goal: 0.50
+  RF2:
+    goal: 0.50
+mapping:
+  NKY:
+    huboachid: 1
+  NK1:
+    huboachid: 2
+  NK2:
+    huboachid: 3
+  LSP:
+    huboachid: 4
+  LSR:
+    huboachid: 5
+  LSY:
+    huboachid: 6
+  LEP:
+    huboachid: 7
+  LWY:
+    huboachid: 8
+  LWP:
+    huboachid: 10
+  LWR:
+    huboachid: 9
+  RSP:
+    huboachid: 11
+  RSR:
+    huboachid: 12
+  RSY:
+    huboachid: 13
+  REP:
+    huboachid: 14
+  RWY:
+    huboachid: 15
+  RWP:
+    huboachid: 17
+  RWR:
+    huboachid: 16
+  LF1:
+    huboachid: 37
+  RF1:
+    huboachid: 32
+  RF2:
+    huboachid: 33
