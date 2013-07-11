@@ -1,0 +1,8 @@
+# goal definition
+hubo_robot_msgs/PoseTrajectory[] trajectories
+---
+# result definition
+hubo_robot_msgs/PoseTrajectoryState[] end_states
+---
+# feedback definition
+hubo_robot_msgs/PoseTrajectoryState[] states

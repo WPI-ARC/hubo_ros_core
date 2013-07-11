@@ -26,6 +26,8 @@ add_action_files(
     FILES
     JointCommand.action
     JointTrajectory.action
+    PoseTrajectory.action
+    HybridTrajectory.action
     Walk.action
 )
 
@@ -42,6 +44,9 @@ add_message_files(
     JointCommandState.msg
     JointControllerState.msg
     JointTrajectoryState.msg
+    PoseTrajectory.msg
+    PoseTrajectoryState.msg
+    PoseTrajectoryPoint.msg
     WalkCommand.msg
 )
 
