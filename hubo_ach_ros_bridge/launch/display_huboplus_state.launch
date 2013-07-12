@@ -1,18 +1,45 @@
 <launch>
 
   <arg name="output" default="screen" />
-  <arg name="remapped_tf" default="new_tf" />
+  <arg name="remapped_tf" default="/tf" />
   <arg name="model" default="$(find hubo_description)/huboplus/huboplus.xml" />
 
   <group ns="huboplus_fullbody_interface">
-
+    <!-- Robot state & model -->
     <param name="robot_description" textfile="$(arg model)" />
-
     <node name="joint_state_publisher" pkg="hubo_ach_ros_bridge" type="hubo_joint_state_publisher.py" output="$(arg output)">
     </node>
-
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
-      <remap from="tf" to="$(arg remapped_tf)" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!-- Sensor frames -->
+    <node pkg="tf" type="static_transform_publisher" name="sensor_imu_link"
+        args="0 0 0 0 0 0 /Body_Torso /body_imu_sensor_frame 100" >
+      <remap from="/tf" to="remapped_tf" />
+    </node>  
+    <node pkg="tf" type="static_transform_publisher" name="sensor_left_tilt_link"
+        args="0 0 0 0 0 0 /leftFoot /left_tilt_sensor_frame 100" >
+      <remap from="/tf" to="remapped_tf" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_right_tilt_link"
+        args="0 0 0 0 0 0 /rightFoot /right_tilt_sensor_frame 100" >
+      <remap from="/tf" to="remapped_tf" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_left_ankle_ft_link"
+        args="0 0 0 0 0 0 /leftFoot /left_ankle_ft_sensor_frame 100" >
+      <remap from="/tf" to="remapped_tf" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_right_ankle_ft_link"
+        args="0 0 0 0 0 0 /rightFoot /right_ankle_ft_sensor_frame 100" >
+      <remap from="/tf" to="remapped_tf" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_left_wrist_ft_link"
+        args="0 0 0 0 0 0 /leftPalm /left_wrist_ft_sensor_frame 100" >
+      <remap from="/tf" to="remapped_tf" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_right_wrist_ft_link"
+        args="0 0 0 0 0 0 /rightPalm /right_wrist_ft_sensor_frame 100" >
+      <remap from="/tf" to="remapped_tf" />
     </node>
 
   </group>
