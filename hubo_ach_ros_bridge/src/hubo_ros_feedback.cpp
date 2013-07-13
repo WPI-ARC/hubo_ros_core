@@ -49,11 +49,11 @@ std::string right_wrist_ft_frame = "/right_wrist_ft_sensor_frame";
 std::string left_ankle_ft_frame = "/left_ankle_ft_sensor_frame";
 std::string right_ankle_ft_frame = "/right_ankle_ft_sensor_frame";
 
-// ACH channel
-ach_channel_t chan_hubo_state;
-
 // Clock storage
 double g_last_clock;
+
+// ACH bridge
+ACH_ROS_WRAPPER<hubo_state>* g_ach_bridge;
 
 // ROS publishers
 // Joints
@@ -81,7 +81,8 @@ void shutdown(int signum)
     if (signum == SIGINT)
     {
         ROS_INFO("Starting safe shutdown...");
-        ach_close(&chan_hubo_state);
+        g_ach_bridge->CancelOperations();
+        g_ach_bridge->CloseChannel();
         ROS_INFO("ACH channels closed...shutting down!");
         ros::shutdown();
     }
@@ -299,13 +300,13 @@ int main(int argc, char **argv)
     g_right_ankle_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>(nh.getNamespace() + "/right_ankle_ft", 1);
     ROS_INFO("ROS publishers loaded");
     // Make the connection to Hubo-ACH
-    ACH_ROS_WRAPPER<hubo_state> ach_bridge(HUBO_CHAN_STATE_NAME);
+    g_ach_bridge = new ACH_ROS_WRAPPER<hubo_state>(HUBO_CHAN_STATE_NAME);
     // Loop
     while (ros::ok())
     {
         try
         {
-            hubo_state robot_state = ach_bridge.ReadNextState();
+            hubo_state robot_state = g_ach_bridge->ReadNextState();
             ACHtoHuboState(robot_state);
         }
         catch (...)
