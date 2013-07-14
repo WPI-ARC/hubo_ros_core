@@ -36,7 +36,7 @@ public:
 
     const bool CancelOperations();
 
-    const bool CloseChannel();
+    const bool CloseChannel(bool destroy_channel=false);
 };
 
 template <typename T>
@@ -92,10 +92,14 @@ const bool ACH_ROS_WRAPPER<T>::CancelOperations()
 }
 
 template <typename T>
-const bool ACH_ROS_WRAPPER<T>::CloseChannel()
+const bool ACH_ROS_WRAPPER<T>::CloseChannel(bool destroy_channel)
 {
     ach_status_t status = ACH_OK;
     status = ach_close(&ach_channel_);
+    if (destroy_channel)
+    {
+        status = ach_unlink(channel_name_.c_str());
+    }
     return true;
 }
 
@@ -150,7 +154,11 @@ T ACH_ROS_WRAPPER<T>::ReadNextState(timespec wait_time)
     ach_status_t status = ACH_OK;
     size_t fs = 0;
     timespec base_time;
-    clock_gettime(CLOCK_REALTIME, &base_time);
+    if (clock_gettime(ACH_DEFAULT_CLOCK, &base_time) != 0)
+    {
+        ROS_ERROR("Unable to get current ACH system time");
+        throw std::string("Unable to get current ACH system time");
+    }
     int64_t nsecs = wait_time.tv_nsec + base_time.tv_nsec;
     int64_t secs = (wait_time.tv_sec + base_time.tv_sec) + (nsecs / 1000000000);
     nsecs = nsecs % 1000000000;

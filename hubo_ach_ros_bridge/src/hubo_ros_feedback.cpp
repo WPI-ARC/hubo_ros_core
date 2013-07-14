@@ -300,14 +300,20 @@ int main(int argc, char **argv)
     g_right_ankle_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>(nh.getNamespace() + "/right_ankle_ft", 1);
     ROS_INFO("ROS publishers loaded");
     // Make the connection to Hubo-ACH
-    try
+    bool ready = false;
+    while (!ready)
     {
-        g_ach_bridge = new ACH_ROS_WRAPPER<hubo_state>(HUBO_CHAN_STATE_NAME);
-    }
-    catch (...)
-    {
-        ROS_FATAL("Could not open ACH interface...exiting!");
-        ros::shutdown();
+        try
+        {
+            g_ach_bridge = new ACH_ROS_WRAPPER<hubo_state>(HUBO_CHAN_STATE_NAME);
+            ready = true;
+            ROS_INFO("Loaded HUBO-ACH interface");
+        }
+        catch (...)
+        {
+            ROS_WARN("Could not open ACH interface...retrying in 5 seconds...");
+            ros::Duration(5.0).sleep();
+        }
     }
     ROS_INFO("Starting to stream data from Hubo...");
     // Loop
