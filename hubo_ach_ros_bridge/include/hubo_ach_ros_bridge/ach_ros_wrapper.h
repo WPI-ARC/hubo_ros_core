@@ -20,7 +20,7 @@ protected:
 
 public:
 
-    ACH_ROS_WRAPPER(std::string ach_channel_name, size_t channel_frames=10);
+    ACH_ROS_WRAPPER(std::string ach_channel_name, bool create_channel=false, size_t channel_frames=10);
 
     ~ACH_ROS_WRAPPER();
 
@@ -40,7 +40,7 @@ public:
 };
 
 template <typename T>
-ACH_ROS_WRAPPER<T>::ACH_ROS_WRAPPER(std::string ach_channel_name, size_t channel_frames)
+ACH_ROS_WRAPPER<T>::ACH_ROS_WRAPPER(std::string ach_channel_name, bool create_channel, size_t channel_frames)
 {
     if (ach_channel_name == "")
     {
@@ -54,14 +54,22 @@ ACH_ROS_WRAPPER<T>::ACH_ROS_WRAPPER(std::string ach_channel_name, size_t channel
     // If the channel doesn't already exist, make it
     if (status == ACH_ENOENT)
     {
-        ROS_WARN("ACH channel: %s does not already exist, attempting to make it", channel_name_.c_str());
-        status = ach_create(channel_name_.c_str(), channel_frames, sizeof(ach_data_), NULL);
-        ROS_INFO("Set up ACH channel: %s", channel_name_.c_str());
+        if (create_channel)
+        {
+            ROS_WARN("ACH channel: %s does not already exist, attempting to make it", channel_name_.c_str());
+            status = ach_create(channel_name_.c_str(), channel_frames, sizeof(ach_data_), NULL);
+            ROS_INFO("Set up ACH channel: %s", channel_name_.c_str());
+            status = ach_open(&ach_channel_, channel_name_.c_str(), NULL);
+        }
+        else
+        {
+            throw std::invalid_argument("ACH channel: " + channel_name_ + " does not exist and will not be created");
+        }
     }
     if (status != ACH_OK)
     {
         ROS_FATAL("Unable to open ACH channel: %s with error: %s (code: %d)", channel_name_.c_str(), ach_result_to_string(status), status);
-        throw std::invalid_argument("ACH channel is invalid and could not be opened");
+        throw std::invalid_argument("ACH channel: " + channel_name_ + " is invalid and could not be opened");
     }
     else
     {
