@@ -322,8 +322,6 @@ int main(int argc, char **argv)
         try
         {
             hubo_state robot_state = g_ach_bridge->ReadNextState();
-            printf("here\n");
-            fflush(stdout);
             ACHtoHuboState(robot_state);
         }
         catch (...)
