@@ -168,7 +168,7 @@ T ACH_ROS_WRAPPER<T>::ReadNextState(timespec wait_time)
     if (status == ACH_TIMEOUT)
     {
         ROS_WARN("ACH channel: %s timed out waiting for data", channel_name_.c_str());
-        return NULL;
+        throw std::string("ACH channel: " + channel_name_ + " timed out waiting to read");
     }
     if (status != ACH_OK)
     {

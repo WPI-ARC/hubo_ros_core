@@ -330,6 +330,6 @@ int main(int argc, char **argv)
         }
         ros::spinOnce();
     }
-    //Satisfy the compiler
+    // Satisfy the compiler
     return 0;
 }

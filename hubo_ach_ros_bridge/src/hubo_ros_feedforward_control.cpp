@@ -16,15 +16,9 @@ Copyright (c) 2012, Daniel M. Lofaro
 #include <stdlib.h>
 #include <math.h>
 #include <sstream>
-#include <errno.h>
-#include <fcntl.h>
 #include <assert.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
-#include <inttypes.h>
+#include <string>
+#include <vector>
 
 // ROS includes
 #include "ros/ros.h"
@@ -36,29 +30,29 @@ Copyright (c) 2012, Daniel M. Lofaro
 
 // HUBO-ACH includes
 #include "ach.h"
+#include "hubo_ach_ros_bridge/ach_ros_wrapper.h"
 #include "hubo_components/hubo.h"
 
-#define FT_LW 1
-#define FT_RW 2
-#define FT_LA 0
-#define FT_RA 3
-#define LEFT_IMU 0
-#define RIGHT_IMU 1
-#define BODY_IMU 2
-
-// Defines
-#define FT_SENSOR_COUNT 4
-#define IMU_SENSOR_COUNT 3
-
-// Global variables
-ach_channel_t chan_hubo_ref_filter;
+// ACH bridges
+ACH_ROS_WRAPPER<hubo_ref>* g_ach_bridge;
 
 // Joint name and mapping storage
 std::vector<std::string> g_joint_names;
 std::map<std::string,int> g_joint_mapping;
 
-// Debug mode switch
-int hubo_debug = 0;
+// Signal handler to safely shutdown the node
+void shutdown(int signum)
+{
+    ROS_INFO("Attempting to shutdown node...");
+    if (signum == SIGINT)
+    {
+        ROS_INFO("Starting safe shutdown...");
+        g_ach_bridge->CancelOperations();
+        g_ach_bridge->CloseChannel();
+        ROS_INFO("ACH channels closed...shutting down!");
+        ros::shutdown();
+    }
+}
 
 // From the name of the joint, find the corresponding joint index for the Hubo-ACH struct
 int IndexLookup(std::string joint_name)
@@ -76,20 +70,15 @@ int IndexLookup(std::string joint_name)
 // Callback to convert the ROS joint commands into Hubo-ACH commands
 void hubo_cb(const hubo_robot_msgs::JointCommand& msg)
 {
-    //Make the necessary hubo struct for ACH
-    struct hubo_ref H_ref_filter;
-    memset( &H_ref_filter, 0, sizeof(H_ref_filter));
-    size_t fs;
-    //First, get the current state of the Hubo from ACH
-    int r = ach_get(&chan_hubo_ref_filter, &H_ref_filter, sizeof(H_ref_filter), &fs, NULL, ACH_O_LAST);
-    if(ACH_OK != r)
+    hubo_ref current_command;
+    try
     {
-        ROS_ERROR("Something went wrong in the callback - r = %i\n", r);
+        current_command = g_ach_bridge->ReadLastState();
     }
-    else
+    catch (...)
     {
-        //ROS_INFO("fs : %d, sizeof(H_ref_filter) : %d\n",fs,sizeof(H_ref_filter));
-        assert(sizeof(H_ref_filter) == fs);
+        ROS_ERROR("Unable to get the current state from hubo-ach");
+        return;
     }
     //Add the joint values one at a time into the hubo struct
     //for each joint command, we lookup the best matching
@@ -97,24 +86,31 @@ void hubo_cb(const hubo_robot_msgs::JointCommand& msg)
     if (msg.command.positions.size() != msg.joint_names.size())
     {
         ROS_ERROR("Hubo JointCommand malformed!");
+        return;
     }
     for (unsigned int i = 0; i < msg.command.positions.size(); i++)
     {
         int index = IndexLookup(msg.joint_names[i]);
         if (index != -1)
         {
-            H_ref_filter.ref[index] = msg.command.positions[i];
+            current_command.ref[index] = msg.command.positions[i];
         }
     }
-    //Put the new message into the ACH channel
-    ach_put(&chan_hubo_ref_filter, &H_ref_filter, sizeof(H_ref_filter));
+    try
+    {
+        g_ach_bridge->WriteState(current_command);
+    }
+    catch (...)
+    {
+        ROS_ERROR("Unable to send new commands to hubo-ach");
+    }
 }
 
-//NEW MAIN LOOP
 int main(int argc, char **argv)
 {
     //initialize ROS node
-    ros::init(argc, argv, "hubo_ros_feedforward");
+    ros::init(argc, argv, "hubo_ros_feedforward", ros::init_options::NoSigintHandler);
+    signal(SIGINT, shutdown);
     ros::NodeHandle nh;
     ros::NodeHandle nhp("~");
     ROS_INFO("Initializing ROS-to-ACH bridge [feedforward]");
@@ -148,15 +144,46 @@ int main(int argc, char **argv)
         nhp.param(ns + "/huboachid", h, -1);
         g_joint_mapping[g_joint_names[i]] = h;
     }
-    //initialize ACH channel
-    int r = ach_open(&chan_hubo_ref_filter, HUBO_CHAN_REF_NAME , NULL);
-    assert(ACH_OK == r);
-    ROS_INFO("Hubo-ACH channel loaded");
-    //construct ROS Subscriber
+    // Get which Hubo-ACH channel to write to
+    std::string command_channel;
+    if (!nhp.getParam("commandchannel", command_channel))
+    {
+        ROS_WARN("No command channel provided - using default command channel: HUBO_CHAN_REF_FILTER");
+        command_channel = std::string(HUBO_CHAN_REF_FILTER_NAME);
+    }
+    else
+    {
+        if (command_channel != std::string(HUBO_CHAN_REF_NAME) && command_channel != std::string(HUBO_CHAN_REF_FILTER_NAME))
+        {
+            ROS_WARN("Invalid command channel provided - using default command channel: HUBO_CHAN_REF_FILTER");
+            command_channel = std::string(HUBO_CHAN_REF_FILTER_NAME);
+        }
+        else
+        {
+            ROS_INFO("Using command channel: %s", command_channel.c_str());
+        }
+    }
+    // Make the connection to Hubo-ACH
+    bool ready = false;
+    while (!ready)
+    {
+        try
+        {
+            g_ach_bridge = new ACH_ROS_WRAPPER<hubo_ref>(command_channel);
+            ready = true;
+            ROS_INFO("Loaded HUBO-ACH interface");
+        }
+        catch (...)
+        {
+            ROS_WARN("Could not open ACH interface...retrying in 5 seconds...");
+            ros::Duration(5.0).sleep();
+        }
+    }
+    // Construct ROS Subscriber
     ros::Subscriber hubo_command_sub = nh.subscribe(nh.getNamespace() + "/hubo_command", 1, hubo_cb);
-    ROS_INFO("HuboCommand subscriber up");
-    //spin
+    ROS_INFO("Waiting for joint commands to Hubo...");
+    // Spin until shutdown
     ros::spin();
-    //Satisfy the compiler
+    // Satisfy the compiler
     return 0;
 }
