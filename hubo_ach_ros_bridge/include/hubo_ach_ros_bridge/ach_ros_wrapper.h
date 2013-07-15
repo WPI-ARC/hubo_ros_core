@@ -109,10 +109,15 @@ const bool ACH_ROS_WRAPPER<T>::WriteState(const T &data)
     ach_data_ = data;
     ach_status_t status = ACH_OK;
     status = ach_put(&ach_channel_, &ach_data_, sizeof(ach_data_));
-    if (status != ACH_OK)
+    if (status == ACH_OVERFLOW)
+    {
+        ROS_ERROR("Overflow writing data to ACH channel: %s", channel_name_.c_str());
+        throw std::string("Overflow writing data to ACH channel: ") + channel_name_;
+    }
+    else if (status != ACH_OK)
     {
         ROS_ERROR("Unable to write data to ACH channel: %s with error: %s (code: %d)", channel_name_.c_str(), ach_result_to_string(status), status);
-        return false;
+        throw std::string("Unable to write data to ACH channel: ") + channel_name_;
     }
     else
     {
@@ -126,9 +131,19 @@ T ACH_ROS_WRAPPER<T>::ReadNextState()
     ach_status_t status = ACH_OK;
     size_t fs = 0;
     status = ach_get(&ach_channel_, &ach_data_, sizeof(ach_data_), &fs, NULL, ACH_O_WAIT);
-    if (status != ACH_OK)
+    if (status == ACH_STALE_FRAMES)
     {
-        ROS_ERROR("Problem reading from ACH channel: %s", channel_name_.c_str());
+        ROS_WARN("Stale frame on ACH channel: %s", channel_name_.c_str());
+        throw std::string("Stale frame on ACH channel: ") + channel_name_;
+    }
+    else if (status == ACH_MISSED_FRAME)
+    {
+        ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
+        throw std::string("Missed frame on ACH channel: ") + channel_name_;
+    }
+    else if (status != ACH_OK)
+    {
+        ROS_ERROR("Problem reading from ACH channel: %s with error: %s (code: %d)", channel_name_.c_str(), ach_result_to_string(status), status);
         throw std::string("Problem reading from ACH channel: ") + channel_name_;
     }
     if (fs != sizeof(ach_data_))
@@ -170,9 +185,19 @@ T ACH_ROS_WRAPPER<T>::ReadNextState(timespec wait_time)
         ROS_WARN("ACH channel: %s timed out waiting for data", channel_name_.c_str());
         throw std::string("ACH channel: " + channel_name_ + " timed out waiting to read");
     }
-    if (status != ACH_OK)
+    else if (status == ACH_STALE_FRAMES)
     {
-        ROS_ERROR("Problem reading from ACH channel: %s", channel_name_.c_str());
+        ROS_WARN("Stale frame on ACH channel: %s", channel_name_.c_str());
+        throw std::string("Stale frame on ACH channel: ") + channel_name_;
+    }
+    else if (status == ACH_MISSED_FRAME)
+    {
+        ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
+        throw std::string("Missed frame on ACH channel: ") + channel_name_;
+    }
+    else if (status != ACH_OK)
+    {
+        ROS_ERROR("Problem reading from ACH channel: %s with error: %s (code: %d)", channel_name_.c_str(), ach_result_to_string(status), status);
         throw std::string("Problem reading from ACH channel: ") + channel_name_;
     }
     if (fs != sizeof(ach_data_))
@@ -189,7 +214,17 @@ T ACH_ROS_WRAPPER<T>::ReadLastState()
     ach_status_t status = ACH_OK;
     size_t fs = 0;
     status = ach_get(&ach_channel_, &ach_data_, sizeof(ach_data_), &fs, NULL, ACH_O_LAST);
-    if (status != ACH_OK)
+    if (status == ACH_STALE_FRAMES)
+    {
+        ROS_WARN("Stale frame on ACH channel: %s", channel_name_.c_str());
+        throw std::string("Stale frame on ACH channel: ") + channel_name_;
+    }
+    else if (status == ACH_MISSED_FRAME)
+    {
+        ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
+        throw std::string("Missed frame on ACH channel: ") + channel_name_;
+    }
+    else if (status != ACH_OK)
     {
         ROS_ERROR("Problem reading from ACH channel: %s", channel_name_.c_str());
         throw std::string("Problem reading from ACH channel: ") + channel_name_;
