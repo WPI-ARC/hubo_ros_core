@@ -108,6 +108,7 @@ bool ACHtoHuboState(hubo_state robot_state)
     rosgraph_msgs::Clock clock_state;
     clock_state.clock = ros::Time(robot_state.time);
     g_hubo_clock_pub.publish(clock_state);
+    ros::Time current_time = ros::Time::now();
     // Publish joint info
     hubo_robot_msgs::JointCommandState joint_msg;
     // Read through the two Hubo-ACH structs into the joint_message
@@ -154,13 +155,13 @@ bool ACHtoHuboState(hubo_state robot_state)
         joint_msg.state.push_back(joint_state);
     }
     joint_msg.header.frame_id = std::string("");
-    joint_msg.header.stamp = ros::Time(robot_state.time);
+    joint_msg.header.stamp = current_time;
     g_hubo_state_pub.publish(joint_msg);
     g_last_clock = robot_state.time;
     /* Publish IMU data */
     // Publish body IMU data
     sensor_msgs::Imu body_imu;
-    body_imu.header.stamp = ros::Time(robot_state.time);
+    body_imu.header.stamp = current_time;
     body_imu.header.frame_id = imu_frame;
     // Since we have no orientation information
     body_imu.orientation_covariance[0] = -1.0;
@@ -174,7 +175,7 @@ bool ACHtoHuboState(hubo_state robot_state)
     g_body_imu_pub.publish(body_imu);
     // Publish left ankle tilt data
     sensor_msgs::Imu left_foot_tilt;
-    left_foot_tilt.header.stamp = ros::Time(robot_state.time);
+    left_foot_tilt.header.stamp = current_time;
     left_foot_tilt.header.frame_id = left_tilt_frame;
     // Since we have no orientation information
     left_foot_tilt.orientation_covariance[0] = -1.0;
@@ -188,7 +189,7 @@ bool ACHtoHuboState(hubo_state robot_state)
     g_left_foot_imu_pub.publish(left_foot_tilt);
     // Publish right ankle tilt data
     sensor_msgs::Imu right_foot_tilt;
-    right_foot_tilt.header.stamp = ros::Time(robot_state.time);
+    right_foot_tilt.header.stamp = current_time;
     right_foot_tilt.header.frame_id = right_tilt_frame;
     // Since we have no orientation information
     right_foot_tilt.orientation_covariance[0] = -1.0;
@@ -203,7 +204,7 @@ bool ACHtoHuboState(hubo_state robot_state)
     /* Publish F-T sensor data */
     // Publish left wrist f-t data
     geometry_msgs::WrenchStamped left_wrist_ft;
-    left_wrist_ft.header.stamp = ros::Time(robot_state.time);
+    left_wrist_ft.header.stamp = current_time;
     left_wrist_ft.header.frame_id = left_wrist_ft_frame;
     left_wrist_ft.wrench.force.x = NAN;
     left_wrist_ft.wrench.force.y = NAN;
@@ -214,7 +215,7 @@ bool ACHtoHuboState(hubo_state robot_state)
     g_left_wrist_ft_pub.publish(left_wrist_ft);
     // Publish right wrist f-t data
     geometry_msgs::WrenchStamped right_wrist_ft;
-    right_wrist_ft.header.stamp = ros::Time(robot_state.time);
+    right_wrist_ft.header.stamp = current_time;
     right_wrist_ft.header.frame_id = right_wrist_ft_frame;
     right_wrist_ft.wrench.force.x = NAN;
     right_wrist_ft.wrench.force.y = NAN;
@@ -225,7 +226,7 @@ bool ACHtoHuboState(hubo_state robot_state)
     g_right_wrist_ft_pub.publish(right_wrist_ft);
     // Publish left ankle f-t data
     geometry_msgs::WrenchStamped left_ankle_ft;
-    left_ankle_ft.header.stamp = ros::Time(robot_state.time);
+    left_ankle_ft.header.stamp = current_time;
     left_ankle_ft.header.frame_id = left_ankle_ft_frame;
     left_ankle_ft.wrench.force.x = NAN;
     left_ankle_ft.wrench.force.y = NAN;
@@ -236,7 +237,7 @@ bool ACHtoHuboState(hubo_state robot_state)
     g_left_ankle_ft_pub.publish(left_ankle_ft);
     // Publish right ankle f-t data
     geometry_msgs::WrenchStamped right_ankle_ft;
-    right_ankle_ft.header.stamp = ros::Time(robot_state.time);
+    right_ankle_ft.header.stamp = current_time;
     right_ankle_ft.header.frame_id = right_ankle_ft_frame;
     right_ankle_ft.wrench.force.x = NAN;
     right_ankle_ft.wrench.force.y = NAN;
