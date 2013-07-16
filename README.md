@@ -27,7 +27,7 @@ This repository is structured around 5 core packages:
 
 In addition, it contains two "helper" packages that store descriptions, parameter configs, and serve to simplfy the inclusion of hubo-ach and hubo-motion headers. Since not everyone will want (or be able) to install hubo-ach and hubo-motion to their system, these packages provide an alternate means of finding the headers needed from these projects.
 
-1.  `hubo_components` - Stores paramter configs for both DRC-Hubo and HuboPlus, and includes a wrapper around `hubo-ach/include` and `hubo-motion-rt/include`. This is done by making `hubo_components/include/hubo_components` contain all files in `hubo-ach/include` and `hubo-motion-rt/include` via symlink.
+1.  `hubo_components` - Stores parameter configurations for both DRC-Hubo and HuboPlus, and includes a wrapper around `hubo-ach/include` and `hubo-motion-rt/include`. This is done by making `hubo_components/include/hubo_components` contain all files in `hubo-ach/include` and `hubo-motion-rt/include` via symlink.
 
 2.  `hubo_description` - Wrapper around Xacro and URDF model files for the HuboPlus robot and the dae meshes for the URDF model.
 
@@ -35,15 +35,13 @@ Stability and development status
 --------------------------------
 `hubo_robot_msgs` has been stable for several months. It should be considered stable for all uses. We do not intend to change any message/action interfaces provided unless required to do so by a critical bug, and if/when we do add additional functionality, compatibility with all original functionality will be maintained.
 
-`hubo_sensor_msgs` is currently empty and awaiting Hubo-specific sensor message definitions. If there is a sensor aboard the Hubo for which no existing ROS message type matches, please propose an addition to this package, and it will be added. Please note that the IMU/tilt sensors are already supported by `sensor_msgs/Imu` (enter NAN if a particular value *inside* a field [i.e. Az or Wx] is not available from the sensor), and the force sensors are supported by `geometry_msgs/WrenchStamped` (once again, use NAN for elements *inside* a field not provided by the sensor [i.e. Fz or Tx]).
+`hubo_sensor_msgs` is currently empty and awaiting Hubo-specific sensor message definitions. If there is a sensor aboard the Hubo for which no existing ROS message type matches, please propose an addition to this package, and it will be added. Please note that the IMU/tilt sensors are already supported by `sensor_msgs/Imu` (enter NAN if a particular value *inside* a field [i.e. Az or Wx] is not available from the sensor), and the force sensors are supported by `geometry_msgs/WrenchStamped` (once again, use NAN for elements *inside* a field not provided by the sensor [i.e. f_x or t_z]).
 
-`hubo_system_msgs` is currently empty and awaiting Hubo-specific system control messages/actions/services. In particular, this package is intended to provide messages for system (computers,software, etc) status and conficuration and services for their reconfiguration. If there is a system control or status you want represented in an ROS message, propose it and it will be added to this package.
+`hubo_system_msgs` is currently empty and awaiting Hubo-specific system control messages/actions/services. In particular, this package is intended to provide messages for system (computers,software, etc) status and configuration and services for their reconfiguration. If there is a system control or status you want represented in an ROS message, propose it and it will be added to this package.
 
-`hubo_ach_ros_bridge` is under semi-active development. The core functionality has been tested several times, both in simulation and the real robot. This package is updated as necessary to maintain compatibility with hubo-ach.
+`hubo_ach_ros_bridge` is under semi-active development. The feedback half of the bridge has been tested with both Hubo+ and DRC-Hubo in both simulated and real environments and should be considered largely stable. Following the next set of planned tests, it will become part of the standard software configuration of the robot, allowing standard RVIZ display and TF support, along with the ability to use standard ROS logging tools. This package is updated as necessary to maintain compatibility with hubo-ach. This package has been updated to provide compatibility with DRC-Hubo and the old joint name-to-hubo-ach indexing has been replaced with a completely parametrized approach that supports both Hubo+ and DRC-Hubo.
 
-This package will be updated in the comming weeks to provide compatibility with DRC-Hubo and to replace the joint name-to-hubo-ach indexing currently used with a parameter approach to support both Hubo+ and DRC-Hubo.
-
-`hubo_trajectory_interface` is under active development and will continue to be for the forseable future. As we use this package extensively for our own development, we will attempt to maintain functionality with both simulated and real Hubo platforms. Note that all external interfaces to this package should be considered stable, and further development should not effect the outwardly-visible behavior of this package.
+`hubo_trajectory_interface` is under active development and will continue to be for the foreseeable future. We are currently working with groups from Georgia Tech to add additional execution modes and controllers to this package, so that we can more reliably execute trajectories on the real robot. Note that all external interfaces to this package should be considered stable, and further development should not effect the outwardly-visible behavior of this package.
 
 Depencies
 ---------
