@@ -18,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs hubo_components
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   INCLUDE_DIRS include
+#  INCLUDE_DIRS include
 #  LIBRARIES hubo_head_controller
 #  CATKIN_DEPENDS actionlib actionlib_msgs hubo_components hubo_robot_msgs roscpp rospy trajectory_msgs
 #  DEPENDS system_lib
@@ -28,11 +28,11 @@ catkin_package(
 ## Build ##
 ###########
 
-link_libraries(-lm -lrt -lach -lhuboparams -lRobotKin)
-
-include_directories(include
+include_directories(
   ${catkin_INCLUDE_DIRS}
 )
+
+link_libraries(${catkin_LIBRARIES} -lm -lrt -lach -lhuboparams -lRobotKin)
 
 ## Declare a cpp library
 # add_library(hubo_head_controller
@@ -41,6 +41,7 @@ include_directories(include
 
 ## Declare a cpp executable
 add_executable(head_controller src/head_controller.cpp)
+add_executable(test_head_controller test/system/test_head_controller.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -48,7 +49,6 @@ add_executable(head_controller src/head_controller.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(head_controller
-  ${catkin_LIBRARIES}
   huboctrl daemonizer
 )
 
