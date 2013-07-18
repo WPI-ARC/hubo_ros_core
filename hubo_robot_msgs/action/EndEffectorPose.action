@@ -1,0 +1,5 @@
+geometry_msgs/PoseStamped EndEffectorPose
+---
+geometry_msgs/PoseStamped FinalEndEffectorState
+---
+geometry_msgs/PoseStamped EndEffectorState

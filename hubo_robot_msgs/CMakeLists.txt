@@ -24,6 +24,7 @@ add_action_files(
     DIRECTORY
     action
     FILES
+    EndEffectorPose.action
     PointHead.action
     JointCommand.action
     JointTrajectory.action
