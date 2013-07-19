@@ -206,45 +206,45 @@ bool ACHtoHuboState(hubo_state robot_state)
     geometry_msgs::WrenchStamped left_wrist_ft;
     left_wrist_ft.header.stamp = current_time;
     left_wrist_ft.header.frame_id = left_wrist_ft_frame;
-    left_wrist_ft.wrench.force.x = NAN;
-    left_wrist_ft.wrench.force.y = NAN;
+    left_wrist_ft.wrench.force.x = 0.0;
+    left_wrist_ft.wrench.force.y = 0.0;
     left_wrist_ft.wrench.force.z = robot_state.ft[HUBO_FT_L_HAND].f_z;
     left_wrist_ft.wrench.torque.x = robot_state.ft[HUBO_FT_L_HAND].m_x;
     left_wrist_ft.wrench.torque.y = robot_state.ft[HUBO_FT_L_HAND].m_y;
-    left_wrist_ft.wrench.torque.z = NAN;
+    left_wrist_ft.wrench.torque.z = 0.0;
     g_left_wrist_ft_pub.publish(left_wrist_ft);
     // Publish right wrist f-t data
     geometry_msgs::WrenchStamped right_wrist_ft;
     right_wrist_ft.header.stamp = current_time;
     right_wrist_ft.header.frame_id = right_wrist_ft_frame;
-    right_wrist_ft.wrench.force.x = NAN;
-    right_wrist_ft.wrench.force.y = NAN;
+    right_wrist_ft.wrench.force.x = 0.0;
+    right_wrist_ft.wrench.force.y = 0.0;
     right_wrist_ft.wrench.force.z = robot_state.ft[HUBO_FT_R_HAND].f_z;
     right_wrist_ft.wrench.torque.x = robot_state.ft[HUBO_FT_R_HAND].m_x;
     right_wrist_ft.wrench.torque.y = robot_state.ft[HUBO_FT_R_HAND].m_y;
-    right_wrist_ft.wrench.torque.z = NAN;
+    right_wrist_ft.wrench.torque.z = 0.0;
     g_right_wrist_ft_pub.publish(right_wrist_ft);
     // Publish left ankle f-t data
     geometry_msgs::WrenchStamped left_ankle_ft;
     left_ankle_ft.header.stamp = current_time;
     left_ankle_ft.header.frame_id = left_ankle_ft_frame;
-    left_ankle_ft.wrench.force.x = NAN;
-    left_ankle_ft.wrench.force.y = NAN;
+    left_ankle_ft.wrench.force.x = 0.0;
+    left_ankle_ft.wrench.force.y = 0.0;
     left_ankle_ft.wrench.force.z = robot_state.ft[HUBO_FT_L_FOOT].f_z;
     left_ankle_ft.wrench.torque.x = robot_state.ft[HUBO_FT_L_FOOT].m_x;
     left_ankle_ft.wrench.torque.y = robot_state.ft[HUBO_FT_L_FOOT].m_y;
-    left_ankle_ft.wrench.torque.z = NAN;
+    left_ankle_ft.wrench.torque.z = 0.0;
     g_left_ankle_ft_pub.publish(left_ankle_ft);
     // Publish right ankle f-t data
     geometry_msgs::WrenchStamped right_ankle_ft;
     right_ankle_ft.header.stamp = current_time;
     right_ankle_ft.header.frame_id = right_ankle_ft_frame;
-    right_ankle_ft.wrench.force.x = NAN;
-    right_ankle_ft.wrench.force.y = NAN;
+    right_ankle_ft.wrench.force.x = 0.0;
+    right_ankle_ft.wrench.force.y = 0.0;
     right_ankle_ft.wrench.force.z = robot_state.ft[HUBO_FT_R_FOOT].f_z;
     right_ankle_ft.wrench.torque.x = robot_state.ft[HUBO_FT_R_FOOT].m_x;
     right_ankle_ft.wrench.torque.y = robot_state.ft[HUBO_FT_R_FOOT].m_y;
-    right_ankle_ft.wrench.torque.z = NAN;
+    right_ankle_ft.wrench.torque.z = 0.0;
     g_right_ankle_ft_pub.publish(right_ankle_ft);
     return true;
 }
