@@ -69,12 +69,12 @@ include_directories(include
 # Add executables
 add_executable(hubo_trajectory_action src/hubo_trajectory_action.cpp)
 target_link_libraries(hubo_trajectory_action ${catkin_LIBRARIES})
-add_dependencies(hubo_trajectory_action hubo_robot_msgs_generate_message_cpp)
+add_dependencies(hubo_trajectory_action ${catkin_EXPORTED_TARGETS})
 
 
 add_executable(hubo_trajectory_compromise_interface src/hubo_trajectory_compromise_interface.cpp)
 target_link_libraries(hubo_trajectory_compromise_interface ${catkin_LIBRARIES} ach)
-add_dependencies(hubo_trajectory_compromise_interface hubo_robot_msgs_generate_message_cpp)
+add_dependencies(hubo_trajectory_compromise_interface ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
