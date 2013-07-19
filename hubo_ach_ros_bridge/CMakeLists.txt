@@ -71,13 +71,9 @@ include_directories(include
 add_executable(feedback src/hubo_ros_feedback.cpp)
 target_link_libraries(feedback ${catkin_LIBRARIES} ach)
 add_dependencies(feedback ${catkin_EXPORTED_TARGETS})
-add_dependencies(feedback ${catkin_EXPORTED_TARGETS})
-add_dependencies(feedback ${catkin_EXPORTED_TARGETS})
 
 add_executable(feedforward src/hubo_ros_feedforward_control.cpp)
 target_link_libraries(feedforward ${catkin_LIBRARIES} ach)
-add_dependencies(feedforward ${catkin_EXPORTED_TARGETS})
-add_dependencies(feedforward ${catkin_EXPORTED_TARGETS})
 add_dependencies(feedforward ${catkin_EXPORTED_TARGETS})
 
 #############
