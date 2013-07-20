@@ -70,15 +70,11 @@ include_directories(include
 # Add executables
 add_executable(feedback src/hubo_ros_feedback.cpp)
 target_link_libraries(feedback ${catkin_LIBRARIES} ach)
-add_dependencies(feedback hubo_robot_msgs_generate_message_cpp)
-add_dependencies(feedback hubo_sensor_msgs_generate_message_cpp)
-add_dependencies(feedback hubo_system_msgs_generate_message_cpp)
+add_dependencies(feedback ${catkin_EXPORTED_TARGETS})
 
 add_executable(feedforward src/hubo_ros_feedforward_control.cpp)
 target_link_libraries(feedforward ${catkin_LIBRARIES} ach)
-add_dependencies(feedforward hubo_robot_msgs_generate_message_cpp)
-add_dependencies(feedforward hubo_sensor_msgs_generate_message_cpp)
-add_dependencies(feedforward hubo_system_msgs_generate_message_cpp)
+add_dependencies(feedforward ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
