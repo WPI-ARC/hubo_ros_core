@@ -44,6 +44,8 @@
 #include <ros/ros.h>
 #include <actionlib/server/action_server.h>
 
+#include <diagnostic_msgs/SelfTest.h>
+
 #include <Hubo_Control.h>
 
 // Message and action includes for Hubo actions
@@ -77,6 +79,40 @@ protected:
 	boost::mutex mNotifyMtx;
 	boost::condition_variable mNewScanAvailable;
 
+	ros::ServiceServer selfTestServer;
+/*
+	bool goToJointState(int joint, double pos, ros::Duration timeout)
+	{
+		ros::Time endTime = timeout + ros::Time::now();
+		while (endTime > ros::Time::now())
+		{
+			mHuboMtx.lock();
+			mHubo.update(true);
+			if (fabs(mHubo.getJointAngleState(NK2) - mCurrentScanParameters.minTheta) < jointTolerance)
+			{
+				return true;
+			}
+			mHuboMtx.unlock();
+		}
+
+		// Request timed out.
+		return false;
+	}
+
+	void doSelfTest(diagnostic_msgs::SelfTest::Request& req,
+					diagnostic_msgs::SelfTest::Response& resp)
+	{
+
+		double joints[3] = { NKY, NK1, NK2 };
+		for (int i = 0; i < 3; i++)
+		{
+			bool success = true;
+			success = success && goToJointState(joints[i], -M_PI/8, ros::Duration(2.0));
+			success = success && goToJointState(joints[i], M_PI/8, ros::Duration(2.0));
+			success = success && goToJointState(joints[i], 0.0, ros::Duration(2.0));
+		}
+	}
+*/
 	void scanController()
 	{
 		while (!mShuttingDown)
@@ -220,7 +256,7 @@ public:
 		mShuttingDown(false),
 		mScanThread(boost::bind(&HuboHeadServer::scanController,this))
 	{
-
+		//selfTestServer = mNH.advertiseService("test_head_controller", doSelfTest);
 	}
 
 	void shutdown(int signum)

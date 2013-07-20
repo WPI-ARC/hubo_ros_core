@@ -45,7 +45,7 @@ add_executable(test_head_controller test/system/test_head_controller.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(head_controller hubo_head_controller_generate_messages_cpp)
+add_dependencies(head_controller ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(head_controller
