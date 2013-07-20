@@ -4,7 +4,7 @@ project(hubo_head_controller)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs hubo_components hubo_robot_msgs roscpp rospy trajectory_msgs)
+find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs hubo_components hubo_robot_msgs roscpp rospy trajectory_msgs message_generation)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -20,8 +20,8 @@ find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs hubo_components
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES hubo_head_controller
-#  CATKIN_DEPENDS actionlib actionlib_msgs hubo_components hubo_robot_msgs roscpp rospy trajectory_msgs
-#  DEPENDS system_lib
+  CATKIN_DEPENDS actionlib actionlib_msgs hubo_components hubo_robot_msgs roscpp rospy trajectory_msgs message_runtime
+  DEPENDS system_lib
 )
 
 ###########
@@ -32,7 +32,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-link_libraries(${catkin_LIBRARIES} -lm -lrt -lach -lhuboparams -lRobotKin)
+link_libraries(${catkin_LIBRARIES} -lm -lrt -lach -lhuboparams)
 
 ## Declare a cpp library
 # add_library(hubo_head_controller
@@ -46,6 +46,7 @@ add_executable(test_head_controller test/system/test_head_controller.cpp)
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(head_controller ${catkin_EXPORTED_TARGETS})
+add_dependencies(test_head_controller ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(head_controller
