@@ -54,7 +54,7 @@
 
 #include <boost/thread/mutex.hpp>
 
-const double jointTolerance = 0.01;
+const double jointTolerance = 0.1;
 
 class HuboHeadServer
 {
@@ -115,6 +115,7 @@ protected:
 */
 	void scanController()
 	{
+		ROS_INFO("Spinning up scanning thread.");
 		while (!mShuttingDown)
 		{
 			// Wait for start instruction
@@ -125,10 +126,11 @@ protected:
 				mNewScanAvailable.wait(notifyLock);
 			}
 			controllerGoal = mActiveScanGoal;
+			ROS_INFO("Going to start Position.");
 
 			// Go to start position
 			mHuboMtx.lock();
-			if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { break; }
+			if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { mHuboMtx.unlock(); break; }
 			mHubo.setJointAngle(NK2, mCurrentScanParameters.minTheta, true);
 			mHuboMtx.unlock();
 
@@ -136,18 +138,21 @@ protected:
 			while( true ) // && condition variable
 			{
 				mHuboMtx.lock();
-				if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { break; }
+				if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { mHuboMtx.unlock(); break; }
 				mHubo.update(true);
-				if (fabs(mHubo.getJointAngleState(NK2) - mCurrentScanParameters.minTheta) < jointTolerance)
+				if (fabs(mHubo.getJointAngle(NK2) - mCurrentScanParameters.minTheta) < jointTolerance)
 				{
+					ROS_INFO("Start goal reached: %f", mCurrentScanParameters.minTheta);
+					mHuboMtx.unlock();
 					break;
 				}
 				mHuboMtx.unlock();
 			}
 
+			ROS_INFO("Going to end Position.");
 			// Set nominal speed
 			mHuboMtx.lock();
-			if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { break; }
+			if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { mHuboMtx.unlock(); break; }
 			mHubo.setJointNominalSpeed(NK2, mCurrentScanParameters.degreesPerSecond * M_PI / 180.0);
 			// Go to end position
 			mHubo.setJointAngle(NK2, mCurrentScanParameters.maxTheta, true);
@@ -157,10 +162,14 @@ protected:
 			while( true ) // && condition variable
 			{
 				mHuboMtx.lock();
-				if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { break; }
+				if (mActiveScanGoal.getGoalStatus().status != actionlib_msgs::GoalStatus::ACTIVE || controllerGoal != mActiveScanGoal) { mHuboMtx.unlock(); break; }
 				mHubo.update(true);
-				if (fabs(mHubo.getJointAngleState(NK2) - mCurrentScanParameters.maxTheta) < jointTolerance)
+				if (fabs(mHubo.getJointAngle(NK2) - mCurrentScanParameters.maxTheta) < jointTolerance)
 				{
+					ROS_INFO("End goal reached: %f", mCurrentScanParameters.maxTheta);
+					mActiveScanGoal.setSucceeded();
+					hasActiveScanGoal = false;
+					mHuboMtx.unlock();
 					break;
 				}
 				mHuboMtx.unlock();
@@ -256,6 +265,22 @@ public:
 		mShuttingDown(false),
 		mScanThread(boost::bind(&HuboHeadServer::scanController,this))
 	{
+		ROS_INFO("Constructing HeadServer.");
+		mHuboMtx.lock();
+		// Go to start position
+		mHubo.setJointAngle(NK2, 0.0, true);
+		while( true ) // && condition variable
+                {
+                     mHubo.update(true);
+                     if (fabs(mHubo.getJointAngle(NK2)) < jointTolerance)
+                     {
+                          ROS_INFO("Zero goal reached.");
+                          break;
+                     }
+                }
+		mHuboMtx.unlock();
+
+		mScanServer.start();
 		//selfTestServer = mNH.advertiseService("test_head_controller", doSelfTest);
 	}
 
@@ -313,6 +338,8 @@ int main(int argc, char** argv)
 	ros::NodeHandle nh;
 
 	gHeadServer = new HuboHeadServer(nh);
+
+	ROS_INFO("Created new HeadServer.");
 
 	//hubo.setJointNominalSpeed(NK2, 1);
 	//hubo.setJointAngle(NK2, M_PI/2, true);

@@ -32,7 +32,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-link_libraries(${catkin_LIBRARIES} -lm -lrt -lach -lhuboparams)
+link_libraries(${catkin_LIBRARIES} huboctrl daemonizer m rt ach huboparams)
 
 ## Declare a cpp library
 # add_library(hubo_head_controller
@@ -49,9 +49,7 @@ add_dependencies(head_controller ${catkin_EXPORTED_TARGETS})
 add_dependencies(test_head_controller ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(head_controller
-  huboctrl daemonizer
-)
+#target_link_libraries( head_controller daemonize )
 
 #############
 ## Install ##

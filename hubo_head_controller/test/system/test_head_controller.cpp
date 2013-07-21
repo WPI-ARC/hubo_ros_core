@@ -53,14 +53,14 @@ hubo_robot_msgs::HokuyoScanParameters createSlowScan()
 	hubo_robot_msgs::HokuyoScanParameters params;
 	params.degreesPerSecond = 5;
 	params.minTheta = -M_PI/4.0;
-	params.maxTheta = M_PI/4.0;
+	params.maxTheta = 0.0;//M_PI/4.0;
 	return params;
 }
 
 hubo_robot_msgs::HokuyoScanParameters createFastScan()
 {
 	hubo_robot_msgs::HokuyoScanParameters params;
-	params.degreesPerSecond = 15;
+	params.degreesPerSecond = 25;
 	params.minTheta = -M_PI/4.0;
 	params.maxTheta = M_PI/4.0;
 	return params;
@@ -90,7 +90,7 @@ bool testScanClient(hubo_robot_msgs::HokuyoScanParameters params)
 	goal.Parameters = params;
 	// create the action client
 	// true causes the client to spin its own thread
-	actionlib::SimpleActionClient<hubo_robot_msgs::HokuyoScanAction> ac("/hubo/motion/hubo_trajectory_server_pose", true);
+	actionlib::SimpleActionClient<hubo_robot_msgs::HokuyoScanAction> ac("hokuyo_scan_action", true);
 
 	ROS_INFO("Waiting for action server to start.");
 	// wait for the action server to start
@@ -104,7 +104,7 @@ bool testScanClient(hubo_robot_msgs::HokuyoScanParameters params)
 	// TODO: Check Ach data here
 
 	//wait for the action to return
-	bool finished_before_timeout = ac.waitForResult(ros::Duration(15.0));
+	bool finished_before_timeout = ac.waitForResult(ros::Duration(25.0));
 
 	if (finished_before_timeout)
 	{
@@ -128,6 +128,9 @@ int main(int argc, char** argv)
 	nh.param<bool>("spoof_daemon", gSpoofDaemon, true);
 
 	testScanClient(createSlowScan());
+	testScanClient(createFastScan());
+	testScanClient(createLittleScan());
+	testScanClient(createBigScan());
 
 	ros::shutdown();
 	return 0;
