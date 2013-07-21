@@ -25,6 +25,7 @@ add_action_files(
     action
     FILES
     EndEffectorPose.action
+    HuboGripperCommand.action
     PointHead.action
     JointCommand.action
     JointTrajectory.action
@@ -35,7 +36,7 @@ add_action_files(
 
 ## Generate messages in the 'msg' folder
 ##
-## NOTE: Only messages not explicity used in action definitios are listed here.
+## NOTE: Only messages not explicity used in action definitions are listed here.
 ## Any message used explicitly in an action definition will already be built,
 ## and repeating the generation operation will cause the build to fail.
 add_message_files(
