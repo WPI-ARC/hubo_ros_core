@@ -133,14 +133,12 @@ T ACH_ROS_WRAPPER<T>::ReadNextState()
     status = ach_get(&ach_channel_, &ach_data_, sizeof(ach_data_), &fs, NULL, ACH_O_WAIT);
     if (status == ACH_STALE_FRAMES)
     {
-        ROS_WARN("Stale frame on ACH channel: %s", channel_name_.c_str());
-        throw std::string("Stale frame on ACH channel: ") + channel_name_;
+        ROS_WARN("No new data on ACH channel: %s", channel_name_.c_str());
+        throw std::string("No new data on ACH channel: ") + channel_name_;
     }
     else if (status == ACH_MISSED_FRAME)
     {
-      //Anton: It is ok to miss frames. Therefore missing frames should NOT throw and Error
-      ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
-      // throw std::string("Missed frame on ACH channel: ") + channel_name_;
+        ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
     }
     else if (status != ACH_OK)
     {
@@ -188,13 +186,12 @@ T ACH_ROS_WRAPPER<T>::ReadNextState(timespec wait_time)
     }
     else if (status == ACH_STALE_FRAMES)
     {
-        ROS_WARN("Stale frame on ACH channel: %s", channel_name_.c_str());
-        throw std::string("Stale frame on ACH channel: ") + channel_name_;
+        ROS_WARN("No new data on ACH channel: %s", channel_name_.c_str());
+        throw std::string("No new data on ACH channel: ") + channel_name_;
     }
     else if (status == ACH_MISSED_FRAME)
     {
         ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
-        throw std::string("Missed frame on ACH channel: ") + channel_name_;
     }
     else if (status != ACH_OK)
     {
@@ -217,13 +214,12 @@ T ACH_ROS_WRAPPER<T>::ReadLastState()
     status = ach_get(&ach_channel_, &ach_data_, sizeof(ach_data_), &fs, NULL, ACH_O_LAST);
     if (status == ACH_STALE_FRAMES)
     {
-        ROS_WARN("Stale frame on ACH channel: %s", channel_name_.c_str());
-        throw std::string("Stale frame on ACH channel: ") + channel_name_;
+        ROS_WARN("No new data on ACH channel: %s", channel_name_.c_str());
+        throw std::string("No new data on ACH channel: ") + channel_name_;
     }
     else if (status == ACH_MISSED_FRAME)
     {
         ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
-        throw std::string("Missed frame on ACH channel: ") + channel_name_;
     }
     else if (status != ACH_OK)
     {
