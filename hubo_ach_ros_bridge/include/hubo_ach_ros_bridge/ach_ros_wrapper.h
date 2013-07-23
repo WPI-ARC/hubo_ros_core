@@ -138,8 +138,9 @@ T ACH_ROS_WRAPPER<T>::ReadNextState()
     }
     else if (status == ACH_MISSED_FRAME)
     {
-        ROS_WARN("Missed frame on ACH channel: %s", channel_name_.c_str());
-        throw std::string("Missed frame on ACH channel: ") + channel_name_;
+      //Anton: It is ok to miss frames. Therefore missing frames should NOT throw and Error
+      ROS_WARN("Missed frame on ACH channel?: %s %d", channel_name_.c_str(), status);
+      // throw std::string("Missed frame on ACH channel: ") + channel_name_;
     }
     else if (status != ACH_OK)
     {
