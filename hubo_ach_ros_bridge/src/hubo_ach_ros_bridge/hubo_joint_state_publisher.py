@@ -12,6 +12,7 @@ class JointStatePublisher:
     def __init__(self, description_file):
         robot = xml.dom.minidom.parseString(description_file).getElementsByTagName('robot')[0]
         self.free_joints = {}
+        self.warnings = {}
         self.latest_state = None
         self.last_time = rospy.get_time()
         # Create all the joints based off of the URDF and assign them joint limits
@@ -78,11 +79,11 @@ class JointStatePublisher:
                         msg.velocity.append(self.latest_state[joint_name].process_value_dot)
                         msg.effort.append(self.latest_state[joint_name].current)
                     else:
-                        rospy.logwarn("Joint in update message not found in the URDF")
+                        self.warn_user("Joint " + joint_name + " in update message not found in the URDF")
                 #Check for joints in the URDF that are not in the HuboState
                 for joint_name in self.free_joints:
                     if (joint_name not in self.latest_state.keys()):
-                        rospy.logwarn("Joint in the URDF not in the update message")
+                        self.warn_user("Joint " + joint_name + " in the URDF not in the update message")
                         msg.name.append(joint_name)
                         msg.position.append(self.free_joints[joint_name]['zero'])
                 self.hubo_pub.publish(msg)
@@ -97,9 +98,16 @@ class JointStatePublisher:
             #Spin
             r.sleep()
 
+    def warn_user(self, warning_string):
+        try:
+            self.warnings[warning_string] += 1
+        except:
+            self.warnings[warning_string] = 1
+            rospy.logwarn(warning_string + " - This message will only print once")
+
 if __name__ == '__main__':
     rospy.init_node('hubo_joint_state_publisher')
     description_file = rospy.get_param("robot_description")
-    #rospy.loginfo("Loading description file: " + description_file)
+    publish_rate = rospy.get_param("~rate", 20.0)
     jsp = JointStatePublisher(description_file)
-    jsp.loop()
+    jsp.loop(publish_rate)
