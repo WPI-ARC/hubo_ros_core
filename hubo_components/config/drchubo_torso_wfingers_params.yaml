@@ -1,7 +1,7 @@
 joints:
-  - NKY
   - NK1
   - NK2
+  - NK3
   - LSP
   - LSR
   - LSY
@@ -21,11 +21,11 @@ joints:
   - RF2
 constraints:
   goal_time: 0.6
-  NKY:
-    goal: 0.02
   NK1:
     goal: 0.02
   NK2:
+    goal: 0.02
+  NK3:
     goal: 0.02
   LSP:
     goal: 0.02
@@ -62,11 +62,11 @@ constraints:
   RF2:
     goal: 0.50
 mapping:
-  NKY:
-    huboachid: 1
   NK1:
-    huboachid: 2
+    huboachid: 1
   NK2:
+    huboachid: 2
+  NK3:
     huboachid: 3
   LSP:
     huboachid: 4
