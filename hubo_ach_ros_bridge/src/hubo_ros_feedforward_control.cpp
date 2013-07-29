@@ -30,8 +30,8 @@ Copyright (c) 2012, Daniel M. Lofaro
 
 // HUBO-ACH includes
 #include "ach.h"
-#include "hubo_ach_ros_bridge/ach_ros_wrapper.h"
-#include "hubo_components/hubo.h"
+#include "hubo_components/ach_wrapper/ach_ros_wrapper.h"
+#include "hubo_components/hubo_components/hubo.h"
 
 // ACH bridges
 ACH_ROS_WRAPPER<hubo_ref>* g_ach_bridge;

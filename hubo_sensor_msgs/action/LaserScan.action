@@ -1,0 +1,11 @@
+# goal definition
+float64 min_angle
+float64 max_angle
+float64 tilt_rate
+---
+# result definition
+sensor_msgs/PointCloud2 scan
+---
+# feedback definition
+float64 percent_complete
+duration time_remaining

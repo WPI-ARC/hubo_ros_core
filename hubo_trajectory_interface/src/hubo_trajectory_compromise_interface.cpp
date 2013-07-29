@@ -38,8 +38,8 @@
 #include <rosgraph_msgs/Clock.h>
 // Includes for ACH and hubo-motion-rt
 #include <ach.h>
-#include "hubo_components/hubo.h"
-#include "hubo_components/motion-trajectory.h"
+#include "hubo_components/hubo_components/hubo.h"
+#include "hubo_components/hubo_components/motion-trajectory.h"
 
 using std::cout;
 using std::endl;
