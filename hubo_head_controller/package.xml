@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>hubo_laser_controller</name>
+  <name>hubo_head_controller</name>
   <version>0.0.1</version>
-  <description>The hubo_laser_controller package</description>
+  <description>The hubo_head_controller package</description>
   <maintainer email="calder.pg@gmail.com">Calder Phillips-Grafflin</maintainer>
   <author email="arprice@gatech.edu">Andrew Price</author>
   <license>BSD</license>
