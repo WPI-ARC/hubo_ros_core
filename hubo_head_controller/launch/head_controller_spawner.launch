@@ -5,12 +5,7 @@
     
     <!-- start specified joint controllers -->
     <node name="head_dynamixel_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py" 
-          args="--manager=head_dynamixel_manager
-                --port=head_port
-                --type=simple
-                head_pan_controller
-                head_tilt_controller
-                lidar_tilt_controller"
-          output="screen"/>
+          args="-m /hubo_head_controller -p head_port head_pan_controller head_tilt_controller lidar_tilt_controller"
+          output="screen" />
 
 </launch>

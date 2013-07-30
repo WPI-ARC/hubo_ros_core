@@ -4,7 +4,7 @@ project(hubo_head_controller)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs geometry_msgs hubo_components hubo_robot_msgs hubo_sensor_msgs laser_geometry message_generation roscpp sensor_msgs std_msgs tf)
+find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs geometry_msgs hubo_components hubo_robot_msgs hubo_sensor_msgs laser_geometry message_generation roscpp sensor_msgs std_msgs tf dynamixel_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs geometry_msgs h
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
+catkin_python_setup()
 
 #######################################
 ## Declare ROS messages and services ##
@@ -42,6 +42,7 @@ generate_messages(
   hubo_sensor_msgs
   sensor_msgs
   std_msgs
+  dynamixel_msgs
 )
 
 ###################################
@@ -56,7 +57,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES hubo_head_controller
-  CATKIN_DEPENDS actionlib actionlib_msgs geometry_msgs hubo_components hubo_robot_msgs hubo_sensor_msgs laser_geometry message_runtime roscpp rospy sensor_msgs std_msgs tf
+  CATKIN_DEPENDS actionlib actionlib_msgs geometry_msgs hubo_components hubo_robot_msgs hubo_sensor_msgs laser_geometry message_runtime roscpp rospy sensor_msgs std_msgs tf dynamixel_msgs
   DEPENDS system_lib
 )
 
