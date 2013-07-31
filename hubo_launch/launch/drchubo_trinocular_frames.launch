@@ -1,0 +1,45 @@
+<launch>
+
+  <arg name="remapped_tf" default="/tf" />
+  <arg name="pi/2" value="1.5707963267948966" />
+  <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+
+  <group ns="drchubo_fullbody_interface">
+
+    <!-- TRINOCULAR BRACKET FRAME -->
+    <node pkg="tf" type="static_transform_publisher" name="trinocular_base_link"
+        args="0 -0.035 0.20 0 0 0 /Body_NK2 /trinocular_base_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!--TRINOCULAR CAMERA FRAMES-->
+    <!--LEFT CAMERA FRAMES-->
+    <node pkg="tf" type="static_transform_publisher" name="trinocular_left_link"
+        args="0 0.09 0.02 0 0 0 /trinocular_base_frame /trinocular_left_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="trinocular_left_optical_link"
+        args="$(arg optical_rotate) /trinocular_left_sensor_frame /trinocular_left_optical_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!--CENTER CAMERA FRAMES-->
+    <node pkg="tf" type="static_transform_publisher" name="trinocular_center_link"
+        args="0 0.03 0.02 0 0 0 /trinocular_base_frame /trinocular_center_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="trinocular_center_optical_link"
+        args="$(arg optical_rotate) /trinocular_center_sensor_frame /trinocular_center_optical_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!--RIGHT CAMERA FRAMES-->
+    <node pkg="tf" type="static_transform_publisher" name="trinocular_right_link"
+        args="0 -0.09 0.02 0 0 0 /trinocular_base_frame /trinocular_right_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="trinocular_right_optical_link"
+        args="$(arg optical_rotate) /trinocular_right_sensor_frame /trinocular_right_optical_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+
+  </group>
+
+</launch>

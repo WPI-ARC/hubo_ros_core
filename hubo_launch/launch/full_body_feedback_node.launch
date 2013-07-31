@@ -6,7 +6,7 @@
   <group ns="$(arg robot)_fullbody_interface">
 
     <node name="$(arg robot)_fullbody_feedback_node" pkg="hubo_ach_ros_bridge" type="feedback" output="$(arg output)" >
-      <rosparam command="load" file="$(find hubo_components)/config/$(arg robot)_fullbody_params.yaml" />
+      <rosparam command="load" file="$(find hubo_launch)/config/$(arg robot)_fullbody_params.yaml" />
     </node>
 
   </group>

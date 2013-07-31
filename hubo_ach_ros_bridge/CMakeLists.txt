@@ -87,6 +87,7 @@ add_dependencies(feedforward ${catkin_EXPORTED_TARGETS})
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
   src/hubo_ach_ros_bridge/hubo_joint_state_publisher.py
+  src/hubo_ach_ros_bridge/drchubo_joint_state_publisher.py
   DESTINATION
   ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
@@ -104,13 +105,6 @@ install(PROGRAMS
 #   FILES_MATCHING PATTERN "*.h"
 #   PATTERN ".svn" EXCLUDE
 # )
-
-## Mark other files for installation (e.g. launch and bag files, etc.)
-install(FILES
-  launch/display_hubo_state.launch
-  DESTINATION
-  ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
 
 #############
 ## Testing ##

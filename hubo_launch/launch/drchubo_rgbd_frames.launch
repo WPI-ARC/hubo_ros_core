@@ -1,56 +1,20 @@
 <launch>
 
-  <arg name="output" default="screen" />
   <arg name="remapped_tf" default="/tf" />
-  <arg name="model" default="$(find drchubo-v3)/robots/drchubo-v3.urdf" />
+  <arg name="pi" value="3.14159265359" />
   <arg name="pi/2" value="1.5707963267948966" />
   <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
 
   <group ns="drchubo_fullbody_interface">
-    <!-- Robot state & model -->
-    <param name="robot_description" textfile="$(arg model)" />
-    <node name="joint_state_publisher" pkg="hubo_ach_ros_bridge" type="hubo_joint_state_publisher.py" output="$(arg output)">
-    </node>
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
-    <!-- Sensor frames -->
-    <node pkg="tf" type="static_transform_publisher" name="sensor_imu_link"
-        args="0 0 0 0 0 0 /Body_Torso /body_imu_sensor_frame 100" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>  
-    <node pkg="tf" type="static_transform_publisher" name="sensor_left_tilt_link"
-        args="0 0 0 0 0 0 /leftFoot /left_tilt_sensor_frame 100" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
-    <node pkg="tf" type="static_transform_publisher" name="sensor_right_tilt_link"
-        args="0 0 0 0 0 0 /rightFoot /right_tilt_sensor_frame 100" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
-    <node pkg="tf" type="static_transform_publisher" name="sensor_left_ankle_ft_link"
-        args="0 0 0 0 0 0 /leftFoot /left_ankle_ft_sensor_frame 100" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
-    <node pkg="tf" type="static_transform_publisher" name="sensor_right_ankle_ft_link"
-        args="0 0 0 0 0 0 /rightFoot /right_ankle_ft_sensor_frame 100" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
-    <node pkg="tf" type="static_transform_publisher" name="sensor_left_wrist_ft_link"
-        args="0 0 0 0 0 0 /Body_LWP /left_wrist_ft_sensor_frame 100" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
-    <node pkg="tf" type="static_transform_publisher" name="sensor_right_wrist_ft_link"
-        args="0 0 0 0 0 0 /Body_RWP /right_wrist_ft_sensor_frame 100" >
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
+
     <!-- PRIMESENSE BRACKET FRAME -->
     <node pkg="tf" type="static_transform_publisher" name="dual_rgbd_base_link"
-        args="0 0 0 0 0 0 /Body_NK2 /dual_rgbd_base_frame 100" >
+        args="0 -0.035 0.12 $(arg pi) 0 0 /Body_NK2 /dual_rgbd_base_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!--SHORT RANGE PRIMESENSE FRAMES-->
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_shortrange_link"
-        args="0.0889 0 0.1778 0 0.79 0 /dual_rgbd_base_frame /rgbd_shortrange_sensor_frame 100" >
+        args="0.0889 0 0.0778 0 0.79 0 /dual_rgbd_base_frame /rgbd_shortrange_sensor_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_shortrange_base_link"
@@ -71,7 +35,7 @@
     </node>
     <!--LONG RANGE PRIMESENSE FRAMES-->
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_longrange_link"
-        args="0.0889 0 0.24 0 0 0 /dual_rgbd_base_frame /rgbd_longrange_sensor_frame 100" >
+        args="0.0889 0 0.14 0 0 0 /dual_rgbd_base_frame /rgbd_longrange_sensor_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_longrange_base_link"
@@ -90,5 +54,7 @@
         args="$(arg optical_rotate) /rgbd_longrange_rgb_frame /rgbd_longrange_rgb_optical_frame 100" >  
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
+
   </group>
+
 </launch>

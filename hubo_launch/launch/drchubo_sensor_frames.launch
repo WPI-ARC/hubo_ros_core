@@ -1,0 +1,39 @@
+<launch>
+
+  <arg name="remapped_tf" default="/tf" />
+
+  <group ns="drchubo_fullbody_interface">
+
+    <!-- Sensor frames -->
+    <node pkg="tf" type="static_transform_publisher" name="sensor_imu_link"
+        args="0 0 -0.15 0 0 0 /Body_Torso /body_imu_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>  
+    <node pkg="tf" type="static_transform_publisher" name="sensor_left_tilt_link"
+        args="0 0 0 0 0 0 /leftFoot /left_tilt_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_right_tilt_link"
+        args="0 0 0 0 0 0 /rightFoot /right_tilt_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_left_ankle_ft_link"
+        args="0 0 0 0 0 0 /leftFoot /left_ankle_ft_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_right_ankle_ft_link"
+        args="0 0 0 0 0 0 /rightFoot /right_ankle_ft_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_left_wrist_ft_link"
+        args="0 0 0 0 0 0 /Body_LWP /left_wrist_ft_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="sensor_right_wrist_ft_link"
+        args="0 0 0 0 0 0 /Body_RWP /right_wrist_ft_sensor_frame 100" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+
+  </group>
+
+</launch>

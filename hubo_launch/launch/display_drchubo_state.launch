@@ -1,0 +1,38 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="remapped_tf" default="/tf" />
+  <arg name="model" default="$(find drchubo-v3)/robots/drchubo-v3.urdf" />
+  <arg name="pi/2" value="1.5707963267948966" />
+  <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+
+  <group ns="drchubo_fullbody_interface">
+    <!-- Robot state & model -->
+    <param name="robot_description" textfile="$(arg model)" />
+    <node name="joint_state_publisher" pkg="hubo_ach_ros_bridge" type="drchubo_joint_state_publisher.py" output="$(arg output)">
+    </node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node name="body_orientation_publisher" pkg="hubo_ach_ros_bridge" type="body_orientation_publisher.py" output="$(arg output)">
+      <param name="target_frame" type="string" value="world_orientation_frame" />
+      <param name="root_frame" type="string" value="body_imu_sensor_frame" />
+      <param name="rate" type="double" value="100" />
+      <param name="imu_topic" type="string" value="/drchubo_fullbody_interface/body_imu" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!-- Sensor frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_sensor_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- Trinocular frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_trinocular_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- RGBD frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_rgbd_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+
+  </group>
+</launch>

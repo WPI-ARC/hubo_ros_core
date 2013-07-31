@@ -20,8 +20,11 @@ import rospy
 import math
 from std_msgs.msg import *
 from sensor_msgs.msg import *
+import tf
 from tf.transformations import *
 from transformation_helper import *
+import actionlib
+from geometry_msgs.msg import *
 import hubo_robot_msgs.msg as hrms
 import dynamixel_msgs.msg as dmms
 
@@ -35,6 +38,7 @@ class PointHeadController:
         self.target_angular_rate = target_angular_rate
         self.error_threshold = error_threshold
         self.tf_listener = tf.TransformListener()
+        self.running = True
         self.last_pan_state = None
         self.last_tilt_state = None
         rospy.loginfo("Configuring PointHeadController...")
@@ -82,6 +86,10 @@ class PointHeadController:
     def RunActionServer(self):
         self.server = actionlib.SimpleActionServer('drchubo_point_head', hrms.PointHeadAction, self.execute_point_head, False)
         self.server.start()
+        safety_rate = rospy.Rate(10.0)
+        while not rospy.is_shutdown() and self.running:
+            safety_rate.sleep()
+        del(self.server)
         return False
 
     def execute_point_head(self, point_head_goal):
@@ -102,10 +110,50 @@ class PointHeadController:
 
     def ComputePointingAngle(self, point_head_goal):
         if ("optical" in point_head_goal.pointing_frame and point_head_goal.pointing_axis.z == 0.0):
-            rospy.logerr("PointHead specified using an optical frame but pointing axis is not 
+            rospy.logerr("PointHead specified using an optical frame but pointing axis is not Z")
             self.server.set_aborted()
+            return [None, None]
+        elif (point_head_goal.pointing_axis.x == 0.0):
+            rospy.logerr("PointHead specified using a physical frame but pointing axis is not X")
+            self.server.set_aborted()
+            return [None, None]
+        real_pointing_frame = self.GetRealPointingFrame(point_head_goal.pointing_frame)
+        try:
+            [tft, tfr] = self.tf_listener.lookupTransform(real_pointing_frame, point_head_goal.target.header.frame_id)
+            target_frame_pose = PoseFromTransform(TransformFromComponents(tft,tfr))
+            target_pose = Pose()
+            target_pose.orientation.w = 1.0
+            target_pose.position.x = point_head_goal.target.point.x
+            target_pose.position.y = point_head_goal.target.point.y
+            target_pose.position.z = point_head_goal.target.point.z
+            pointing_frame_target_pose = ComposePoses(target_frame_pose, target_pose)
+            print "Computed pose of target point:"
+            print "X: " + str(pftp.position.x)
+            print "Y: " + str(pftp.position.y)
+            print "Z: " + str(pftp.position.z)
+            target_range = math.sqrt((pftp.position.x ** 2) + (pftp.position.y ** 2) + (ptfp.position.z ** 2))
+            target_pan = math.atan2(pftp.position.y, pftp.position.x)
+            target_tilt = math.asin(pftp.position.z / target_range)
+            print "Computed pan/tilt adjustments:"
+            print "Pan change: " + str(target_pan)
+            print "Tilt change: " + str(target_tilt)
+            real_pan = self.last_pan_state.current_pos + target_pan
+            real_tilt = self.last_tilt_state.current_pos + target_tilt
+            print "Computed pan/tilt targets:"
+            print "Pan: " + str(real_pan)
+            print "Tilt: " + str(real_tilt)
+            return [real_pan, real_tilt]
+        except:
+            rospy.logerr("Unable to compute pointing - this is probably because a frame doesn't exist")
+            self.server.set_aborted()
+            return [None, None]
+
+    def GetRealPointingFrame(self, frame_name):
+        return "/Body_NK2"
 
     def CheckSafetyBounds(self, pan, tilt):
+        if (pan == None or tilt == None):
+            return False
         min_pan = - math.pi
         max_pan = math.pi
         min_tilt = -1.1
@@ -121,7 +169,7 @@ class PointHeadController:
         bringdown_traj = self.BuildTrajectory(self.last_pan_state.current_pos, self.last_tilt_state.current_pos, self.safe_pan_position, self.safe_tilt_position, self.target_angular_rate)
         result = self.RunTrajectory(bringdown_traj)
         if (result):
-            rospy.loginfo("Head brought up to the zero position")
+            rospy.loginfo("Head brought down to the safe position")
         else:
             rospy.logerr("HEAD UNABLE TO ZERO - will try again")
             return result
@@ -195,7 +243,7 @@ if __name__ == '__main__':
     tilt_controller_prefix = rospy.get_param("~tilt_controller_prefix", "/head_tilt_controller")
     zero_pan_position = rospy.get_param("~zero_pan_position", 0.0)
     zero_tilt_position = rospy.get_param("~zero_tilt_position", 0.0)
-    safe_pan_position = rospy.get_param("~safe_pan_position", math.pi)
+    safe_pan_position = rospy.get_param("~safe_pan_position", 0.0)
     safe_tilt_position = rospy.get_param("~safe_tilt_position", -1.1)
     target_angular_rate = rospy.get_param("~target_angular_rate", (math.pi / 4.0))
     error_threshold = rospy.get_param("~error_threshold", (math.pi / 36.0))
@@ -206,7 +254,7 @@ if __name__ == '__main__':
         result = PHC.BringUp()
         retry_rate.sleep()
     result = False
-    #result = PHC.RunActionServer()
+    result = PHC.RunActionServer()
     if (not result):
         rospy.logwarn("PointHeadController actionserver stopped, attempting to safely shutdown")
     result = False

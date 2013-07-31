@@ -1,18 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(hubo_trajectory_interface)
+project(hubo_launch)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS actionlib actionlib_msgs hubo_robot_msgs hubo_components hubo_components roscpp rospy trajectory_msgs)
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
-find_package(Boost REQUIRED COMPONENTS thread)
+# find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
-## See http://ros.org/doc/groovy/api/catkin/html/user_guide/setup_dot_py.html
+## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 # catkin_python_setup()
 
 #######################################
@@ -34,26 +34,25 @@ find_package(Boost REQUIRED COMPONENTS thread)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  actionlib_msgs
-  hubo_robot_msgs
-  trajectory_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
 ###################################
 ## The catkin_package macro generates cmake config files for your package
 ## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES hubo_trajectory_interface
-  CATKIN_DEPENDS actionlib actionlib_msgs hubo_robot_msgs roscpp rospy trajectory_msgs hubo_components hubo_components
-  DEPENDS system_lib
+#  LIBRARIES hubo_launch
+#  CATKIN_DEPENDS other_catkin_pkg
+#  DEPENDS system_lib
 )
 
 ###########
@@ -62,26 +61,31 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include
-  ${catkin_INCLUDE_DIRS}
-)
+# include_directories(include)
 
-# Add executables
-add_executable(hubo_trajectory_action src/hubo_trajectory_action.cpp)
-target_link_libraries(hubo_trajectory_action ${catkin_LIBRARIES})
-add_dependencies(hubo_trajectory_action ${catkin_EXPORTED_TARGETS})
+## Declare a cpp library
+# add_library(hubo_launch
+#   src/${PROJECT_NAME}/hubo_launch.cpp
+# )
 
+## Declare a cpp executable
+# add_executable(hubo_launch_node src/hubo_launch_node.cpp)
 
-add_executable(hubo_trajectory_compromise_interface src/hubo_trajectory_compromise_interface.cpp)
-target_link_libraries(hubo_trajectory_compromise_interface ${catkin_LIBRARIES} ach)
-add_dependencies(hubo_trajectory_compromise_interface ${catkin_EXPORTED_TARGETS})
+## Add cmake target dependencies of the executable/library
+## as an example, message headers may need to be generated before nodes
+# add_dependencies(hubo_launch_node hubo_launch_generate_messages_cpp)
+
+## Specify libraries to link a library or executable target against
+# target_link_libraries(hubo_launch_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
 #############
 
 # all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/groovy/api/catkin/html/adv_user_guide/variables.html
+# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
@@ -91,7 +95,7 @@ add_dependencies(hubo_trajectory_compromise_interface ${catkin_EXPORTED_TARGETS}
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS hubo_trajectory_interface hubo_trajectory_interface_node
+# install(TARGETS hubo_launch hubo_launch_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -105,13 +109,18 @@ add_dependencies(hubo_trajectory_compromise_interface ${catkin_EXPORTED_TARGETS}
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
+# install(FILES
+#   # myfile1
+#   # myfile2
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
 
 #############
 ## Testing ##
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hubo_trajectory_interface.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_hubo_launch.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
