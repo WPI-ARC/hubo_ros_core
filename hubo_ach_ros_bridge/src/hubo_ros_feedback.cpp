@@ -167,8 +167,8 @@ bool ACHtoHuboState(hubo_state robot_state)
     body_imu.orientation_covariance[0] = -1.0;
     // Since we have to covariance information, we leave the covariances at 0.0 (default)
     body_imu.linear_acceleration.x = robot_state.imu[IMU].a_x;
-    body_imu.linear_acceleration.z = robot_state.imu[IMU].a_y;
-    body_imu.linear_acceleration.y = robot_state.imu[IMU].a_z;
+    body_imu.linear_acceleration.y = robot_state.imu[IMU].a_y;
+    body_imu.linear_acceleration.z = robot_state.imu[IMU].a_z;
     body_imu.angular_velocity.x = robot_state.imu[IMU].w_x;
     body_imu.angular_velocity.y = robot_state.imu[IMU].w_y;
     body_imu.angular_velocity.z = robot_state.imu[IMU].w_z;
@@ -181,8 +181,8 @@ bool ACHtoHuboState(hubo_state robot_state)
     left_foot_tilt.orientation_covariance[0] = -1.0;
     // Since we have to covariance information, we leave the covariances at 0.0 (default)
     left_foot_tilt.linear_acceleration.x = robot_state.imu[TILT_L].a_x;
-    left_foot_tilt.linear_acceleration.z = robot_state.imu[TILT_L].a_y;
-    left_foot_tilt.linear_acceleration.y = robot_state.imu[TILT_L].a_z;
+    left_foot_tilt.linear_acceleration.y = robot_state.imu[TILT_L].a_y;
+    left_foot_tilt.linear_acceleration.z = robot_state.imu[TILT_L].a_z;
     left_foot_tilt.angular_velocity.x = robot_state.imu[TILT_L].w_x;
     left_foot_tilt.angular_velocity.y = robot_state.imu[TILT_L].w_y;
     left_foot_tilt.angular_velocity.z = robot_state.imu[TILT_L].w_z;
@@ -195,8 +195,8 @@ bool ACHtoHuboState(hubo_state robot_state)
     right_foot_tilt.orientation_covariance[0] = -1.0;
     // Since we have to covariance information, we leave the covariances at 0.0 (default)
     right_foot_tilt.linear_acceleration.x = robot_state.imu[TILT_R].a_x;
-    right_foot_tilt.linear_acceleration.z = robot_state.imu[TILT_R].a_y;
-    right_foot_tilt.linear_acceleration.y = robot_state.imu[TILT_R].a_z;
+    right_foot_tilt.linear_acceleration.y = robot_state.imu[TILT_R].a_y;
+    right_foot_tilt.linear_acceleration.z = robot_state.imu[TILT_R].a_z;
     right_foot_tilt.angular_velocity.x = robot_state.imu[TILT_R].w_x;
     right_foot_tilt.angular_velocity.y = robot_state.imu[TILT_R].w_y;
     right_foot_tilt.angular_velocity.z = robot_state.imu[TILT_R].w_z;

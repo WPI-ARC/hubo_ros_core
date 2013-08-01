@@ -18,7 +18,7 @@
       <param name="target_frame" type="string" value="world_orientation_frame" />
       <param name="root_frame" type="string" value="body_imu_sensor_frame" />
       <param name="rate" type="double" value="100" />
-      <param name="imu_topic" type="string" value="/drchubo_fullbody_interface/body_imu" />
+      <param name="imu_topic" type="string" value="body_imu" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!-- Sensor frames -->

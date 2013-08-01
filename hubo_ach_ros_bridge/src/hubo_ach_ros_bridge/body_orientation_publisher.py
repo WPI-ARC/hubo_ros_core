@@ -29,33 +29,33 @@ class BodyOrientationPublisher:
         self.rz = 0.0
         self.rw = 1.0
         self.broadcaster = tf.TransformBroadcaster()
-        self.imu_sub = rospy.Subscriber("imu_topic", Imu, self.orientation_cb)
+        self.imu_sub = rospy.Subscriber(imu_topic, Imu, self.orientation_cb)
         rate = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
             self.broadcaster.sendTransform((self.tx, self.ty, self.tz), (self.rx, self.ry, self.rz, self.rw), rospy.Time.now(), self.target_frame, self.root_frame)
             rate.sleep()
 
     def orientation_cb(self, msg):
-        ax = msg.linear_acceleration.x
-        ay = msg.linear_acceleration.y
+        ax = -(msg.linear_acceleration.x / 180.0) * math.pi
+        ay = -(msg.linear_acceleration.y / 180.0) * math.pi
         # So these values aren't actually acceleration
         # instead, they are estimated roll and pitch
         rq = quaternion_about_axis(ax, (1,0,0))
         pq = quaternion_about_axis(ay, (0,1,0))
-        [x, y, z, w] = self.NormalizeQuaternion(self.ComposeQuaternion(rq, pq))
+        [x, y, z, w] = self.NormalizeQuaternion(self.ComposeQuaternions(rq, pq))
         self.rx = x
         self.ry = y
         self.rz = z
         self.rw = w
 
-    def ComposeQuaternions(q1, q2):
+    def ComposeQuaternions(self, q1, q2):
         x = q1[3]*q2[0] + q2[3]*q1[0] + q1[1]*q2[2] - q2[1]*q1[2]
         y = q1[3]*q2[1] + q2[3]*q1[1] + q2[0]*q1[2] - q1[0]*q2[2]
         z = q1[3]*q2[2] + q2[3]*q1[2] + q1[0]*q2[1] - q2[0]*q1[1]
         w = q1[3]*q2[3] - q1[0]*q2[0] - q1[1]*q2[1] - q1[2]*q2[2]
         return [x,y,z,w]
 
-    def NormalizeQuaternion(q_raw):
+    def NormalizeQuaternion(self, q_raw):
         magnitude = math.sqrt(q_raw[0]**2 + q_raw[1]**2 + q_raw[2]**2 + q_raw[3]**2)
         x = q_raw[0] / magnitude
         y = q_raw[1] / magnitude
