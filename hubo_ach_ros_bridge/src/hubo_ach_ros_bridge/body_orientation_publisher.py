@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 
 #   Calder Phillips-Grafflin - WPI/ARC Lab
-#
-#   Generic fixed TF broadcaster
-#
-#   Given a root frame and a target frame,
-#   this broadcasts a transform using the
-#   provided values for translation and
-#   orientation.
 
 import rospy
 import math
@@ -64,7 +57,7 @@ class BodyOrientationPublisher:
         return [x,y,z,w]
 
 if __name__ == "__main__":
-    rospy.init_node("generic_tf_broadcaster")
+    rospy.init_node("body_orientation_publisher")
     rospy.loginfo("Starting the body orientation broadcaster...")
     #Get the parameters from the server
     root_frame = rospy.get_param("~root_frame", "sensor_imu_frame")
