@@ -100,7 +100,7 @@ class PointHeadController:
             self.server.set_aborted()
         else:
             point_traj = self.BuildTrajectory(self.last_pan_state.current_pos, self.last_tilt_state.current_pos, pan, tilt, self.target_angular_rate, point_head_goal.min_duration.to_sec())
-            result = self.RunTrajectory(stow_traj)
+            result = self.RunTrajectory(point_traj)
             if (result):
                 rospy.loginfo("PointHeadAction completed")
                 self.server.set_succeeded()
@@ -111,42 +111,42 @@ class PointHeadController:
     def ComputePointingAngle(self, point_head_goal):
         if ("optical" in point_head_goal.pointing_frame and point_head_goal.pointing_axis.z == 0.0):
             rospy.logerr("PointHead specified using an optical frame but pointing axis is not Z")
-            self.server.set_aborted()
             return [None, None]
         elif (point_head_goal.pointing_axis.x == 0.0):
             rospy.logerr("PointHead specified using a physical frame but pointing axis is not X")
-            self.server.set_aborted()
             return [None, None]
         real_pointing_frame = self.GetRealPointingFrame(point_head_goal.pointing_frame)
-        try:
-            [tft, tfr] = self.tf_listener.lookupTransform(real_pointing_frame, point_head_goal.target.header.frame_id)
-            target_frame_pose = PoseFromTransform(TransformFromComponents(tft,tfr))
-            target_pose = Pose()
-            target_pose.orientation.w = 1.0
-            target_pose.position.x = point_head_goal.target.point.x
-            target_pose.position.y = point_head_goal.target.point.y
-            target_pose.position.z = point_head_goal.target.point.z
-            pointing_frame_target_pose = ComposePoses(target_frame_pose, target_pose)
-            print "Computed pose of target point:"
-            print "X: " + str(pftp.position.x)
-            print "Y: " + str(pftp.position.y)
-            print "Z: " + str(pftp.position.z)
-            target_range = math.sqrt((pftp.position.x ** 2) + (pftp.position.y ** 2) + (ptfp.position.z ** 2))
-            target_pan = math.atan2(pftp.position.y, pftp.position.x)
-            target_tilt = math.asin(pftp.position.z / target_range)
-            print "Computed pan/tilt adjustments:"
-            print "Pan change: " + str(target_pan)
-            print "Tilt change: " + str(target_tilt)
-            real_pan = self.last_pan_state.current_pos + target_pan
-            real_tilt = self.last_tilt_state.current_pos + target_tilt
-            print "Computed pan/tilt targets:"
-            print "Pan: " + str(real_pan)
-            print "Tilt: " + str(real_tilt)
-            return [real_pan, real_tilt]
-        except:
-            rospy.logerr("Unable to compute pointing - this is probably because a frame doesn't exist")
-            self.server.set_aborted()
-            return [None, None]
+        #try:
+        [tft, tfr] = self.tf_listener.lookupTransform(real_pointing_frame, point_head_goal.target.header.frame_id, rospy.Time())
+        target_frame_pose = PoseFromTransform(TransformFromComponents(tft,tfr))
+        target_pose = Pose()
+        target_pose.orientation.w = 1.0
+        target_pose.position.x = point_head_goal.target.point.x
+        target_pose.position.y = point_head_goal.target.point.y
+        target_pose.position.z = point_head_goal.target.point.z
+        pftp = ComposePoses(target_frame_pose, target_pose)
+        print "Computed pose of target point:"
+        print "X: " + str(pftp.position.x)
+        print "Y: " + str(pftp.position.y)
+        print "Z: " + str(pftp.position.z)
+        target_range = math.sqrt((pftp.position.x ** 2) + (pftp.position.y ** 2) + (pftp.position.z ** 2))
+        target_pan = math.atan2(pftp.position.y, pftp.position.x)
+        target_tilt = -math.asin(pftp.position.z / target_range)
+        print "Computed pan/tilt adjustments:"
+        print "Pan change: " + str(target_pan)
+        print "Tilt change: " + str(target_tilt)
+        real_pan = self.last_pan_state.current_pos + target_pan
+        real_tilt = self.last_tilt_state.current_pos + target_tilt
+        print "Computed pan/tilt targets:"
+        print "Pan: " + str(real_pan)
+        print "Tilt: " + str(real_tilt)
+        print "Current pan/tilt:"
+        print "Pan: " + str(self.last_pan_state.current_pos)
+        print "Tilt: " + str(self.last_tilt_state.current_pos)
+        return [real_pan, real_tilt]
+        #except:
+        #    rospy.logerr("Unable to compute pointing - this is probably because a frame doesn't exist")
+        #    return [None, None]
 
     def GetRealPointingFrame(self, frame_name):
         return "/Body_NK2"
@@ -154,8 +154,8 @@ class PointHeadController:
     def CheckSafetyBounds(self, pan, tilt):
         if (pan == None or tilt == None):
             return False
-        min_pan = - math.pi
-        max_pan = math.pi
+        min_pan = -(math.pi + self.error_threshold)
+        max_pan = (math.pi + self.error_threshold)
         min_tilt = -1.1
         max_tilt = 0.5
         if (pan > max_pan or pan < min_pan):
@@ -254,6 +254,7 @@ if __name__ == '__main__':
         result = PHC.BringUp()
         retry_rate.sleep()
     result = False
+    rospy.loginfo("Starting PointHeadAction server...")
     result = PHC.RunActionServer()
     if (not result):
         rospy.logwarn("PointHeadController actionserver stopped, attempting to safely shutdown")

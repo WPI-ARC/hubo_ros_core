@@ -78,16 +78,9 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(hubo_head_controller_node src/hubo_head_controller_node.cpp)
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(hubo_head_controller_node hubo_head_controller_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(hubo_head_controller_node
-#   ${catkin_LIBRARIES}
-# )
+#add_executable(laser_action_node src/laser_action_node.cpp)
+#add_dependencies(laser_action_node ${catkin_EXPORTED_TARGETS})
+#target_link_libraries(laser_action_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
