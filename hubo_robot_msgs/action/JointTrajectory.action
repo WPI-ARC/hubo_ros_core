@@ -1,8 +1,8 @@
 # goal definition
-trajectory_msgs/JointTrajectory trajectory
+hubo_robot_msgs/JointTrajectory trajectory
 ---
 # result definition
-hubo_robot_msgs/JointTrajectoryState end_state
+hubo_robot_msgs/JointTrajectoryState end_joint_state
 ---
 # feedback definition
-hubo_robot_msgs/JointTrajectoryState state
+hubo_robot_msgs/JointTrajectoryState joint_state
