@@ -43,6 +43,8 @@ add_message_files(
     DIRECTORY
     msg
     FILES
+    JointTrajectory.msg
+    ComplianceConfig.msg
     JointCommand.msg
     JointCommandState.msg
     JointControllerState.msg

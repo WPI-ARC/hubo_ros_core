@@ -1,5 +1,6 @@
 # goal definition
 trajectory_msgs/JointTrajectory trajectory
+hubo_robot_msgs/ComplianceConfig compliance
 ---
 # result definition
 hubo_robot_msgs/JointTrajectoryState end_joint_state
