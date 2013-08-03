@@ -6,7 +6,7 @@
 
     <!-- Sensor frames -->
     <node pkg="tf" type="static_transform_publisher" name="sensor_imu_link"
-        args="0 0 -0.15 0 0 0 /Body_Torso /body_imu_sensor_frame 100" >
+        args="0 0 0 0 0 0 /Body_TSY /body_imu_sensor_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>  
     <node pkg="tf" type="static_transform_publisher" name="sensor_left_tilt_link"
