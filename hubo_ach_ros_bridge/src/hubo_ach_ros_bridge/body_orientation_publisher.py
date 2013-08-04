@@ -29,8 +29,8 @@ class BodyOrientationPublisher:
             rate.sleep()
 
     def orientation_cb(self, msg):
-        ax = -(msg.linear_acceleration.x / 180.0) * math.pi
-        ay = -(msg.linear_acceleration.y / 180.0) * math.pi
+        ax = -msg.linear_acceleration.x
+        ay = -msg.linear_acceleration.y
         # So these values aren't actually acceleration
         # instead, they are estimated roll and pitch
         rq = quaternion_about_axis(ax, (1,0,0))
