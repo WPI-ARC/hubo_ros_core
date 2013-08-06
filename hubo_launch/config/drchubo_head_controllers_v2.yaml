@@ -1,0 +1,39 @@
+head_pan_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: NK1
+  joint_speed: 3.14159
+  motor:
+    id: 1
+    init: 2048
+    min: 0
+    max: 4095
+
+head_tilt_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: NK2
+  joint_speed: 3.14159
+  motor:
+    id: 2
+    init: 2048
+    min: 4095
+    max: 0
+
+lidar_tilt_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: NK3
+  joint_speed: 3.14159
+  motor:
+    id: 3
+    init: 2048
+    min: 4095
+    max: 0
+
