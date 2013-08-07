@@ -1,5 +1,5 @@
 std_msgs/Header header
 string[] joint_names
-trajectory_msgs/JointTrajectoryPoint desired
-trajectory_msgs/JointTrajectoryPoint actual
-trajectory_msgs/JointTrajectoryPoint error
+hubo_robot_msgs/JointTrajectoryPoint desired
+hubo_robot_msgs/JointTrajectoryPoint actual
+hubo_robot_msgs/JointTrajectoryPoint error
