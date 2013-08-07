@@ -44,6 +44,7 @@ add_message_files(
     msg
     FILES
     JointTrajectory.msg
+    JointTrajectoryPoint.msg
     ComplianceConfig.msg
     JointCommand.msg
     JointCommandState.msg
