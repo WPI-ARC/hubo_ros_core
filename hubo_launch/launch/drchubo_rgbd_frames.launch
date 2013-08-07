@@ -9,12 +9,12 @@
 
     <!-- PRIMESENSE BRACKET FRAME -->
     <node pkg="tf" type="static_transform_publisher" name="dual_rgbd_base_link"
-        args="0 -0.035 0.12 $(arg pi) 0 0 /Body_NK2 /dual_rgbd_base_frame 100" >
+        args="-0.03 -0.035 0.16 $(arg pi) 0 0 /Body_NK2 /dual_rgbd_base_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!--SHORT RANGE PRIMESENSE FRAMES-->
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_shortrange_link"
-        args="0.0889 0 0.0778 0 0.79 0 /dual_rgbd_base_frame /rgbd_shortrange_sensor_frame 100" >
+        args="0.07 0 0 0 0.79 0 /dual_rgbd_base_frame /rgbd_shortrange_sensor_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_shortrange_base_link"
@@ -35,7 +35,7 @@
     </node>
     <!--LONG RANGE PRIMESENSE FRAMES-->
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_longrange_link"
-        args="0.0889 0 0.14 0 0 0 /dual_rgbd_base_frame /rgbd_longrange_sensor_frame 100" >
+        args="0.07 0 0.05 0 0 0 /dual_rgbd_base_frame /rgbd_longrange_sensor_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node pkg="tf" type="static_transform_publisher" name="sensor_rgbd_longrange_base_link"
