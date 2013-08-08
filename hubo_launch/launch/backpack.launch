@@ -1,0 +1,69 @@
+<launch>
+
+  <arg name="launch_bridge" default="false" />
+  <arg name="robot" default="192.168.0.203" />
+  <arg name="output" default="screen" />
+  <arg name="remapped_tf" default="/robot_tf" />
+  <arg name="default_rate" default="20" />
+  <arg name="model" default="$(find drchubo_v3)/robots/drchubo_v3.urdf" />
+  <arg name="pi/2" value="1.5707963267948966" />
+  <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+
+  <machine name="hubo" address="$(arg robot)" user="hubo" password="      " env-loader="/opt/ros/groovy/env.sh" />
+
+  <!-- Sensor head -->
+  <include file="$(find hubo_launch)/launch/sensor_head_controllers.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+  </include>
+
+  <group ns="drchubo_fullbody_interface">
+    <!-- Interface to hardware (runs on chest computer) -->
+    <node if="$(arg launch_bridge)" machine="hubo" name="drchubo_fullbody_feedback_node" pkg="hubo_ach_ros_bridge" type="feedback" output="$(arg output)" >
+      <rosparam command="load" file="$(find hubo_launch)/config/drchubo_fullbody_wfingers_params.yaml" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!-- Robot state & model -->
+    <param name="robot_description" textfile="$(arg model)" />
+    <node name="joint_state_publisher" pkg="hubo_ach_ros_bridge" type="drchubo_joint_state_publisher.py" output="$(arg output)">
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node name="body_orientation_publisher" pkg="hubo_ach_ros_bridge" type="body_orientation_publisher.py" output="$(arg output)">
+      <param name="target_frame" type="string" value="world_orientation_frame" />
+      <param name="root_frame" type="string" value="body_imu_sensor_frame" />
+      <param name="rate" type="double" value="100" />
+      <param name="imu_topic" type="string" value="body_imu" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node name="laser_orientation_publisher" pkg="hubo_head_controller" type="laser_orientation_publisher.py" output="$(arg output)">
+      <param name="head_variant" type="string" value="prebeta" />
+      <param name="laser_frame" type="string" value="laser_sensor_frame" />
+      <param name="root_frame" type="string" value="Body_NK2" />
+      <param name="laser_joint" type="string" value="NK3" />
+      <param name="rate" type="double" value="100" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!-- Sensor frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_sensor_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- Trinocular frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_trinocular_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- RGBD frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_rgbd_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- Dual RGBD cameras -->
+    <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_rgbd.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+
+  </group>
+
+</launch>
+

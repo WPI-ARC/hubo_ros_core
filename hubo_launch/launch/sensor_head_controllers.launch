@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="remapped_tf" default="/tf" />
+
+  <!-- Sensor head -->
+  <include file="$(find hubo_launch)/launch/head_controller_manager.launch" />
+  <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
+  <node name="laser_scan_controller" pkg="hubo_head_controller" type="laser_scan_controller.py" output="$(arg output)">
+    <remap from="/tf" to="$(arg remapped_tf)" />
+  </node>
+  <node name="point_head_controller" pkg="hubo_head_controller" type="point_head_controller.py" output="$(arg output)">
+    <remap from="/tf" to="$(arg remapped_tf)" />
+  </node>
+
+</launch>
