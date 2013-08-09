@@ -4,6 +4,8 @@
   <arg name="robot" default="drchubo" />
   <arg name="sim" default="false" />
 
+  <rosparam if="$(arg sim)" param="use_sim_time">true</rosparam>
+
   <group ns="$(arg robot)_fullbody_interface">
 
     <node name="$(arg robot)_fullbody_feedback_node" pkg="hubo_ach_ros_bridge" type="feedback" output="$(arg output)" >
