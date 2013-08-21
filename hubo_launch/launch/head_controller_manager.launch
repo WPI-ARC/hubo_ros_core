@@ -1,16 +1,10 @@
 <launch>
 
+  <arg name="hardware_port" />
+
   <node name="head_dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true" output="screen">
-    <rosparam>
-      namespace: hubo_head_controller
-      serial_ports:
-        head_port:
-          port_name: "/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A8005jD4-if00-port0"
-          baud_rate: 1000000
-          min_motor_id: 1
-          max_motor_id: 3
-          update_rate: 100
-    </rosparam>
+    <rosparam  file="$(find hubo_launch)/config/drchubo_head.yaml" command="load"/>
+    <param name="serial_ports/head_port/port_name" value="$(arg hardware_port)" />
   </node>
 
 </launch>
