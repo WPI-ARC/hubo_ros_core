@@ -2,7 +2,7 @@
 
   <arg name="output" default="screen" />
   <arg name="remapped_tf" default="/tf" />
-  <arg name="head" default="head1" />
+  <arg name="head_variant" default="head1" />
 
   <!-- This is the ID of the USB2DYNAMIXEL of the prebeta head currently used at Drexel -->
   <arg name="head1_port" value="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A8005jD4-if00-port0" />
