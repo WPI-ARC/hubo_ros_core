@@ -4,7 +4,7 @@ project(hubo_ach_ros_bridge)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_components roscpp rospy std_msgs)
+find_package(catkin REQUIRED COMPONENTS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs roscpp rospy std_msgs)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -53,7 +53,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES hubo_ach_ros_bridge
-  CATKIN_DEPENDS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs hubo_components roscpp rospy std_msgs
+  CATKIN_DEPENDS hubo_robot_msgs hubo_sensor_msgs hubo_system_msgs roscpp rospy std_msgs
   DEPENDS system_lib
 )
 
@@ -67,14 +67,27 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-# Add executables
-add_executable(feedback src/hubo_ros_feedback.cpp)
-target_link_libraries(feedback ${catkin_LIBRARIES} ach)
-add_dependencies(feedback ${catkin_EXPORTED_TARGETS})
+# Check if hubo.h header has been found
+#unset(HAVE_HUBO_H:INTERNAL CACHE)
+unset(HAVE_HUBO_H CACHE)
+check_include_files(hubo.h HAVE_HUBO_H)
 
-add_executable(feedforward src/hubo_ros_feedforward_control.cpp)
-target_link_libraries(feedforward ${catkin_LIBRARIES} ach)
-add_dependencies(feedforward ${catkin_EXPORTED_TARGETS})
+# If we have it, add executables
+if("${HAVE_HUBO_H}" STREQUAL "")
+  message(WARNING "hubo.h not found in path. Bridge executables will not be built.")
+else()
+  if(${HAVE_HUBO_H} GREATER 0)
+    add_executable(feedback src/hubo_ros_feedback.cpp)
+    target_link_libraries(feedback ${catkin_LIBRARIES} ach)
+    add_dependencies(feedback ${catkin_EXPORTED_TARGETS})
+    add_executable(feedforward src/hubo_ros_feedforward_control.cpp)
+    target_link_libraries(feedforward ${catkin_LIBRARIES} ach)
+    add_dependencies(feedforward ${catkin_EXPORTED_TARGETS})
+    message(STATUS "hubo.h found in path. Bridge executables will be built.")
+  else()
+    message(WARNING "hubo.h not found in path. Bridge executables will not be built.")
+  endif()
+endif()
 
 #############
 ## Install ##

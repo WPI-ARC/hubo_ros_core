@@ -13,7 +13,6 @@
   <build_depend>hubo_robot_msgs</build_depend>
   <build_depend>hubo_sensor_msgs</build_depend>
   <build_depend>hubo_system_msgs</build_depend>
-  <build_depend>hubo_components</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
@@ -22,7 +21,6 @@
   <run_depend>hubo_robot_msgs</run_depend>
   <run_depend>hubo_sensor_msgs</run_depend>
   <run_depend>hubo_system_msgs</run_depend>
-  <run_depend>hubo_components</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
