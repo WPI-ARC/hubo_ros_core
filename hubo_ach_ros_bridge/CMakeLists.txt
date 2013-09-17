@@ -68,7 +68,6 @@ include_directories(
 )
 
 # Check if hubo.h header has been found
-#unset(HAVE_HUBO_H:INTERNAL CACHE)
 unset(HAVE_HUBO_H CACHE)
 check_include_files(hubo.h HAVE_HUBO_H)
 

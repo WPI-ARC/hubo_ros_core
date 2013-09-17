@@ -6,6 +6,14 @@
   <maintainer email="calder.pg@gmail.com">Calder Phillips-Grafflin</maintainer>
   <license>BSD</license>
   <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>hubo_robot_msgs</run_depend>
+  <run_depend>hubo_sensor_msgs</run_depend>
+  <run_depend>hubo_system_msgs</run_depend>
+  <run_depend>hubo_ach_ros_bridge</run_depend>
+  <run_depend>hubo_description</run_depend>
+  <run_depend>hubo_launch</run_depend>
+
   <export>
     <metapackage/>
   </export>
