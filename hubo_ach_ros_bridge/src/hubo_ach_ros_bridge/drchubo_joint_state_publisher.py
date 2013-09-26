@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import rospy
+import math
 import xml.dom.minidom
 import subprocess
 from hubo_robot_msgs.msg import *
