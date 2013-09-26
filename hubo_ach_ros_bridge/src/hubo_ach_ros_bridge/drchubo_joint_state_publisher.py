@@ -15,9 +15,9 @@ class JointStatePublisher:
         self.free_joints = {}
         self.warnings = {}
         self.latest_state = None
-        self.latest_neck_pan = 0.0
-        self.latest_neck_tilt = 0.0
-        self.latest_lidar_tilt = 0.0
+        self.latest_neck_pan = float('nan')
+        self.latest_neck_tilt = float('nan')
+        self.latest_lidar_tilt = float('nan')
         self.last_time = rospy.get_time()
         # Create all the joints based off of the URDF and assign them joint limits
         # based on their properties
@@ -97,34 +97,52 @@ class JointStatePublisher:
                         msg.effort.append(self.latest_state[joint_name].current)
                     else:
                         self.warn_user("Joint " + joint_name + " in update message not found in the URDF")
-                #Update the head joints that come from a different source
-                msg.name.append("NK1")
-                msg.position.append(self.latest_neck_pan)
-                msg.name.append("NK2")
-                msg.position.append(self.latest_neck_tilt)
-                msg.name.append("NK3")
-                msg.position.append(self.latest_lidar_tilt)
                 #Check for joints in the URDF that are not in the HuboState
                 for joint_name in self.free_joints:
-                    if (joint_name not in self.latest_state.keys() and joint_name not in ["NK1", "NK2", "NK3"]):
+                    if (joint_name not in self.latest_state.keys()):
                         self.warn_user("Joint " + joint_name + " in the URDF not in the update message")
                         msg.name.append(joint_name)
                         msg.position.append(self.free_joints[joint_name]['zero'])
+                #Update the head joints that come from a different source (if we have different data from the dynamixels directly)
+                if ("NK1" not in msg.name and not math.isnan(self.latest_neck_pan)):
+                    msg.name.append("NK1")
+                    msg.position.append(self.latest_neck_pan)
+                elif (not math.isnan(self.latest_neck_pan)):
+                    msg.name[msg.index("NK1")] = self.latest_neck_pan
+                if ("NK2" not in msg.name and not math.isnan(self.latest_neck_tilt)):
+                    msg.name.append("NK2")
+                    msg.position.append(self.latest_neck_tilt)
+                elif (not math.isnan(self.latest_neck_tilt)):
+                    msg.name[msg.index("NK2")] = self.latest_neck_tilt
+                if ("NK3" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
+                    msg.name.append("NK3")
+                    msg.position.append(self.latest_lidar_tilt)
+                elif (not math.isnan(self.latest_lidar_tilt)):
+                    msg.name[msg.index("NK3")] = self.latest_lidar_tilt
                 self.hubo_pub.publish(msg)
             else:
                 rospy.logdebug("No valid message received from the Hubo yet")
                 msg = JointState()
                 msg.header.stamp = rospy.Time.now()
-                msg.name.append("NK1")
-                msg.position.append(self.latest_neck_pan)
-                msg.name.append("NK2")
-                msg.position.append(self.latest_neck_tilt)
-                msg.name.append("NK3")
-                msg.position.append(self.latest_lidar_tilt)
                 for joint_name in self.free_joints:
-                    if (joint_name not in ["NK1", "NK2", "NK3"]):
-                        msg.name.append(joint_name)
-                        msg.position.append(self.free_joints[joint_name]['zero'])
+                    msg.name.append(joint_name)
+                    msg.position.append(self.free_joints[joint_name]['zero'])
+                #Update the head joints that come from a different source (if we have different data from the dynamixels directly)
+                if ("NK1" not in msg.name and not math.isnan(self.latest_neck_pan)):
+                    msg.name.append("NK1")
+                    msg.position.append(self.latest_neck_pan)
+                elif (not math.isnan(self.latest_neck_pan)):
+                    msg.name[msg.index("NK1")] = self.latest_neck_pan
+                if ("NK2" not in msg.name and not math.isnan(self.latest_neck_tilt)):
+                    msg.name.append("NK2")
+                    msg.position.append(self.latest_neck_tilt)
+                elif (not math.isnan(self.latest_neck_tilt)):
+                    msg.name[msg.index("NK2")] = self.latest_neck_tilt
+                if ("NK3" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
+                    msg.name.append("NK3")
+                    msg.position.append(self.latest_lidar_tilt)
+                elif (not math.isnan(self.latest_lidar_tilt)):
+                    msg.name[msg.index("NK3")] = self.latest_lidar_tilt
                 self.hubo_pub.publish(msg)
             #Spin
             r.sleep()
