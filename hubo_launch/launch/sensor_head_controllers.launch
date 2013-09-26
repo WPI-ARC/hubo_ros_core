@@ -5,14 +5,14 @@
   <arg name="head_variant" default="head1" />
 
   <!-- This is the ID of the USB2DYNAMIXEL of the prebeta head currently used at Drexel -->
-  <arg name="head1" value="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A8005jD4-if00-port0" />
+  <arg name="head1_port" value="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A8005jD4-if00-port0" />
   <!-- This is the ID of the USB2DYNAMIXEL of the beta head currently used at Georgia Tech -->
-  <arg name="head2" value="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012BEZ-if00-port0" />
+  <arg name="head2_port" value="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012BEZ-if00-port0" />
   <!-- Add more head control USB2DYNAMIXEL IDs here -->
 
   <!-- Sensor head -->
   <include file="$(find hubo_launch)/launch/head_controller_manager.launch" >
-    <arg name="hardware_port" value="$(arg (arg head_variant))" />
+    <arg name="hardware_port" value="$(arg head1_port)" />
   </include>
   <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
   <node name="laser_scan_controller" pkg="hubo_head_controller" type="laser_scan_controller.py" output="$(arg output)">
