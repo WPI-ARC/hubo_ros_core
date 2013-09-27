@@ -16,7 +16,8 @@ class JointStatePublisher:
         self.free_joints = {}
         self.warnings = {}
         self.latest_state = None
-        self.latest_neck_pan = float('nan')
+        #self.latest_neck_pan = float('nan')
+        self.latest_neck_pan = math.pi
         self.latest_neck_tilt = float('nan')
         self.latest_lidar_tilt = float('nan')
         self.last_time = rospy.get_time()
@@ -109,17 +110,17 @@ class JointStatePublisher:
                     msg.name.append("NK1")
                     msg.position.append(self.latest_neck_pan)
                 elif (not math.isnan(self.latest_neck_pan)):
-                    msg.name[msg.index("NK1")] = self.latest_neck_pan
+                    msg.position[msg.name.index("NK1")] = self.latest_neck_pan
                 if ("NK2" not in msg.name and not math.isnan(self.latest_neck_tilt)):
                     msg.name.append("NK2")
                     msg.position.append(self.latest_neck_tilt)
                 elif (not math.isnan(self.latest_neck_tilt)):
-                    msg.name[msg.index("NK2")] = self.latest_neck_tilt
+                    msg.position[msg.name.index("NK2")] = self.latest_neck_tilt
                 if ("NK3" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
                     msg.name.append("NK3")
                     msg.position.append(self.latest_lidar_tilt)
                 elif (not math.isnan(self.latest_lidar_tilt)):
-                    msg.name[msg.index("NK3")] = self.latest_lidar_tilt
+                    msg.position[msg.name.index("NK3")] = self.latest_lidar_tilt
                 self.hubo_pub.publish(msg)
             else:
                 rospy.logdebug("No valid message received from the Hubo yet")
@@ -133,17 +134,17 @@ class JointStatePublisher:
                     msg.name.append("NK1")
                     msg.position.append(self.latest_neck_pan)
                 elif (not math.isnan(self.latest_neck_pan)):
-                    msg.name[msg.index("NK1")] = self.latest_neck_pan
+                    msg.position[msg.name.index("NK1")] = self.latest_neck_pan
                 if ("NK2" not in msg.name and not math.isnan(self.latest_neck_tilt)):
                     msg.name.append("NK2")
                     msg.position.append(self.latest_neck_tilt)
                 elif (not math.isnan(self.latest_neck_tilt)):
-                    msg.name[msg.index("NK2")] = self.latest_neck_tilt
+                    msg.position[msg.name.index("NK2")] = self.latest_neck_tilt
                 if ("NK3" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
                     msg.name.append("NK3")
                     msg.position.append(self.latest_lidar_tilt)
                 elif (not math.isnan(self.latest_lidar_tilt)):
-                    msg.name[msg.index("NK3")] = self.latest_lidar_tilt
+                    msg.position[msg.name.index("NK3")] = self.latest_lidar_tilt
                 self.hubo_pub.publish(msg)
             #Spin
             r.sleep()
