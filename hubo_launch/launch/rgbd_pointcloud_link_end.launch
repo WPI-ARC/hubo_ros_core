@@ -14,12 +14,12 @@
     <param name="link_topic" type="string" value="$(arg pointcloud_name)/depth/compressed" />
   </node>
 
-  <node pkg="opportunistic_link" type="link_endpoint.py" name="$(arg node_name)_pointcloud_camerainfo_endpoint" output="screen" >
+  <!-- <node pkg="opportunistic_link" type="link_endpoint.py" name="$(arg node_name)_pointcloud_camerainfo_endpoint" output="screen" >
     <param name="output_topic_name" type="string" value="relay/$(arg pointcloud_name)/depth/camera_info" />
     <param name="topic_type" type="string" value="sensor_msgs/CameraInfo" />
     <param name="transport_data" type="string" value="$(arg pointcloud_name)/depth/camera_info/link" />
     <param name="transport_ctrl" type="string" value="$(arg pointcloud_name)/depth/camera_info/ctrl" />
     <param name="latched" type="bool" value="true" />
-  </node>
+  </node> -->
 
 </launch>
