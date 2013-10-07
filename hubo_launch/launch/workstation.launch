@@ -17,11 +17,18 @@
     <node name="wk_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
+    <node pkg="opportunistic_link" type="link_endpoint.py" name="bodyimu_endpoint" output="screen" >
+      <param name="output_topic_name" type="string" value="body_imu" />
+      <param name="topic_type" type="string" value="sensor_msgs/Imu" />
+      <param name="transport_data" type="string" value="/drchubo_fullbody_interface/body_imu/link" />
+      <param name="transport_ctrl" type="string" value="/drchubo_fullbody_interface/body_imu/ctrl" />
+      <param name="latched" type="bool" value="true" />
+    </node>
     <node name="wk_body_orientation_publisher" pkg="hubo_ach_ros_bridge" type="body_orientation_publisher.py" output="$(arg output)">
       <param name="target_frame" type="string" value="world_orientation_frame" />
       <param name="root_frame" type="string" value="body_imu_sensor_frame" />
       <param name="rate" type="double" value="100" />
-      <param name="imu_topic" type="string" value="/drchubo_fullbody_interface/body_imu" />
+      <param name="imu_topic" type="string" value="body_imu" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!-- <node name="wk_laser_orientation_publisher" pkg="hubo_head_controller" type="laser_orientation_publisher.py" output="$(arg output)">
