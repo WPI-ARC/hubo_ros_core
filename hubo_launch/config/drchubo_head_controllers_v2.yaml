@@ -4,7 +4,7 @@ head_pan_controller:
     module: joint_position_controller
     type: JointPositionController
   joint_name: NK1
-  joint_speed: 3.14159
+  joint_speed: 0.5
   motor:
     id: 1
     init: 2048
@@ -17,7 +17,7 @@ head_tilt_controller:
     module: joint_position_controller
     type: JointPositionController
   joint_name: NK2
-  joint_speed: 3.14159
+  joint_speed: 0.5
   motor:
     id: 2
     init: 2048
@@ -30,7 +30,7 @@ lidar_tilt_controller:
     module: joint_position_controller
     type: JointPositionController
   joint_name: NK3
-  joint_speed: 3.14159
+  joint_speed: 0.5
   motor:
     id: 3
     init: 2048
