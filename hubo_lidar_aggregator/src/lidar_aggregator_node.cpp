@@ -7,7 +7,7 @@
 #include <sensor_msgs/LaserScan.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <laser_geometry/laser_geometry.h>
-#include <lidar_aggregator/LidarAggregation.h>
+#include <hubo_sensor_msgs/LidarAggregation.h>
 
 // PCL specific includes
 #include <pcl/ros/conversions.h>
@@ -20,7 +20,7 @@ ros::Publisher g_cloud_publisher;
 laser_geometry::LaserProjection g_laser_projector;
 tf::TransformListener* g_transformer;
 
-bool LaserAggregationServiceCB(lidar_aggregator::LidarAggregation::Request& req, lidar_aggregator::LidarAggregation::Response& res)
+bool LaserAggregationServiceCB(hubo_sensor_msgs::LidarAggregation::Request& req, hubo_sensor_msgs::LidarAggregation::Response& res)
 {
     ROS_INFO("Attempting to aggregate %ld laser scans into a pointcloud", req.Scans.size());
     sensor_msgs::PointCloud2 full_cloud;
@@ -38,7 +38,7 @@ bool LaserAggregationServiceCB(lidar_aggregator::LidarAggregation::Request& req,
             }
         }
     }
-    else if (req.Scans.size() > 0)
+    else if (req.Scans.size() == 1)
     {
         g_laser_projector.transformLaserScanToPointCloud(g_fixed_frame, req.Scans[0], full_cloud, *g_transformer);
     }
