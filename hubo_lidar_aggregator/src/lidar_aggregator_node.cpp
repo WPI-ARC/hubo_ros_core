@@ -62,8 +62,8 @@ int main(int argc, char** argv)
     g_transformer = &listener;
     ROS_INFO("Starting LIDAR aggregator...");
     nhp.param(std::string("fixed_frame"), g_fixed_frame, std::string("/torso_lift_link"));
-    g_cloud_publisher = nh.advertise<sensor_msgs::PointCloud2>(nh.getNamespace() + "/pointcloud", 1, true);
-    ros::ServiceServer server = nh.advertiseService(nh.getNamespace() + "/aggregate_lidar", LaserAggregationServiceCB);
+    g_cloud_publisher = nh.advertise<sensor_msgs::PointCloud2>("pointcloud", 1, true);
+    ros::ServiceServer server = nh.advertiseService("aggregate_lidar", LaserAggregationServiceCB);
     ROS_INFO("LIDAR aggregator loaded");
     while (ros::ok())
     {

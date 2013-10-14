@@ -15,9 +15,16 @@
     <arg name="hardware_port" value="$(arg head1_port)" />
   </include>
   <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
+  <!-- LIDAR controller -->
   <node name="laser_scan_controller" pkg="hubo_head_controller" type="laser_scan_controller.py" output="$(arg output)">
     <remap from="/tf" to="$(arg remapped_tf)" />
+    <param name="laser_aggregation_service" type="string" value="aggregate_lidar" />
   </node>
+  <node name="laser_scan_aggregator" pkg="hubo_lidar_aggregator" type="lidar_aggregator_node" output="$(arg output)">
+    <remap from="/tf" to="$(arg remapped_tf)" />
+    <param name="fixed_frame" type="string" value="/Body_NK2" />
+  </node>
+  <!-- Head pointing controller -->
   <node name="point_head_controller" pkg="hubo_head_controller" type="point_head_controller.py" output="$(arg output)">
     <remap from="/tf" to="$(arg remapped_tf)" />
   </node>
