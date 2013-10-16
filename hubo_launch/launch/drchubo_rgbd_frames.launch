@@ -9,7 +9,7 @@
 
     <!-- PRIMESENSE BRACKET FRAME -->
     <node pkg="tf" type="static_transform_publisher" name="dual_rgbd_base_link"
-        args="-0.03 -0.035 0.16 $(arg pi) 0 0 /Body_NK2 /dual_rgbd_base_frame 100" >
+        args="-0.03 -0.035 0.16 $(arg pi) 0 0 /Body_NK1 /dual_rgbd_base_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!--SHORT RANGE PRIMESENSE FRAMES-->

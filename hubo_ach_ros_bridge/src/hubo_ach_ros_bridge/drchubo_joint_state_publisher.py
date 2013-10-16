@@ -106,21 +106,21 @@ class JointStatePublisher:
                         msg.name.append(joint_name)
                         msg.position.append(self.free_joints[joint_name]['zero'])
                 #Update the head joints that come from a different source (if we have different data from the dynamixels directly)
-                if ("NK1" not in msg.name and not math.isnan(self.latest_neck_pan)):
-                    msg.name.append("NK1")
+                if ("NKY" not in msg.name and not math.isnan(self.latest_neck_pan)):
+                    msg.name.append("NKY")
                     msg.position.append(self.latest_neck_pan)
                 elif (not math.isnan(self.latest_neck_pan)):
-                    msg.position[msg.name.index("NK1")] = self.latest_neck_pan
-                if ("NK2" not in msg.name and not math.isnan(self.latest_neck_tilt)):
-                    msg.name.append("NK2")
+                    msg.position[msg.name.index("NKY")] = self.latest_neck_pan
+                if ("NK1" not in msg.name and not math.isnan(self.latest_neck_tilt)):
+                    msg.name.append("NK1")
                     msg.position.append(self.latest_neck_tilt)
                 elif (not math.isnan(self.latest_neck_tilt)):
-                    msg.position[msg.name.index("NK2")] = self.latest_neck_tilt
-                if ("NK3" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
-                    msg.name.append("NK3")
+                    msg.position[msg.name.index("NK1")] = self.latest_neck_tilt
+                if ("NK2" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
+                    msg.name.append("NK2")
                     msg.position.append(self.latest_lidar_tilt)
                 elif (not math.isnan(self.latest_lidar_tilt)):
-                    msg.position[msg.name.index("NK3")] = self.latest_lidar_tilt
+                    msg.position[msg.name.index("NK2")] = self.latest_lidar_tilt
                 self.hubo_pub.publish(msg)
             else:
                 rospy.logdebug("No valid message received from the Hubo yet")
@@ -130,21 +130,21 @@ class JointStatePublisher:
                     msg.name.append(joint_name)
                     msg.position.append(self.free_joints[joint_name]['zero'])
                 #Update the head joints that come from a different source (if we have different data from the dynamixels directly)
-                if ("NK1" not in msg.name and not math.isnan(self.latest_neck_pan)):
-                    msg.name.append("NK1")
+                if ("NKY" not in msg.name and not math.isnan(self.latest_neck_pan)):
+                    msg.name.append("NKY")
                     msg.position.append(self.latest_neck_pan)
                 elif (not math.isnan(self.latest_neck_pan)):
-                    msg.position[msg.name.index("NK1")] = self.latest_neck_pan
-                if ("NK2" not in msg.name and not math.isnan(self.latest_neck_tilt)):
-                    msg.name.append("NK2")
+                    msg.position[msg.name.index("NKY")] = self.latest_neck_pan
+                if ("NK1" not in msg.name and not math.isnan(self.latest_neck_tilt)):
+                    msg.name.append("NK1")
                     msg.position.append(self.latest_neck_tilt)
                 elif (not math.isnan(self.latest_neck_tilt)):
-                    msg.position[msg.name.index("NK2")] = self.latest_neck_tilt
-                if ("NK3" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
-                    msg.name.append("NK3")
+                    msg.position[msg.name.index("NK1")] = self.latest_neck_tilt
+                if ("NK2" not in msg.name and not math.isnan(self.latest_lidar_tilt)):
+                    msg.name.append("NK2")
                     msg.position.append(self.latest_lidar_tilt)
                 elif (not math.isnan(self.latest_lidar_tilt)):
-                    msg.position[msg.name.index("NK3")] = self.latest_lidar_tilt
+                    msg.position[msg.name.index("NK2")] = self.latest_lidar_tilt
                 self.hubo_pub.publish(msg)
             #Spin
             r.sleep()

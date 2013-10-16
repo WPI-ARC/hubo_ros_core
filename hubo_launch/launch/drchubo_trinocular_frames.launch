@@ -8,7 +8,7 @@
 
     <!-- TRINOCULAR BRACKET FRAME -->
     <node pkg="tf" type="static_transform_publisher" name="trinocular_base_link"
-        args="0 -0.035 0.20 0 0 0 /Body_NK2 /trinocular_base_frame 100" >
+        args="0 -0.035 0.20 0 0 0 /Body_NK1 /trinocular_base_frame 100" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!--TRINOCULAR CAMERA FRAMES-->
