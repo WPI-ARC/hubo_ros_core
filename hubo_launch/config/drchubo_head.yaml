@@ -1,7 +1,7 @@
 namespace: hubo_head_controller
 serial_ports:
   head_port:
-    baud_rate: 1000000
+    baud_rate: 57600
     min_motor_id: 1
     max_motor_id: 3
     update_rate: 100
