@@ -7,20 +7,33 @@
 
   <arg name="node_name" default="$(arg image_name)" />
 
-  <node pkg="opportunistic_link" type="image_link_endpoint" name="$(arg node_name)_image_link_endpoint" output="$(arg output)" >
+  <!-- New method with a single special node -->
+
+  <node pkg="opportunistic_link" type="camera_link_endpoint" name="$(arg node_name)_camera_link_endpoint" output="$(arg output)" >
+    <param name="image_transport" type="string" value="compressed" />
+    <param name="camera_base_topic" type="string" value="$(arg image_name)/relay/rgb/image" />
+    <param name="latched" type="bool" value="true" />
+    <param name="link_ctrl" type="string" value="$(arg image_name)/rgb/ctrl" />
+    <param name="link_image_topic" type="string" value="$(arg image_name)/link/rgb/image" />
+    <param name="link_info_topic" type="string" value="$(arg image_name)/link/rgb/camera_info" />
+  </node>
+
+  <!-- Old method with paired nodes -->
+
+  <!-- <node pkg="opportunistic_link" type="image_link_endpoint" name="$(arg node_name)_image_link_endpoint" output="$(arg output)" >
     <param name="image_transport" type="string" value="compressed" />
     <param name="relay_topic" type="string" value="$(arg image_name)/relay/rgb/image" />
     <param name="latched" type="bool" value="true" />
     <param name="link_ctrl" type="string" value="$(arg image_name)/rgb/ctrl" />
     <param name="link_topic" type="string" value="$(arg image_name)/rgb/link" />
-  </node>
+  </node> -->
 
-  <node pkg="opportunistic_link" type="link_endpoint.py" name="$(arg node_name)_image_camerainfo_endpoint" output="screen" >
+  <!-- <node pkg="opportunistic_link" type="link_endpoint.py" name="$(arg node_name)_image_camerainfo_endpoint" output="screen" >
     <param name="output_topic_name" type="string" value="$(arg image_name)/relay/rgb/camera_info" />
     <param name="topic_type" type="string" value="sensor_msgs/CameraInfo" />
     <param name="transport_data" type="string" value="$(arg image_name)/rgb/camera_info/link" />
     <param name="transport_ctrl" type="string" value="$(arg image_name)/rgb/camera_info/ctrl" />
     <param name="latched" type="bool" value="true" />
-  </node>
+  </node> -->
 
 </launch>
