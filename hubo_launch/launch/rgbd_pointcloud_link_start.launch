@@ -1,4 +1,3 @@
-<!-- Poincloud compression -->
 <launch>
 
   <arg name="pointcloud_name" default="camera" />
@@ -17,15 +16,7 @@
     <param name="link_ctrl" type="string" value="$(arg pointcloud_name)/depth/ctrl" />
     <param name="rate_ctrl" type="string" value="$(arg pointcloud_name)/depth/rate" />
     <param name="link_topic" type="string" value="$(arg pointcloud_name)/depth/compressed" />
+    <remap from="/tf" to="$(arg remapped_tf)" />
   </node>
-
-  <!-- <node pkg="opportunistic_link" type="limited_link_startpoint.py" name="$(arg node_name)_pointcloud_camerainfo_endpoint" output="screen" >
-    <param name="input_topic_name" type="string" value="$(arg pointcloud_name)/depth/camera_info" />
-    <param name="default_rate" type="double" value="$(arg default_rate)" />
-    <param name="topic_type" type="string" value="sensor_msgs/CameraInfo" />
-    <param name="transport_topic" type="string" value="$(arg pointcloud_name)/depth/camera_info/link" />
-    <param name="transport_ctrl" type="string" value="$(arg pointcloud_name)/depth/camera_info/ctrl" />
-    <param name="rate_ctrl" type="string" value="$(arg pointcloud_name)/depth/camera_info/rate" />
-  </node> -->
 
 </launch>

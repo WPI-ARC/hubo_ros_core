@@ -1,4 +1,3 @@
-<!-- Poincloud compression -->
 <launch>
 
   <arg name="image_name" default="camera" />
@@ -8,8 +7,6 @@
 
   <arg name="node_name" default="$(arg image_name)" />
 
-  <!-- New way using a single special node -->
-
   <node pkg="opportunistic_link" type="limited_camera_link_startpoint" name="$(arg node_name)_camera_link_startpoint" output="$(arg output)" >
     <param name="camera_base_topic" type="string" value="$(arg image_name)/rgb/image" />
     <param name="link_ctrl" type="string" value="$(arg image_name)/rgb/ctrl" />
@@ -18,25 +15,5 @@
     <param name="default_rate" type="double" value="$(arg default_rate)" />
     <remap from="/tf" to="$(arg remapped_tf)" />
   </node>
-
-  <!-- Old way using paired nodes -->
-
-  <!-- <node pkg="opportunistic_link" type="limited_image_link_startpoint" name="$(arg node_name)_image_link_startpoint" output="$(arg output)" >
-    <param name="image_topic" type="string" value="$(arg image_name)/rgb/image" />
-    <param name="link_ctrl" type="string" value="$(arg image_name)/rgb/ctrl" />
-    <param name="rate_ctrl" type="string" value="$(arg image_name)/rgb/rate" />
-    <param name="link_topic" type="string" value="$(arg image_name)/rgb/link" />
-    <param name="default_rate" type="double" value="$(arg default_rate)" />
-    <remap from="/tf" to="$(arg remapped_tf)" />
-  </node> -->
-
-  <!-- <node pkg="opportunistic_link" type="limited_link_startpoint.py" name="$(arg node_name)_image_camerainfo_startpoint" output="screen" >
-    <param name="input_topic_name" type="string" value="$(arg image_name)/rgb/camera_info" />
-    <param name="default_rate" type="double" value="$(arg default_rate)" />
-    <param name="topic_type" type="string" value="sensor_msgs/CameraInfo" />
-    <param name="transport_topic" type="string" value="$(arg image_name)/rgb/camera_info/link" />
-    <param name="transport_ctrl" type="string" value="$(arg image_name)/rgb/camera_info/ctrl" />
-    <param name="rate_ctrl" type="string" value="$(arg image_name)/rgb/camera_info/rate" />
-  </node> -->
 
 </launch>
