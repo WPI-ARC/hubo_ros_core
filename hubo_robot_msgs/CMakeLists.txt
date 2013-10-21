@@ -32,6 +32,7 @@ add_action_files(
     PoseTrajectory.action
     HybridTrajectory.action
     Walk.action
+    HokuyoScan.action
 )
 
 ## Generate messages in the 'msg' folder
@@ -54,6 +55,7 @@ add_message_files(
     PoseTrajectoryState.msg
     PoseTrajectoryPoint.msg
     WalkCommand.msg
+    HokuyoScanParameters.msg
 )
 
 ## Generate services in the 'srv' folder
