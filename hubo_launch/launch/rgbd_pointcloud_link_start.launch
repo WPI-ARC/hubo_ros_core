@@ -3,19 +3,13 @@
   <arg name="pointcloud_name" default="camera" />
   <arg name="output" default="screen" />
   <arg name="remapped_tf" default="/tf" />
-  <arg name="default_rate" default="1.0" />
-  <arg name="filter_size" default="0.02" />
 
   <arg name="node_name" default="$(arg pointcloud_name)" />
 
-  <node pkg="opportunistic_link" type="limited_pointcloud_link_startpoint" name="$(arg node_name)_pointcloud_link_startpoint" output="$(arg output)" >
+  <node pkg="opportunistic_link" type="request_pointcloud_link_startpoint" name="$(arg node_name)_pointcloud_link_startpoint" output="$(arg output)" >
     <param name="pointcloud_topic" type="string" value="$(arg pointcloud_name)/depth/points_xyz" />
     <param name="compression_type" type="string" value="ZLIB" />
-    <param name="default_rate" type="double" value="$(arg default_rate)" />
-    <param name="filter_size" type="double" value="$(arg filter_size)" />
-    <param name="link_ctrl" type="string" value="$(arg pointcloud_name)/depth/ctrl" />
-    <param name="rate_ctrl" type="string" value="$(arg pointcloud_name)/depth/rate" />
-    <param name="link_topic" type="string" value="$(arg pointcloud_name)/depth/compressed" />
+    <param name="data_service" type="string" value="$(arg pointcloud_name)/depth/data" />
     <remap from="/tf" to="$(arg remapped_tf)" />
   </node>
 

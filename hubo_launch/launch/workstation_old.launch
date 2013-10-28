@@ -1,0 +1,64 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="remapped_tf" default="/workstation_tf" />
+  <arg name="model" default="$(find drchubo_v3)/robots/drchubo_v3.urdf" />
+
+  <group ns="drchubo_workstation">
+    <!-- Robot state & model -->
+    <param name="robot_description" textfile="$(arg model)" />
+    <node pkg="opportunistic_link" type="link_endpoint.py" name="jointstate_endpoint" output="screen" >
+      <param name="output_topic_name" type="string" value="joint_states" />
+      <param name="topic_type" type="string" value="sensor_msgs/JointState" />
+      <param name="transport_data" type="string" value="/drchubo_fullbody_interface/joint_states/link" />
+      <param name="transport_ctrl" type="string" value="/drchubo_fullbody_interface/joint_states/ctrl" />
+      <param name="latched" type="bool" value="true" />
+    </node>
+    <node name="wk_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="opportunistic_link" type="link_endpoint.py" name="bodyimu_endpoint" output="screen" >
+      <param name="output_topic_name" type="string" value="body_imu" />
+      <param name="topic_type" type="string" value="sensor_msgs/Imu" />
+      <param name="transport_data" type="string" value="/drchubo_fullbody_interface/body_imu/link" />
+      <param name="transport_ctrl" type="string" value="/drchubo_fullbody_interface/body_imu/ctrl" />
+      <param name="latched" type="bool" value="true" />
+    </node>
+    <node name="wk_body_orientation_publisher" pkg="hubo_ach_ros_bridge" type="body_orientation_publisher.py" output="$(arg output)">
+      <param name="target_frame" type="string" value="world_orientation_frame" />
+      <param name="root_frame" type="string" value="body_imu_sensor_frame" />
+      <param name="rate" type="double" value="100" />
+      <param name="imu_topic" type="string" value="body_imu" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!-- <node name="wk_laser_orientation_publisher" pkg="hubo_head_controller" type="laser_orientation_publisher.py" output="$(arg output)">
+      <param name="head_variant" type="string" value="prebeta" />
+      <param name="laser_frame" type="string" value="laser_sensor_frame" />
+      <param name="root_frame" type="string" value="Body_NK2" />
+      <param name="laser_joint" type="string" value="NK3" />
+      <param name="rate" type="double" value="100" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node> -->
+    <!-- Sensor frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_sensor_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- Trinocular frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_trinocular_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- RGBD frames -->
+    <include file="$(find hubo_launch)/launch/drchubo_rgbd_frames.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+    <!-- RGBD datalink -->
+    <include file="$(find hubo_launch)/launch/rgbd_link_end_old.launch">
+      <arg name="rgbd_name" value="/rgbd_shortrange" />
+      <arg name="node_name" value="rgbd_shortrange" />
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    </include>
+
+  </group>
+
+</launch>
+
