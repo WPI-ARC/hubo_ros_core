@@ -39,24 +39,20 @@
       <remap from="/tf" to="$(arg remapped_tf)" />
       <param name="rate" type="double" value="100.0" />
     </node>
-    <node pkg="opportunistic_link" type="limited_link_startpoint.py" name="jointstate_startpoint" output="screen" >
+    <node pkg="opportunistic_link" type="request_link_startpoint.py" name="jointstate_startpoint" output="screen" >
       <param name="input_topic_name" type="string" value="joint_states" />
       <param name="topic_type" type="string" value="sensor_msgs/JointState" />
-      <param name="transport_topic" type="string" value="joint_states/link" />
-      <param name="transport_ctrl" type="string" value="joint_states/ctrl" />
-      <param name="rate_ctrl" type="string" value="joint_states/rate" />
-      <param name="default_rate" type="double" value="$(arg default_rate)" />
+      <param name="request_service" type="string" value="joint_states/data" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <node pkg="opportunistic_link" type="limited_link_startpoint.py" name="bodyimu_startpoint" output="screen" >
+    <node pkg="opportunistic_link" type="request_link_startpoint.py" name="bodyimu_startpoint" output="screen" >
       <param name="input_topic_name" type="string" value="body_imu" />
       <param name="topic_type" type="string" value="sensor_msgs/Imu" />
-      <param name="transport_topic" type="string" value="body_imu/link" />
-      <param name="transport_ctrl" type="string" value="body_imu/ctrl" />
-      <param name="rate_ctrl" type="string" value="body_imu/rate" />
-      <param name="default_rate" type="double" value="$(arg default_rate)" />
+      <param name="request_service" type="string" value="body_imu/data" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node name="body_orientation_publisher" pkg="hubo_ach_ros_bridge" type="body_orientation_publisher.py" output="$(arg output)">
       <param name="target_frame" type="string" value="world_orientation_frame" />

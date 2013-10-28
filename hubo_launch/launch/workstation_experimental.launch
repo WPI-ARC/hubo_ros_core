@@ -7,22 +7,26 @@
   <group ns="drchubo_workstation">
     <!-- Robot state & model -->
     <param name="robot_description" textfile="$(arg model)" />
-    <node pkg="opportunistic_link" type="link_endpoint.py" name="jointstate_endpoint" output="screen" >
+    <node pkg="opportunistic_link" type="request_link_endpoint.py" name="jointstate_endpoint" output="screen" >
       <param name="output_topic_name" type="string" value="joint_states" />
       <param name="topic_type" type="string" value="sensor_msgs/JointState" />
-      <param name="transport_data" type="string" value="/drchubo_fullbody_interface/joint_states/link" />
-      <param name="transport_ctrl" type="string" value="/drchubo_fullbody_interface/joint_states/ctrl" />
+      <param name="request_service" type="string" value="/drchubo_fullbody_interface/joint_states/data" />
+      <param name="rate_ctrl" type="string" value="/drchubo_fullbody_interface/joint_states/rate" />
       <param name="latched" type="bool" value="true" />
+      <param name="default_rate" type="double" value="10" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node name="wk_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="$(arg output)" >
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <node pkg="opportunistic_link" type="link_endpoint.py" name="bodyimu_endpoint" output="screen" >
+    <node pkg="opportunistic_link" type="request_link_endpoint.py" name="bodyimu_endpoint" output="screen" >
       <param name="output_topic_name" type="string" value="body_imu" />
       <param name="topic_type" type="string" value="sensor_msgs/Imu" />
-      <param name="transport_data" type="string" value="/drchubo_fullbody_interface/body_imu/link" />
-      <param name="transport_ctrl" type="string" value="/drchubo_fullbody_interface/body_imu/ctrl" />
+      <param name="request_service" type="string" value="/drchubo_fullbody_interface/body_imu/data" />
+      <param name="rate_ctrl" type="string" value="/drchubo_fullbody_interface/body_imu/rate" />
       <param name="latched" type="bool" value="true" />
+      <param name="default_rate" type="double" value="10" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <node name="wk_body_orientation_publisher" pkg="hubo_ach_ros_bridge" type="body_orientation_publisher.py" output="$(arg output)">
       <param name="target_frame" type="string" value="world_orientation_frame" />
