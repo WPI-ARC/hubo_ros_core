@@ -1,6 +1,11 @@
 <launch>
 
   <arg name="rgbd_name" default="camera" />
+  <arg name="camera_rate" default="5.0" />
+  <arg name="pointcloud_rate" default="1.0" />
+  <arg name="camera_quality" default="10" />
+  <arg name="pointcloud_filter" default="0.02" />
+  <arg name="override_timestamps" default="false" />
   <arg name="output" default="screen" />
   <arg name="remapped_tf" default="/tf" />
 
@@ -9,6 +14,9 @@
   <include file="$(find hubo_launch)/launch/rgbd_pointcloud_link_end.launch" >
     <arg name="pointcloud_name" value="$(arg rgbd_name)" />
     <arg name="node_name" value="$(arg node_name)" />
+    <arg name="default_rate" value="$(arg pointcloud_rate)" />
+    <arg name="filter_size" value="$(arg pointcloud_filter)" />
+    <arg name="override_timestamps" value="$(arg override_timestamps)" />
     <arg name="output" value="$(arg output)" />
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
   </include>
@@ -16,6 +24,9 @@
   <include file="$(find hubo_launch)/launch/rgbd_image_link_end.launch" >
     <arg name="image_name" value="$(arg rgbd_name)" />
     <arg name="node_name" value="$(arg node_name)" />
+    <arg name="default_rate" value="$(arg camera_rate)" />
+    <arg name="quality" value="$(arg camera_quality)" />
+    <arg name="override_timestamps" value="$(arg override_timestamps)" />
     <arg name="output" value="$(arg output)" />
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
   </include>
