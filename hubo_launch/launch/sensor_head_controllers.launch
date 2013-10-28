@@ -20,7 +20,7 @@
     <remap from="/tf" to="$(arg remapped_tf)" />
     <param name="laser_aggregation_service" type="string" value="aggregate_lidar" />
   </node>
-  <node name="laser_scan_aggregator" pkg="hubo_lidar_aggregator" type="lidar_aggregator_node" output="$(arg output)">
+  <node name="laser_scan_aggregator" pkg="hubo_lidar_aggregator" type="hubo_lidar_aggregator_node" output="$(arg output)">
     <remap from="/tf" to="$(arg remapped_tf)" />
     <param name="fixed_frame" type="string" value="/Body_NK2" />
   </node>
