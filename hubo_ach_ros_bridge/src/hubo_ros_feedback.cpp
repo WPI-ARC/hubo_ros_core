@@ -30,6 +30,7 @@ Copyright (c) 2012, Daniel M. Lofaro
 // Hubo-specific message includes
 #include "hubo_robot_msgs/JointCommandState.h"
 #include "hubo_robot_msgs/JointControllerState.h"
+#include "hubo_system_msgs/HuboPower.h"
 
 // HUBO-ACH includes
 #include "ach.h"
@@ -58,6 +59,10 @@ ACH_ROS_WRAPPER<hubo_state>* g_ach_bridge;
 // ROS publishers
 // Joints
 ros::Publisher g_hubo_state_pub;
+// JMC Boards
+//ros::Publisher g_jmc_state_pub;
+// System Power
+ros::Publisher g_power_state_pub;
 // Clock
 ros::Publisher g_hubo_clock_pub;
 // IMUs
@@ -158,6 +163,13 @@ bool ACHtoHuboState(hubo_state robot_state)
     joint_msg.header.stamp = current_time;
     g_hubo_state_pub.publish(joint_msg);
     g_last_clock = robot_state.time;
+    /* Publish Power data */
+    hubo_system_msgs::HuboPower system_power;
+    system_power.header.stamp = current_time;
+    system_power.SystemVoltage = robot_state.power.voltage;
+    system_power.SystemCurrent = robot_state.power.current;
+    system_power.SystemPower = robot_state.power.power;
+    g_power_state_pub.publish(system_power);
     /* Publish IMU data */
     // Publish body IMU data
     sensor_msgs::Imu body_imu;
@@ -290,15 +302,16 @@ int main(int argc, char **argv)
     }
     // Set up the ROS publishers
     ROS_INFO("Loading publishers...");
-    g_hubo_state_pub = nh.advertise<hubo_robot_msgs::JointCommandState>(nh.getNamespace() + "/hubo_state", 1);
+    g_hubo_state_pub = nh.advertise<hubo_robot_msgs::JointCommandState>("hubo_state", 1);
+    g_power_state_pub = nh.advertise<hubo_system_msgs::HuboPower>("system_power", 1);
     g_hubo_clock_pub = nh.advertise<rosgraph_msgs::Clock>("clock", 1);
-    g_body_imu_pub = nh.advertise<sensor_msgs::Imu>(nh.getNamespace() + "/body_imu", 1);
-    g_left_foot_imu_pub = nh.advertise<sensor_msgs::Imu>(nh.getNamespace() + "/left_foot_tilt", 1);
-    g_right_foot_imu_pub = nh.advertise<sensor_msgs::Imu>(nh.getNamespace() + "/right_foot_tilt", 1);
-    g_left_wrist_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>(nh.getNamespace() + "/left_wrist_ft", 1);
-    g_right_wrist_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>(nh.getNamespace() + "/right_wrist_ft", 1);
-    g_left_ankle_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>(nh.getNamespace() + "/left_ankle_ft", 1);
-    g_right_ankle_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>(nh.getNamespace() + "/right_ankle_ft", 1);
+    g_body_imu_pub = nh.advertise<sensor_msgs::Imu>("body_imu", 1);
+    g_left_foot_imu_pub = nh.advertise<sensor_msgs::Imu>("left_foot_tilt", 1);
+    g_right_foot_imu_pub = nh.advertise<sensor_msgs::Imu>("right_foot_tilt", 1);
+    g_left_wrist_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>("left_wrist_ft", 1);
+    g_right_wrist_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>("right_wrist_ft", 1);
+    g_left_ankle_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>("left_ankle_ft", 1);
+    g_right_ankle_ft_pub = nh.advertise<geometry_msgs::WrenchStamped>("right_ankle_ft", 1);
     ROS_INFO("ROS publishers loaded");
     // Make the connection to Hubo-ACH
     bool ready = false;

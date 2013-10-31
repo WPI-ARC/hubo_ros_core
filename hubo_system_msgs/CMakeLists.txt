@@ -24,7 +24,7 @@ add_message_files(
   DIRECTORY
   msg
   FILES
-  Empty.msg
+  HuboPower.msg
 )
 
 ## Generate services in the 'srv' folder

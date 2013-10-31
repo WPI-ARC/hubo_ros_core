@@ -5,7 +5,7 @@
   <arg name="pointcloud_rate" default="1.0" />
   <arg name="camera_quality" default="10" />
   <arg name="pointcloud_filter" default="0.02" />
-  <arg name="override_timestamps" default="false" />
+  <arg name="override_timestamps" default="true" />
   <arg name="output" default="screen" />
   <arg name="remapped_tf" default="/tf" />
 

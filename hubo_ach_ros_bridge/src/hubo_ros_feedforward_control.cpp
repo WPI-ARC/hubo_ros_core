@@ -180,7 +180,7 @@ int main(int argc, char **argv)
         }
     }
     // Construct ROS Subscriber
-    ros::Subscriber hubo_command_sub = nh.subscribe(nh.getNamespace() + "/hubo_command", 1, hubo_cb);
+    ros::Subscriber hubo_command_sub = nh.subscribe("hubo_command", 1, hubo_cb);
     ROS_INFO("Waiting for joint commands to Hubo...");
     // Spin until shutdown
     ros::spin();
