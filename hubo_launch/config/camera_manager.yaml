@@ -1,0 +1,10 @@
+default_camera: usb_cam1
+managed_base_topic: managed/image
+cameras:
+  - usb_cam1
+  - usb_cam2
+topics:
+  usb_cam1:
+    base_topic: usb_cam1/image
+  usb_cam2:
+    base_topic: usb_cam2/image
