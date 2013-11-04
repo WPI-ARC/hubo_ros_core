@@ -1,0 +1,11 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="remapped_tf" default="/tf" />
+
+  <node name="camera_manager" pkg="opportunistic_link" type="camera_manager" output="$(arg output)" >
+    <rosparam command="load" file="$(find hubo_launch)/config/camera_manager.yaml" />
+    <remap from="/tf" to="$(arg remapped_tf)" />
+  </node>
+
+</launch>
