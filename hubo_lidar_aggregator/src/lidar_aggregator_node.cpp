@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     tf::TransformListener listener(nh, ros::Duration(20.0));
     g_transformer = &listener;
     ROS_INFO("Starting LIDAR aggregator...");
-    nhp.param(std::string("fixed_frame"), g_fixed_frame, std::string("/torso_lift_link"));
+    nhp.param(std::string("fixed_frame"), g_fixed_frame, std::string("Body_TSY"));
     g_cloud_publisher = nh.advertise<sensor_msgs::PointCloud2>("pointcloud", 1, true);
     ros::ServiceServer server = nh.advertiseService("aggregate_lidar", LaserAggregationServiceCB);
     ROS_INFO("LIDAR aggregator loaded");
