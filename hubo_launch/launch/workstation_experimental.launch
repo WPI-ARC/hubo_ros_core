@@ -76,7 +76,8 @@
     <!-- Control crystal interactive marker -->
     <node name="control_crystal" pkg="gui_robot_control" type="control_crystal.py" output="$(arg output)" >
       <remap from="/tf" to="$(arg remapped_tf)" />
-      <param name="pointcloud_request_service" type="string" value="/rgbd_shortrange/depth/rate" />
+      <param name="rgbd_pointcloud_request_service" type="string" value="/rgbd_shortrange/depth/rate" />
+      <param name="lidar_pointcloud_request_service" type="string" value="/laser/rate" />
     </node>
 
   </group>
