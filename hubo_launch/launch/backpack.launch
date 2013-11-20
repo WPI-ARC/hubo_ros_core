@@ -12,10 +12,10 @@
   <machine name="hubobody" address="$(arg robot)" user="valve" password="hubo1234" env-loader="/opt/ros/groovy/env.sh" />
 
   <!-- Sensor head -->
-  <include file="$(find hubo_launch)/launch/sensor_head_controllers.launch" >
+  <!-- <include file="$(find hubo_launch)/launch/sensor_head_controllers.launch" >
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
     <arg name="output" value="$(arg output)" />
-  </include>
+  </include> -->
 
   <!-- RGBD cameras -->
   <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_shortrange_rgbd.launch">
