@@ -5,7 +5,7 @@
   <arg name="head_variant" default="head1" />
 
   <!-- This is the ID of the USB2DYNAMIXEL of the prebeta head currently used at Drexel -->
-  <arg name="head1_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A8005jD4-if00-port0" />
+  <arg name="head1_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012AU3-if00-port0" />
   <!-- This is the ID of the USB2DYNAMIXEL of the beta head currently used at Georgia Tech -->
   <arg name="head2_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012BEZ-if00-port0" />
   <!-- Add more head control USB2DYNAMIXEL IDs here -->
