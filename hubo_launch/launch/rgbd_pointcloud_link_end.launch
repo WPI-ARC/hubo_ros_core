@@ -4,7 +4,7 @@
   <arg name="output" default="screen" />
   <arg name="remapped_tf" default="/tf" />
   <arg name="default_rate" default="1.0" />
-  <arg name="filter_size" default="0.02" />
+  <arg name="filter_size" default="0.0" />
   <arg name="override_timestamps" default="false" />
 
   <arg name="node_name" default="$(arg pointcloud_name)" />

@@ -61,6 +61,18 @@
       <arg name="node_name" value="rgbd_shortrange" />
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
     </include>
+    <!-- LIDAR pointcloud datalink -->
+    <node pkg="opportunistic_link" type="request_pointcloud_link_endpoint" name="laser_pointcloud_link_endpoint" output="$(arg output)" >
+      <param name="relay_topic" type="string" value="/laser/relay/points_xyz" />
+      <param name="latched" type="bool" value="true" />
+      <param name="default_rate" type="double" value="0.0" />
+      <param name="default_filter_size" type="double" value="0.02" />
+      <param name="filter_ctrl" type="string" value="/laser/quality" />
+      <param name="rate_ctrl" type="string" value="/laser/rate" />
+      <param name="data_service" type="string" value="/laser/data" />
+      <param name="override_timestamps" type="bool" value="true" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
 
   </group>
 

@@ -31,6 +31,7 @@
   </node>
   <node name="laser_scan_aggregator" pkg="hubo_lidar_aggregator" type="hubo_lidar_aggregator_node" output="$(arg output)">
     <remap from="/tf" to="$(arg remapped_tf)" />
+    <remap from="pointcloud" to="/laser/points_xyz" />
     <param name="fixed_frame" type="string" value="/Body_NK1" />
   </node>
   <!-- Head pointing controller -->

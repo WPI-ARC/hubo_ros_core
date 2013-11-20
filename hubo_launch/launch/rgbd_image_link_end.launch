@@ -4,7 +4,7 @@
   <arg name="output" default="screen" />
   <arg name="remapped_tf" default="/tf" />
   <arg name="default_rate" default="1.0" />
-  <arg name="quality" default="10" />
+  <arg name="quality" default="20" />
   <arg name="override_timestamps" default="false" />
 
   <arg name="node_name" default="$(arg image_name)" />
