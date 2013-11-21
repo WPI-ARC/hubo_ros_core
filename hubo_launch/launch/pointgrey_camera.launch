@@ -12,7 +12,7 @@
     <param name="serial" value="$(arg serial)" />
     <param name="camera_info_url" value="$(arg camera_info_url)" />
     <param name="frame_id" value="$(arg frame_id)" />
-    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <remap from="/tf" to="$(arg remapped_tf)" />
   </node>
 
 </launch>
