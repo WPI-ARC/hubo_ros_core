@@ -5,9 +5,9 @@
   <arg name="head_variant" default="head1" />
 
   <!-- This is the ID of the USB2DYNAMIXEL of the prebeta head currently used at Drexel -->
-  <arg name="head1_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012AU3-if00-port0" />
+  <arg name="drexel_head_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012AU3-if00-port0" />
   <!-- This is the ID of the USB2DYNAMIXEL of the beta head currently used at Georgia Tech -->
-  <arg name="head2_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012BEZ-if00-port0" />
+  <arg name="gt_head_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012BEZ-if00-port0" />
   <!-- Add more head control USB2DYNAMIXEL IDs here -->
 
   <!-- This is the serial number of the center camera on Drexel/U. Delaware's sensor head -->
@@ -26,17 +26,39 @@
 
   <!-- Sensor head -->
   <include file="$(find hubo_launch)/launch/head_controller_manager.launch" >
-    <arg name="hardware_port" value="$(arg head1_port)" />
+    <arg name="hardware_port" value="$(arg drexel_head_port)" />
   </include>
   <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
+  <!-- Left camera node -->
+  <group ns="left_camera" >
+    <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+      <arg name="output" value="$(arg output)" />
+      <arg name="serial" value="$(arg ud_left_camera_serial)" />
+      <arg name="frame_id" value="trinocular_left_sensor_frame" />
+      <arg name="camera_info_url" value="dontcare" />
+    </include>
+  </group>
   <!-- Center camera node -->
-  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
-    <arg name="remapped_tf" value="$(arg remapped_tf)" />
-    <arg name="output" value="$(arg output)" />
-    <arg name="serial" value="$(arg ud_center_camera_serial)" />
-    <arg name="frame_id" value="trinocular_center_sensor_frame" />
-    <arg name="camera_info_url" value="dontcare" />
-  </include>
+  <group ns="center_camera" >
+    <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+      <arg name="output" value="$(arg output)" />
+      <arg name="serial" value="$(arg ud_center_camera_serial)" />
+      <arg name="frame_id" value="trinocular_center_sensor_frame" />
+      <arg name="camera_info_url" value="dontcare" />
+    </include>
+  </group>
+  <!-- Right camera node -->
+  <group ns="right_camera" >
+    <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+      <arg name="remapped_tf" value="$(arg remapped_tf)" />
+      <arg name="output" value="$(arg output)" />
+      <arg name="serial" value="$(arg ud_right_camera_serial)" />
+      <arg name="frame_id" value="trinocular_right_sensor_frame" />
+      <arg name="camera_info_url" value="dontcare" />
+    </include>
+  </group>
   <!-- LIDAR nodes -->
   <node name="lidar_driver" pkg="urg_node" type="urg_node" >
     <remap from="/tf" to="$(arg remapped_tf)" />
