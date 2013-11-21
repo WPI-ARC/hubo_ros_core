@@ -10,12 +10,33 @@
   <arg name="head2_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012BEZ-if00-port0" />
   <!-- Add more head control USB2DYNAMIXEL IDs here -->
 
+  <!-- This is the serial number of the center camera on Drexel/U. Delaware's sensor head -->
+  <arg name="ud_left_camera_serial" default="12292568" />
+  <!-- This is the serial number of the center camera on Drexel/U. Delaware's sensor head -->
+  <arg name="ud_center_camera_serial" default="13041024" />
+  <!-- This is the serial number of the center camera on Drexel/U. Delaware's sensor head -->
+  <arg name="ud_right_camera_serial" default="12380087" />
+
+  <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
+  <arg name="gt_left_camera_serial" default="" />
+  <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
+  <arg name="gt_center_camera_serial" default="" />
+  <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
+  <arg name="gt_right_camera_serial" default="" />
+
   <!-- Sensor head -->
   <include file="$(find hubo_launch)/launch/head_controller_manager.launch" >
     <arg name="hardware_port" value="$(arg head1_port)" />
   </include>
   <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
   <!-- Center camera node -->
+  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+    <arg name="serial" value="$(arg ud_center_camera_serial)" />
+    <arg name="frame_id" value="trinocular_center_sensor_frame" />
+    <arg name="camera_info_url" value="dontcare" />
+  </include>
   <!-- LIDAR nodes -->
   <node name="lidar_driver" pkg="urg_node" type="urg_node" >
     <remap from="/tf" to="$(arg remapped_tf)" />
