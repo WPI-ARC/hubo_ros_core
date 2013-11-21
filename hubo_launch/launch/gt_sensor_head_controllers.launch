@@ -1,0 +1,82 @@
+<launch>
+
+  <arg name="output" default="screen" />
+  <arg name="remapped_tf" default="/tf" />
+  <arg name="head_variant" default="head1" />
+
+  <!-- This is the ID of the USB2DYNAMIXEL of the prebeta head currently used at Drexel -->
+  <arg name="drexel_head_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012AU3-if00-port0" />
+  <!-- This is the ID of the USB2DYNAMIXEL of the beta head currently used at Georgia Tech -->
+  <arg name="gt_head_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012BEZ-if00-port0" />
+  <!-- Add more head control USB2DYNAMIXEL IDs here -->
+
+  <!-- This is the serial number of the center camera on Drexel/U. Delaware's sensor head -->
+  <arg name="ud_left_camera_serial" default="12292568" />
+  <!-- This is the serial number of the center camera on Drexel/U. Delaware's sensor head -->
+  <arg name="ud_center_camera_serial" default="13041024" />
+  <!-- This is the serial number of the center camera on Drexel/U. Delaware's sensor head -->
+  <arg name="ud_right_camera_serial" default="12380087" />
+
+  <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
+  <arg name="gt_left_camera_serial" default="" />
+  <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
+  <arg name="gt_center_camera_serial" default="" />
+  <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
+  <arg name="gt_right_camera_serial" default="" />
+
+  <!-- Sensor head -->
+  <include file="$(find hubo_launch)/launch/head_controller_manager.launch" >
+    <arg name="hardware_port" value="$(arg gt_head_port)" />
+  </include>
+  <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
+  <!-- Left camera node -->
+  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+    <arg name="serial" value="$(arg gt_left_camera_serial)" />
+    <arg name="camera_name" value="left_camera" />
+    <arg name="frame_id" value="trinocular_left_sensor_frame" />
+    <arg name="camera_info_url" value="dontcare" />
+  </include>
+  <!-- Center camera node -->
+  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+    <arg name="serial" value="$(arg gt_center_camera_serial)" />
+    <arg name="camera_name" value="center_camera" />
+    <arg name="frame_id" value="trinocular_center_sensor_frame" />
+    <arg name="camera_info_url" value="dontcare" />
+  </include>
+  <!-- Right camera node -->
+  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+    <arg name="serial" value="$(arg gt_right_camera_serial)" />
+    <arg name="camera_name" value="right_camera" />
+    <arg name="frame_id" value="trinocular_right_sensor_frame" />
+    <arg name="camera_info_url" value="dontcare" />
+  </include>
+  <!-- LIDAR nodes -->
+  <node name="lidar_driver" pkg="urg_node" type="urg_node" >
+    <remap from="/tf" to="$(arg remapped_tf)" />
+    <param name="ip_address" type="string" value="192.168.0.10" />
+    <remap from="scan" to="tilt_scan" />
+    <param name="frame_id" type="string" value="Body_NK2" />
+    <param name="publish_multiecho" type="bool" value="false" />
+  </node>
+  <node name="laser_pointcloud_generator" pkg="hubo_head_controller" type="laser_pointcloud_generator.py" output="$(arg output)">
+    <remap from="/tf" to="$(arg remapped_tf)" />
+    <param name="laser_topic" type="string" value="tilt_scan" />
+    <param name="laser_aggregation_service" type="string" value="aggregate_lidar" />
+  </node>
+  <node name="laser_scan_aggregator" pkg="hubo_lidar_aggregator" type="hubo_lidar_aggregator_node" output="$(arg output)">
+    <remap from="/tf" to="$(arg remapped_tf)" />
+    <remap from="pointcloud" to="/laser/points_xyz" />
+    <param name="fixed_frame" type="string" value="/Body_NK1" />
+  </node>
+  <!-- Head pointing controller -->
+  <node name="point_head_controller" pkg="hubo_head_controller" type="point_head_controller.py" output="$(arg output)">
+    <remap from="/tf" to="$(arg remapped_tf)" />
+  </node>
+
+</launch>
