@@ -29,35 +29,77 @@
     <arg name="hardware_port" value="$(arg drexel_head_port)" />
   </include>
   <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
-  <!-- Left camera node -->
+  <!-- Left camera nodes -->
   <group ns="left_camera" >
     <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
       <arg name="output" value="$(arg output)" />
       <arg name="serial" value="$(arg ud_left_camera_serial)" />
+      <arg name="camera_name" value="" />
       <arg name="frame_id" value="trinocular_left_sensor_frame" />
       <arg name="camera_info_url" value="dontcare" />
     </include>
+    <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
+      <param name="camera_base_topic" type="string" value="image_raw" />
+      <param name="resized_base_topic" type="string" value="resized/image" />
+      <param name="resized_width" type="int" value="320" />
+      <param name="resized_height" type="int" value="240" />
+      <param name="convert_to_bw" type="bool" value="false" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="opportunistic_link" type="request_camera_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
+      <param name="camera_topic" type="string" value="resized/image" />
+      <param name="data_service" type="string" value="/left_camera/image/data" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
   </group>
-  <!-- Center camera node -->
+  <!-- Center camera nodes -->
   <group ns="center_camera" >
     <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
       <arg name="output" value="$(arg output)" />
       <arg name="serial" value="$(arg ud_center_camera_serial)" />
+      <arg name="camera_name" value="" />
       <arg name="frame_id" value="trinocular_center_sensor_frame" />
       <arg name="camera_info_url" value="dontcare" />
     </include>
+    <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
+      <param name="camera_base_topic" type="string" value="image_raw" />
+      <param name="resized_base_topic" type="string" value="resized/image" />
+      <param name="resized_width" type="int" value="320" />
+      <param name="resized_height" type="int" value="240" />
+      <param name="convert_to_bw" type="bool" value="false" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="opportunistic_link" type="request_camera_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
+      <param name="camera_topic" type="string" value="resized/image" />
+      <param name="data_service" type="string" value="/center_camera/image/data" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
   </group>
-  <!-- Right camera node -->
+  <!-- Right camera nodes -->
   <group ns="right_camera" >
     <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
       <arg name="output" value="$(arg output)" />
       <arg name="serial" value="$(arg ud_right_camera_serial)" />
+      <arg name="camera_name" value="" />
       <arg name="frame_id" value="trinocular_right_sensor_frame" />
       <arg name="camera_info_url" value="dontcare" />
     </include>
+    <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
+      <param name="camera_base_topic" type="string" value="image_raw" />
+      <param name="resized_base_topic" type="string" value="resized/image" />
+      <param name="resized_width" type="int" value="320" />
+      <param name="resized_height" type="int" value="240" />
+      <param name="convert_to_bw" type="bool" value="false" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="opportunistic_link" type="request_camera_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
+      <param name="camera_topic" type="string" value="resized/image" />
+      <param name="data_service" type="string" value="/right_camera/image/data" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
   </group>
   <!-- LIDAR nodes -->
   <node name="lidar_driver" pkg="urg_node" type="urg_node" >

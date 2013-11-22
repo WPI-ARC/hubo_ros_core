@@ -35,14 +35,6 @@
       <param name="imu_topic" type="string" value="body_imu" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <!-- <node name="wk_laser_orientation_publisher" pkg="hubo_head_controller" type="laser_orientation_publisher.py" output="$(arg output)">
-      <param name="head_variant" type="string" value="prebeta" />
-      <param name="laser_frame" type="string" value="laser_sensor_frame" />
-      <param name="root_frame" type="string" value="Body_NK2" />
-      <param name="laser_joint" type="string" value="NK3" />
-      <param name="rate" type="double" value="100" />
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node> -->
     <!-- Sensor frames -->
     <include file="$(find hubo_launch)/launch/drchubo_sensor_frames.launch" >
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
@@ -70,6 +62,40 @@
       <param name="filter_ctrl" type="string" value="/laser/quality" />
       <param name="rate_ctrl" type="string" value="/laser/rate" />
       <param name="data_service" type="string" value="/laser/data" />
+      <param name="override_timestamps" type="bool" value="true" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <!-- Trinocular camera datalink -->
+    <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="left_camera_link_endpoint" output="$(arg output)" >
+      <param name="relay_topic" type="string" value="/left_camera/relay/image" />
+      <param name="latched" type="bool" value="true" />
+      <param name="default_rate" type="double" value="1.0" />
+      <param name="default_quality" type="int" value="20" />
+      <param name="quality_ctrl" type="string" value="/left_camera/image/quality" />
+      <param name="rate_ctrl" type="string" value="/left_camera/image/rate" />
+      <param name="data_service" type="string" value="/left_camera/image/data" />
+      <param name="override_timestamps" type="bool" value="true" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="center_camera_link_endpoint" output="$(arg output)" >
+      <param name="relay_topic" type="string" value="/center_camera/relay/image" />
+      <param name="latched" type="bool" value="true" />
+      <param name="default_rate" type="double" value="1.0" />
+      <param name="default_quality" type="int" value="20" />
+      <param name="quality_ctrl" type="string" value="/center_camera/image/quality" />
+      <param name="rate_ctrl" type="string" value="/center_camera/image/rate" />
+      <param name="data_service" type="string" value="/center_camera/image/data" />
+      <param name="override_timestamps" type="bool" value="true" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+    <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="right_camera_link_endpoint" output="$(arg output)" >
+      <param name="relay_topic" type="string" value="/right_camera/relay/image" />
+      <param name="latched" type="bool" value="true" />
+      <param name="default_rate" type="double" value="1.0" />
+      <param name="default_quality" type="int" value="20" />
+      <param name="quality_ctrl" type="string" value="/right_camera/image/quality" />
+      <param name="rate_ctrl" type="string" value="/right_camera/image/rate" />
+      <param name="data_service" type="string" value="/right_camera/image/data" />
       <param name="override_timestamps" type="bool" value="true" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
