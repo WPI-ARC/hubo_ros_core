@@ -1,8 +1,7 @@
 <launch>
 
   <arg name="output" default="screen" />
-  <arg name="remapped_tf" default="/tf" />
-  <arg name="head_variant" default="head1" />
+  <arg name="remapped_tf" default="/robot_tf" />
 
   <!-- This is the ID of the USB2DYNAMIXEL of the prebeta head currently used at Drexel -->
   <arg name="drexel_head_port" default="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A4012AU3-if00-port0" />
@@ -104,12 +103,27 @@
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
   </group> -->
+  <!-- RGBD cameras -->
+  <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_shortrange_rgbd.launch">
+    <arg name="device_id" value="#1" />
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+  </include>
+  <!-- <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_longrange_rgbd.launch">
+    <arg name="device_id" value="#2" />
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+  </include> -->
+  <!-- RGBD datalink -->
+  <include file="$(find hubo_launch)/launch/rgbd_link_start.launch">
+    <arg name="rgbd_name" value="/rgbd_shortrange" />
+    <arg name="node_name" value="rgbd_shortrange" />
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+  </include>
   <!-- LIDAR nodes -->
   <node name="lidar_driver" pkg="urg_node" type="urg_node" >
     <remap from="/tf" to="$(arg remapped_tf)" />
     <param name="ip_address" type="string" value="192.168.0.10" />
     <remap from="scan" to="tilt_scan" />
-    <param name="frame_id" type="string" value="Body_NK2" />
+    <param name="frame_id" type="string" value="lidar_frame" />
     <param name="publish_multiecho" type="bool" value="false" />
   </node>
   <node name="laser_pointcloud_generator" pkg="hubo_head_controller" type="laser_pointcloud_generator.py" output="$(arg output)">
@@ -121,6 +135,13 @@
     <remap from="/tf" to="$(arg remapped_tf)" />
     <remap from="pointcloud" to="/laser/points_xyz" />
     <param name="fixed_frame" type="string" value="/Body_NK1" />
+  </node>
+  <!-- LIDAR pointcloud datalink -->
+  <node pkg="opportunistic_link" type="request_pointcloud_link_startpoint" name="lidar_pointcloud_link_startpoint" output="$(arg output)" >
+    <param name="pointcloud_topic" type="string" value="/laser/points_xyz" />
+    <param name="compression_type" type="string" value="PC30" />
+    <param name="data_service" type="string" value="/laser/data" />
+    <remap from="/tf" to="$(arg remapped_tf)" />
   </node>
   <!-- Head pointing controller -->
   <node name="point_head_controller" pkg="hubo_head_controller" type="point_head_controller.py" output="$(arg output)">

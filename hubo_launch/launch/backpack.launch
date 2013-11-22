@@ -17,16 +17,6 @@
     <arg name="output" value="$(arg output)" />
   </include> -->
 
-  <!-- RGBD cameras -->
-  <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_shortrange_rgbd.launch">
-    <arg name="device_id" value="#1" />
-    <arg name="remapped_tf" value="$(arg remapped_tf)" />
-  </include>
-  <!-- <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_longrange_rgbd.launch">
-    <arg name="device_id" value="#2" />
-    <arg name="remapped_tf" value="$(arg remapped_tf)" />
-  </include> -->
-
   <group ns="drchubo_fullbody_interface">
     <!-- Interface to hardware (runs on chest computer) -->
     <node if="$(arg launch_bridge)" machine="hubobody" name="drchubo_fullbody_feedback_node" pkg="hubo_ach_ros_bridge" type="feedback" output="$(arg output)" >
@@ -61,14 +51,11 @@
       <param name="imu_topic" type="string" value="body_imu" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <!-- <node name="laser_orientation_publisher" pkg="hubo_head_controller" type="laser_orientation_publisher.py" output="$(arg output)">
-      <param name="head_variant" type="string" value="prebeta" />
-      <param name="laser_frame" type="string" value="laser_sensor_frame" />
-      <param name="root_frame" type="string" value="Body_NK2" />
-      <param name="laser_joint" type="string" value="NK3" />
-      <param name="rate" type="double" value="100" />
+    <!-- LIDAR frame -->
+    <node pkg="tf" type="static_transform_publisher" name="lidar_frame_link"
+        args="0.04 0.035 0.02 0 0 0 /Body_NK2 /lidar_frame 200" >
       <remap from="/tf" to="$(arg remapped_tf)" />
-    </node> -->
+    </node>
     <!-- Sensor frames -->
     <include file="$(find hubo_launch)/launch/drchubo_sensor_frames.launch" >
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
@@ -81,19 +68,6 @@
     <include file="$(find hubo_launch)/launch/drchubo_rgbd_frames.launch" >
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
     </include>
-    <!-- RGBD datalink -->
-    <include file="$(find hubo_launch)/launch/rgbd_link_start.launch">
-      <arg name="rgbd_name" value="/rgbd_shortrange" />
-      <arg name="node_name" value="rgbd_shortrange" />
-      <arg name="remapped_tf" value="$(arg remapped_tf)" />
-    </include>
-    <!-- LIDAR pointcloud datalink -->
-    <node pkg="opportunistic_link" type="request_pointcloud_link_startpoint" name="lidar_pointcloud_link_startpoint" output="$(arg output)" >
-      <param name="pointcloud_topic" type="string" value="/laser/points_xyz" />
-      <param name="compression_type" type="string" value="PC30" />
-      <param name="data_service" type="string" value="/laser/data" />
-      <remap from="/tf" to="$(arg remapped_tf)" />
-    </node>
 
   </group>
 
