@@ -30,15 +30,15 @@
   </include>
   <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
   <!-- Left camera nodes -->
+  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+    <arg name="serial" value="$(arg ud_left_camera_serial)" />
+    <arg name="camera_name" value="" />
+    <arg name="frame_id" value="trinocular_left_sensor_frame" />
+    <arg name="camera_info_url" value="dontcare" />
+  </include>
   <group ns="left_camera" >
-    <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
-      <arg name="remapped_tf" value="$(arg remapped_tf)" />
-      <arg name="output" value="$(arg output)" />
-      <arg name="serial" value="$(arg ud_left_camera_serial)" />
-      <arg name="camera_name" value="" />
-      <arg name="frame_id" value="trinocular_left_sensor_frame" />
-      <arg name="camera_info_url" value="dontcare" />
-    </include>
     <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
       <param name="camera_base_topic" type="string" value="image_raw" />
       <param name="resized_base_topic" type="string" value="resized/image" />
@@ -54,15 +54,15 @@
     </node>
   </group>
   <!-- Center camera nodes -->
+  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+    <arg name="serial" value="$(arg ud_center_camera_serial)" />
+    <arg name="camera_name" value="center_camera" />
+    <arg name="frame_id" value="trinocular_center_sensor_frame" />
+    <arg name="camera_info_url" value="dontcare" />
+  </include>
   <group ns="center_camera" >
-    <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
-      <arg name="remapped_tf" value="$(arg remapped_tf)" />
-      <arg name="output" value="$(arg output)" />
-      <arg name="serial" value="$(arg ud_center_camera_serial)" />
-      <arg name="camera_name" value="" />
-      <arg name="frame_id" value="trinocular_center_sensor_frame" />
-      <arg name="camera_info_url" value="dontcare" />
-    </include>
     <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
       <param name="camera_base_topic" type="string" value="image_raw" />
       <param name="resized_base_topic" type="string" value="resized/image" />
@@ -78,15 +78,15 @@
     </node>
   </group>
   <!-- Right camera nodes -->
+  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+    <arg name="remapped_tf" value="$(arg remapped_tf)" />
+    <arg name="output" value="$(arg output)" />
+    <arg name="serial" value="$(arg ud_right_camera_serial)" />
+    <arg name="camera_name" value="right_camera" />
+    <arg name="frame_id" value="trinocular_right_sensor_frame" />
+    <arg name="camera_info_url" value="dontcare" />
+  </include>
   <group ns="right_camera" >
-    <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
-      <arg name="remapped_tf" value="$(arg remapped_tf)" />
-      <arg name="output" value="$(arg output)" />
-      <arg name="serial" value="$(arg ud_right_camera_serial)" />
-      <arg name="camera_name" value="" />
-      <arg name="frame_id" value="trinocular_right_sensor_frame" />
-      <arg name="camera_info_url" value="dontcare" />
-    </include>
     <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
       <param name="camera_base_topic" type="string" value="image_raw" />
       <param name="resized_base_topic" type="string" value="resized/image" />
