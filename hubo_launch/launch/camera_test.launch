@@ -40,5 +40,17 @@
       <param name="data_service" type="string" value="/right_camera/image/data" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
+    <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="camera_link_endpoint" output="$(arg output)" >
+      <param name="relay_topic" type="string" value="/right_camera/relay/image" />
+      <param name="latched" type="bool" value="true" />
+      <param name="default_rate" type="double" value="1.0" />
+      <param name="default_quality" type="int" value="20" />
+      <param name="quality_ctrl" type="string" value="/right_camera/image/quality" />
+      <param name="rate_ctrl" type="string" value="/right_camera/image/rate" />
+      <param name="data_service" type="string" value="/right_camera/image/data" />
+      <param name="override_timestamps" type="bool" value="true" />
+      <remap from="/tf" to="$(arg remapped_tf)" />
+    </node>
+
   </group>
 </launch>
