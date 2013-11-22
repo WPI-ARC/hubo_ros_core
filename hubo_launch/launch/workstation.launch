@@ -66,7 +66,7 @@
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
     <!-- Trinocular camera datalink -->
-    <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="left_camera_link_endpoint" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="request_image_link_endpoint" name="left_camera_link_endpoint" output="$(arg output)" >
       <param name="relay_topic" type="string" value="/left_camera/relay/image" />
       <param name="latched" type="bool" value="true" />
       <param name="default_rate" type="double" value="1.0" />
@@ -77,7 +77,7 @@
       <param name="override_timestamps" type="bool" value="true" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="center_camera_link_endpoint" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="request_image_link_endpoint" name="center_camera_link_endpoint" output="$(arg output)" >
       <param name="relay_topic" type="string" value="/center_camera/relay/image" />
       <param name="latched" type="bool" value="true" />
       <param name="default_rate" type="double" value="1.0" />
@@ -88,7 +88,7 @@
       <param name="override_timestamps" type="bool" value="true" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="right_camera_link_endpoint" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="request_image_link_endpoint" name="right_camera_link_endpoint" output="$(arg output)" >
       <param name="relay_topic" type="string" value="/right_camera/relay/image" />
       <param name="latched" type="bool" value="true" />
       <param name="default_rate" type="double" value="1.0" />

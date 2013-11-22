@@ -39,7 +39,7 @@
     <arg name="camera_info_url" value="dontcare" />
   </include>
   <group ns="left_camera" >
-    <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="image_resizer" name="camera_resizer" output="$(arg output)" >
       <param name="camera_base_topic" type="string" value="image_raw" />
       <param name="resized_base_topic" type="string" value="resized/image" />
       <param name="resized_width" type="int" value="320" />
@@ -47,7 +47,7 @@
       <param name="convert_to_bw" type="bool" value="false" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <node pkg="opportunistic_link" type="request_camera_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="request_image_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
       <param name="camera_topic" type="string" value="resized/image" />
       <param name="data_service" type="string" value="/left_camera/image/data" />
       <remap from="/tf" to="$(arg remapped_tf)" />
@@ -63,7 +63,7 @@
     <arg name="camera_info_url" value="dontcare" />
   </include>
   <group ns="center_camera" >
-    <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="image_resizer" name="camera_resizer" output="$(arg output)" >
       <param name="camera_base_topic" type="string" value="image_raw" />
       <param name="resized_base_topic" type="string" value="resized/image" />
       <param name="resized_width" type="int" value="320" />
@@ -71,7 +71,7 @@
       <param name="convert_to_bw" type="bool" value="false" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <node pkg="opportunistic_link" type="request_camera_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="request_image_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
       <param name="camera_topic" type="string" value="resized/image" />
       <param name="data_service" type="string" value="/center_camera/image/data" />
       <remap from="/tf" to="$(arg remapped_tf)" />
@@ -87,7 +87,7 @@
     <arg name="camera_info_url" value="dontcare" />
   </include>
   <group ns="right_camera" >
-    <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="image_resizer" name="camera_resizer" output="$(arg output)" >
       <param name="camera_base_topic" type="string" value="image_raw" />
       <param name="resized_base_topic" type="string" value="resized/image" />
       <param name="resized_width" type="int" value="320" />
@@ -95,7 +95,7 @@
       <param name="convert_to_bw" type="bool" value="false" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-    <node pkg="opportunistic_link" type="request_camera_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
+    <node pkg="opportunistic_link" type="request_image_link_startpoint" name="camera_link_startpoint" output="$(arg output)" >
       <param name="camera_topic" type="string" value="resized/image" />
       <param name="data_service" type="string" value="/right_camera/image/data" />
       <remap from="/tf" to="$(arg remapped_tf)" />
