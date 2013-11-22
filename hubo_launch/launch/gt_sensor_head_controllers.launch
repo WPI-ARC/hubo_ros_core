@@ -30,7 +30,7 @@
   </include>
   <include file="$(find hubo_launch)/launch/head_controller_spawner.launch" />
   <!-- Left camera nodes -->
-  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+  <!-- <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
     <arg name="output" value="$(arg output)" />
     <arg name="serial" value="$(arg gt_left_camera_serial)" />
@@ -52,7 +52,7 @@
       <param name="data_service" type="string" value="/left_camera/image/data" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-  </group>
+  </group> -->
   <!-- Center camera nodes -->
   <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
@@ -78,7 +78,7 @@
     </node>
   </group>
   <!-- Right camera nodes -->
-  <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
+  <!-- <include file="$(find hubo_launch)/launch/pointgrey_camera.launch" >
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
     <arg name="output" value="$(arg output)" />
     <arg name="serial" value="$(arg gt_right_camera_serial)" />
@@ -100,7 +100,7 @@
       <param name="data_service" type="string" value="/right_camera/image/data" />
       <remap from="/tf" to="$(arg remapped_tf)" />
     </node>
-  </group>
+  </group> -->
   <!-- LIDAR nodes -->
   <node name="lidar_driver" pkg="urg_node" type="urg_node" >
     <remap from="/tf" to="$(arg remapped_tf)" />
