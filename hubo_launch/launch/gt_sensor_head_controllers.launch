@@ -18,11 +18,14 @@
   <arg name="ud_right_camera_serial" default="12380087" />
 
   <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
-  <arg name="gt_left_camera_serial" default="" />
+  <arg name="gt_left_camera_serial" default="13200937" />
   <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
-  <arg name="gt_center_camera_serial" default="" />
+  <arg name="gt_center_camera_serial" default="13184088" />
   <!-- This is the serial number of the center camera on Georgia Tech's sensor head -->
-  <arg name="gt_right_camera_serial" default="" />
+  <arg name="gt_right_camera_serial" default="13200960" />
+
+  <!-- This is the URL for the camera info YAML -->
+  <arg name="flea3_camera_info" default="package://hubo_launch/config/flea3_camera_info.yaml" />
 
   <!-- Sensor head -->
   <include file="$(find hubo_launch)/launch/head_controller_manager.launch" >
@@ -36,7 +39,7 @@
     <arg name="serial" value="$(arg gt_left_camera_serial)" />
     <arg name="camera_name" value="left_camera" />
     <arg name="frame_id" value="trinocular_left_sensor_frame" />
-    <arg name="camera_info_url" value="dontcare" />
+    <arg name="camera_info_url" value="$(arg flea3_camera_info)" />
   </include>
   <group ns="left_camera" >
     <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
@@ -60,7 +63,7 @@
     <arg name="serial" value="$(arg gt_center_camera_serial)" />
     <arg name="camera_name" value="center_camera" />
     <arg name="frame_id" value="trinocular_center_sensor_frame" />
-    <arg name="camera_info_url" value="dontcare" />
+    <arg name="camera_info_url" value="$(arg flea3_camera_info)" />
   </include>
   <group ns="center_camera" >
     <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
@@ -84,7 +87,7 @@
     <arg name="serial" value="$(arg gt_right_camera_serial)" />
     <arg name="camera_name" value="right_camera" />
     <arg name="frame_id" value="trinocular_right_sensor_frame" />
-    <arg name="camera_info_url" value="dontcare" />
+    <arg name="camera_info_url" value="$(arg flea3_camera_info)" />
   </include>
   <group ns="right_camera" >
     <node pkg="opportunistic_link" type="camera_resizer" name="camera_resizer" output="$(arg output)" >
