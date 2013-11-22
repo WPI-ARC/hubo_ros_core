@@ -34,7 +34,7 @@
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
     <arg name="output" value="$(arg output)" />
     <arg name="serial" value="$(arg gt_left_camera_serial)" />
-    <arg name="camera_name" value="" />
+    <arg name="camera_name" value="left_camera" />
     <arg name="frame_id" value="trinocular_left_sensor_frame" />
     <arg name="camera_info_url" value="dontcare" />
   </include>
