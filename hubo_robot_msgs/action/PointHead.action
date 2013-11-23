@@ -1,6 +1,6 @@
 unit8 POINTTARGET=0
 uint8 ANGLETARGET=1
-uint8 TARGETTYPE
+uint8 target_type
 float64 pan_angle
 float64 tilt_angle
 geometry_msgs/PointStamped target
