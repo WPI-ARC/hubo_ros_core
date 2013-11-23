@@ -104,20 +104,20 @@
     </node>
   </group> -->
   <!-- RGBD cameras -->
-  <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_shortrange_rgbd.launch">
+  <!-- <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_shortrange_rgbd.launch">
     <arg name="device_id" value="#1" />
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
-  </include>
+  </include> -->
   <!-- <include file="$(find hubo_launch)/launch/openni2_launch/drchubo_longrange_rgbd.launch">
     <arg name="device_id" value="#2" />
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
   </include> -->
   <!-- RGBD datalink -->
-  <include file="$(find hubo_launch)/launch/rgbd_link_start.launch">
+  <!-- <include file="$(find hubo_launch)/launch/rgbd_link_start.launch">
     <arg name="rgbd_name" value="/rgbd_shortrange" />
     <arg name="node_name" value="rgbd_shortrange" />
     <arg name="remapped_tf" value="$(arg remapped_tf)" />
-  </include>
+  </include> -->
   <!-- LIDAR nodes -->
   <node name="lidar_driver" pkg="urg_node" type="urg_node" >
     <remap from="/tf" to="$(arg remapped_tf)" />

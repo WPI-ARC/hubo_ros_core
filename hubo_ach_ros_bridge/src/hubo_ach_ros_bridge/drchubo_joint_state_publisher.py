@@ -16,8 +16,8 @@ class JointStatePublisher:
         self.free_joints = {}
         self.warnings = {}
         self.latest_state = None
-        #self.latest_neck_pan = float('nan')
-        self.latest_neck_pan = math.pi
+        self.latest_neck_pan = float('nan')
+        #self.latest_neck_pan = math.pi
         self.latest_neck_tilt = float('nan')
         self.latest_lidar_tilt = float('nan')
         self.last_time = rospy.get_time()

@@ -56,11 +56,11 @@
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
     </include>
     <!-- RGBD datalink -->
-    <include file="$(find hubo_launch)/launch/rgbd_link_end.launch">
+    <!-- <include file="$(find hubo_launch)/launch/rgbd_link_end.launch">
       <arg name="rgbd_name" value="/rgbd_shortrange" />
       <arg name="node_name" value="rgbd_shortrange" />
       <arg name="remapped_tf" value="$(arg remapped_tf)" />
-    </include>
+    </include> -->
     <!-- LIDAR pointcloud datalink -->
     <node pkg="opportunistic_link" type="request_pointcloud_link_endpoint" name="laser_pointcloud_link_endpoint" output="$(arg output)" >
       <param name="relay_topic" type="string" value="/laser/relay/points_xyz" />
@@ -88,7 +88,7 @@
     <node pkg="opportunistic_link" type="request_camera_link_endpoint" name="center_camera_link_endpoint" output="$(arg output)" >
       <param name="relay_topic" type="string" value="/center_camera/relay/image" />
       <param name="latched" type="bool" value="true" />
-      <param name="default_rate" type="double" value="1.0" />
+      <param name="default_rate" type="double" value="5.0" />
       <param name="default_quality" type="int" value="20" />
       <param name="quality_ctrl" type="string" value="/center_camera/image/quality" />
       <param name="rate_ctrl" type="string" value="/center_camera/image/rate" />
