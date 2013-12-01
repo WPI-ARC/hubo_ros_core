@@ -112,7 +112,7 @@
       <remap from="/tf" to="$(arg remapped_tf)" />
       <param name="rgbd_pointcloud_request_service" type="string" value="/rgbd_shortrange/depth/rate" />
       <param name="lidar_pointcloud_request_service" type="string" value="/laser/rate" />
-      <param name="head_pointing_action" type="string" value="drchubo_point_head" />
+      <param name="head_pointing_action" type="string" value="/drchubo_point_head" />
     </node>
 
   </group>
